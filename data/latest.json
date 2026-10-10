@@ -1,138 +1,56 @@
 {
- "1899396": {
+ "amd-ryzen-7-7800x3d": {
   "name": "AMD Ryzen 7 7800X3D Boxed",
-  "url": "https://tweakers.net/pricewatch/1899396/amd-ryzen-7-7800x3d-boxed.html",
-  "checked_at": "2026-10-10T11:31:25+00:00",
+  "checked_at": "2026-10-10T11:45:14+00:00",
   "offers": [
    {
     "shop": "Reichelt",
+    "url": "https://www.reichelt.com/nl/nl/shop/product/amd_am5_ryzen_7_7800x3d_8x_4_20_ghz_boxed_zonder_koeler-348524",
     "price": 345.61,
-    "total": 352.56
-   },
-   {
-    "shop": "HardwareWebwinkel.nl",
-    "price": 354.55,
-    "total": 361.5
+    "status": "ok",
+    "detail": ""
    },
    {
     "shop": "CAPS",
+    "url": "https://www.caps.nl/amd-ryzen-7-7800x3d-boxed-id-873668.html",
     "price": 358.99,
-    "total": 358.99
-   },
-   {
-    "shop": "Informatique",
-    "price": 359.0,
-    "total": 359.0
+    "status": "ok",
+    "detail": ""
    },
    {
     "shop": "Orion Computerworld",
+    "url": "https://www.orioncomputerworld.nl/detail.php?artikelid=133603",
     "price": 361.3,
-    "total": 361.3
+    "status": "ok",
+    "detail": ""
    },
    {
     "shop": "NBB.com",
-    "price": 365.99,
-    "total": 365.99
-   },
-   {
-    "shop": "RedShell.nl | zakelijk",
-    "price": 367.38,
-    "total": 367.38
-   },
-   {
-    "shop": "Senetic",
-    "price": 368.95,
-    "total": 378.13
+    "url": "https://nl.nbb.com/nl/p/amd-ryzen-7-7800x3d-processor-8c-16t-4-20-5-00-ghz-in-doos-zonder-koeler/a1013366",
+    "price": 365.03,
+    "status": "ok",
+    "detail": ""
    },
    {
     "shop": "Megekko",
+    "url": "https://www.megekko.nl/product/0/295018/AMD-Ryzen-7-7800X3D",
     "price": 369.0,
-    "total": 369.0
-   },
-   {
-    "shop": "Azerty",
-    "price": 369.0,
-    "total": 369.0
+    "status": "ok",
+    "detail": ""
    },
    {
     "shop": "Paradigit",
+    "url": "https://www.paradigit.nl/AMD-Ryzen-7-7800X3D/21298766/product",
     "price": 369.0,
-    "total": 369.0
+    "status": "ok",
+    "detail": ""
    },
    {
     "shop": "Yorcom",
+    "url": "https://www.yorcom.nl/artikel/amd-ryzen-7-7800x3d-processor/CPUA5R77800X3/",
     "price": 369.0,
-    "total": 369.0
-   },
-   {
-    "shop": "Coolblue.nl",
-    "price": 375.0,
-    "total": 375.0
-   },
-   {
-    "shop": "bol Plaza",
-    "price": 378.25,
-    "total": 378.25
-   },
-   {
-    "shop": "Axitech",
-    "price": 389.0,
-    "total": 403.95
-   },
-   {
-    "shop": "Leventis | Zakelijk",
-    "price": 394.0,
-    "total": 394.0
-   },
-   {
-    "shop": "Proshop.nl",
-    "price": 394.9,
-    "total": 401.89
-   },
-   {
-    "shop": "Galaxus",
-    "price": 396.39,
-    "total": 396.39
-   },
-   {
-    "shop": "ALTERNATE.nl",
-    "price": 399.0,
-    "total": 399.0
-   },
-   {
-    "shop": "Kaufland.nl",
-    "price": 399.0,
-    "total": 399.0
-   },
-   {
-    "shop": "Storage Island",
-    "price": 405.11,
-    "total": 412.06
-   },
-   {
-    "shop": "DectDirect.NL",
-    "price": 408.0,
-    "total": 408.0
-   },
-   {
-    "shop": "Coolblue.nl",
-    "price": 411.0,
-    "total": 411.0
-   },
-   {
-    "shop": "MegaMobile",
-    "price": 471.5,
-    "total": 471.5
-   },
-   {
-    "shop": "Infotheek | Zakelijk",
-    "price": 643.72,
-    "total": 643.72
-   },
-   {
-    "shop": "AliExpress",
-    "price": 649.54,
-    "total": 649.54
+    "status": "ok",
+    "detail": ""
    }
   ]
  }

@@ -1,0 +1,23 @@
+{
+  "_comment": "Known shops. 'github' = result of tools/shop_probe.py on GitHub Actions (2026-10-10): ok | blocked | untested. excl_vat: page shows prices without 21% VAT.",
+  "shops": {
+    "megekko.nl":            { "name": "Megekko",            "github": "ok" },
+    "caps.nl":               { "name": "CAPS",               "github": "ok" },
+    "nbb.com":               { "name": "NBB.com",            "github": "ok" },
+    "reichelt.com":          { "name": "Reichelt",           "github": "ok" },
+    "paradigit.nl":          { "name": "Paradigit",          "github": "ok" },
+    "yorcom.nl":             { "name": "Yorcom",             "github": "ok" },
+    "orioncomputerworld.nl": { "name": "Orion Computerworld", "github": "ok" },
+    "leventis.nl":           { "name": "Leventis",           "github": "ok", "excl_vat": true },
+    "alternate.nl":          { "name": "Alternate",          "github": "untested" },
+    "coolblue.nl":           { "name": "Coolblue",           "github": "untested" },
+    "amazon.nl":             { "name": "Amazon.nl",          "github": "untested" },
+    "informatique.nl":       { "name": "Informatique",       "github": "blocked" },
+    "hardwarewebwinkel.nl":  { "name": "HardwareWebwinkel",  "github": "blocked" },
+    "redshell.nl":           { "name": "RedShell",           "github": "blocked" },
+    "azerty.nl":             { "name": "Azerty",             "github": "blocked" },
+    "proshop.nl":            { "name": "Proshop",            "github": "blocked" },
+    "bol.com":               { "name": "bol.com",            "github": "blocked" },
+    "storageisland.nl":      { "name": "Storage Island",     "github": "blocked" }
+  }
+}

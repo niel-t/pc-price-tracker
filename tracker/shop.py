@@ -5,6 +5,9 @@ for search engines, so one parser covers many shops without per-shop code.
 """
 import json
 import re
+from dataclasses import dataclass
+from pathlib import Path
+from urllib.parse import urlparse
 
 from bs4 import BeautifulSoup
 
@@ -12,6 +15,24 @@ USER_AGENT = (
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
     "(KHTML, like Gecko) Chrome/130.0 Safari/537.36"
 )
+VAT = 1.21
+SHOPS = json.loads((Path(__file__).resolve().parent.parent / "shops.json").read_text(encoding="utf-8"))["shops"]
+
+
+@dataclass
+class Offer:
+    shop: str
+    price: float
+    url: str = ""
+
+
+def shop_info(url: str) -> dict:
+    """Catalog entry for a URL's domain (matches subdomains, e.g. nl.nbb.com), or a fallback."""
+    host = (urlparse(url).hostname or "").removeprefix("www.")
+    for domain, info in SHOPS.items():
+        if host == domain or host.endswith("." + domain):
+            return info
+    return {"name": host or url, "github": "untested"}
 
 
 def _to_float(v) -> float | None:

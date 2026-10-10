@@ -1,5 +1,5 @@
 """Decides whether a new set of offers is worth an alert."""
-from .scraper import Offer
+from .shop import Offer
 
 MAX_SHOP_LINES = 5
 

@@ -1,36 +1,48 @@
 # PC Price Tracker
 
-Tracks PC component prices across Dutch shops via [Tweakers Pricewatch](https://tweakers.net/pricewatch/)
-and pushes a phone notification (ntfy) when prices drop. Runs hourly on GitHub Actions, so your PC can be off.
+Tracks PC component prices at Dutch web shops and pushes a phone notification (ntfy) when prices drop.
+Runs hourly on GitHub Actions, so your PC can be off.
 
-- **Dashboard:** the GitHub Pages site of this repo (`https://<you>.github.io/pc-price-tracker/`)
-- **Price data:** `data/latest.json` (current offers), `data/history.json` (lowest-price changes), `data/alerts.json`
+**Dashboard:** https://niel-t.github.io/pc-price-tracker/
 
-## Adding or changing parts
+## Using it
 
-Edit [`products.json`](products.json) (the dashboard's *Edit parts* button opens it on GitHub):
+1. Open the dashboard → **⚙ Settings** → *Connect to GitHub* (follow the 1-minute token steps shown there).
+2. In Settings → *Phone alerts*: install the ntfy app, enter your topic (same as the `NTFY_TOPIC` repo secret),
+   scan the QR code and send a test.
+3. **＋ Add part**: name, category, optional target price, and one product link per shop.
+   The form has quick search buttons for shops that are known to work, and tags every link
+   ✓ works / ✕ blocked / ? untested. Saving starts a check right away.
 
-```json
-{ "name": "AMD Ryzen 7 7800X3D Boxed",
-  "url": "https://tweakers.net/pricewatch/1899396/amd-ryzen-7-7800x3d-boxed.html",
-  "category": "CPU",
-  "target_price": 320 }
-```
+Click any part for its price history, the price at every shop, and which shops failed.
 
-Find the URL by searching on tweakers.net/pricewatch. `target_price` can be `null`.
-Categories: CPU, GPU, Motherboard, RAM, Storage, PSU, Case, Cooler, Monitor, Other.
-Saving the file triggers a check right away.
+## Which shops work?
 
-## Alerts
+Shops are read from GitHub's servers, and some shops block those. Known status lives in
+[`shops.json`](shops.json) (from `tools/shop_probe.py`, run via the *Shop probe* workflow):
 
-Install the **ntfy** app and subscribe to a hard-to-guess topic. The topic is stored as the repository
-secret `NTFY_TOPIC` (Settings → Secrets and variables → Actions), so it isn't visible in the public repo.
+- **Works:** Megekko, CAPS, NBB.com, Reichelt, Paradigit, Yorcom, Orion Computerworld, Leventis (excl. VAT, corrected automatically)
+- **Blocked:** Azerty, Proshop, Informatique, HardwareWebwinkel, RedShell, bol.com, Storage Island
+- **Untested:** Alternate, Coolblue, Amazon.nl, any shop not listed — the first check will tell; failing shops show a ⚠ on the dashboard.
+
+## When does it alert?
 
 On each check it compares against the previous check and alerts when:
 
-- the lowest price dropped by at least `drop_threshold_pct` (default 5%),
+- the lowest price dropped by at least the threshold (default 5%, adjustable in Settings),
 - a competitive shop (within 10% of the cheapest) dropped by at least that much,
-- the lowest price crossed below your `target_price`.
+- the lowest price crossed below your target price.
+
+## Files
+
+| File | What |
+|---|---|
+| `products.json` | your parts, target prices and shop links (edited by the dashboard) |
+| `shops.json` | known shops and whether they work from GitHub |
+| `data/latest.json` | latest price per shop, per part |
+| `data/history.json` | per-shop price changes over time |
+| `data/alerts.json` | recent alerts |
+| `check.py` | the hourly check |
 
 ## Running locally
 
