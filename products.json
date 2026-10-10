@@ -1,6 +1,6 @@
 {
   "settings": {
-    "drop_threshold_pct": 5,
+    "drop_threshold_pct": 10,
     "ntfy_server": "https://ntfy.sh"
   },
   "products": [
@@ -10,13 +10,27 @@
       "category": "CPU",
       "target_price": 330,
       "shops": [
-        { "url": "https://www.megekko.nl/product/0/295018/AMD-Ryzen-7-7800X3D" },
-        { "url": "https://www.caps.nl/amd-ryzen-7-7800x3d-boxed-id-873668.html" },
-        { "url": "https://nl.nbb.com/nl/p/amd-ryzen-7-7800x3d-processor-8c-16t-4-20-5-00-ghz-in-doos-zonder-koeler/a1013366" },
-        { "url": "https://www.reichelt.com/nl/nl/shop/product/amd_am5_ryzen_7_7800x3d_8x_4_20_ghz_boxed_zonder_koeler-348524" },
-        { "url": "https://www.paradigit.nl/AMD-Ryzen-7-7800X3D/21298766/product" },
-        { "url": "https://www.yorcom.nl/artikel/amd-ryzen-7-7800x3d-processor/CPUA5R77800X3/" },
-        { "url": "https://www.orioncomputerworld.nl/detail.php?artikelid=133603" }
+        {
+          "url": "https://www.megekko.nl/product/0/295018/AMD-Ryzen-7-7800X3D"
+        },
+        {
+          "url": "https://www.caps.nl/amd-ryzen-7-7800x3d-boxed-id-873668.html"
+        },
+        {
+          "url": "https://nl.nbb.com/nl/p/amd-ryzen-7-7800x3d-processor-8c-16t-4-20-5-00-ghz-in-doos-zonder-koeler/a1013366"
+        },
+        {
+          "url": "https://www.reichelt.com/nl/nl/shop/product/amd_am5_ryzen_7_7800x3d_8x_4_20_ghz_boxed_zonder_koeler-348524"
+        },
+        {
+          "url": "https://www.paradigit.nl/AMD-Ryzen-7-7800X3D/21298766/product"
+        },
+        {
+          "url": "https://www.yorcom.nl/artikel/amd-ryzen-7-7800x3d-processor/CPUA5R77800X3/"
+        },
+        {
+          "url": "https://www.orioncomputerworld.nl/detail.php?artikelid=133603"
+        }
       ]
     }
   ]
