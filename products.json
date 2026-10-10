@@ -1,0 +1,14 @@
+{
+  "settings": {
+    "drop_threshold_pct": 5.0,
+    "ntfy_server": "https://ntfy.sh"
+  },
+  "products": [
+    {
+      "name": "AMD Ryzen 7 7800X3D Boxed",
+      "url": "https://tweakers.net/pricewatch/1899396/amd-ryzen-7-7800x3d-boxed.html",
+      "category": "CPU",
+      "target_price": null
+    }
+  ]
+}
