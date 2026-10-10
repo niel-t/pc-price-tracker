@@ -16,6 +16,27 @@ Runs hourly on GitHub Actions, so your PC can be off.
 
 Click any part for its price history, the price at every shop, and which shops failed.
 
+## Part suggestions
+
+When you type a name in *Add part* (e.g. "ASUS ROG" with category GPU), the dashboard suggests real
+products with today's Tweakers price and shop count. Picking one fills in the exact name and category
+and offers a target 5% below today's price.
+
+Suggestions come from [`catalog.json`](catalog.json), built from Tweakers' listings of products currently sold in NL:
+
+- **GPU:** GeForce RTX 3000 series and newer, Radeon RX 5000 series and newer (no workstation cards).
+- **CPU, motherboard, RAM, SSD, PSU, case, cooler, monitor:** released in the last 36 months (desktop CPUs only).
+
+Tweakers blocks GitHub, so refresh the catalog from your own PC every month or so (takes ~10 minutes):
+
+```
+.venv\Scripts\python tools\build_catalog.py        # all categories
+.venv\Scripts\python tools\build_catalog.py GPU     # or just some
+git add catalog.json && git commit -m "Refresh catalog" && git push
+```
+
+You can always type any name yourself; suggestions are just a shortcut.
+
 ## Which shops work?
 
 Shops are read from GitHub's servers, and some shops block those. Known status lives in

@@ -40,7 +40,7 @@ def _to_float(v) -> float | None:
         return None
     if isinstance(v, (int, float)):
         return float(v)
-    s = str(v).strip().replace("€", "").replace(" ", "")
+    s = re.sub(r"\s+", "", str(v).replace("€", ""))  # \s also covers non-breaking spaces
     if re.fullmatch(r"\d{1,3}(\.\d{3})*,\d{1,2}|\d+,\d{1,2}", s):  # Dutch notation 1.234,56
         s = s.replace(".", "").replace(",", ".")
     try:

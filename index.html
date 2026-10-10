@@ -171,8 +171,26 @@
   .find { display: flex; gap: 6px; flex-wrap: wrap; }
   .find a { font-size: 12px; padding: 3px 10px; border-radius: 99px; border: 1px solid var(--ring); text-decoration: none; color: var(--ink-2); background: var(--raised); }
   .find a:hover { border-color: var(--series); color: var(--series); }
-  .form-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 12px; }
+  .form-grid { display: grid; grid-template-columns: 1fr 2.2fr 1fr; gap: 12px; align-items: end; }
+  .form-grid .f { display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: var(--ink-2); font-weight: 600; }
   .hint { font-size: 12px; color: var(--muted); font-weight: 400; }
+
+  /* autocomplete */
+  .ac { position: relative; }
+  .ac-list { position: absolute; top: calc(100% + 4px); left: 0; width: max(100%, min(540px, calc(100vw - 72px))); z-index: 5; background: var(--raised); border: 1px solid var(--ring);
+             border-radius: 10px; box-shadow: 0 8px 28px rgba(0,0,0,.18); max-height: 340px; overflow: auto; padding: 4px; font-weight: 400; }
+  .ac-item { display: grid; grid-template-columns: 1fr auto; gap: 1px 12px; padding: 8px 10px; border-radius: 8px; cursor: pointer; }
+  .ac-item[aria-selected="true"], .ac-item:hover { background: var(--series-wash); }
+  .ac-item .nm { color: var(--ink); font-size: 13.5px; }
+  .ac-item .nm mark { background: none; color: var(--series); font-weight: 700; }
+  .ac-item .sp { font-size: 12px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .ac-item .pr { grid-column: 2; grid-row: 1 / span 2; text-align: right; font-size: 13px; color: var(--ink); font-variant-numeric: tabular-nums; align-self: center; }
+  .ac-item .pr small { display: block; color: var(--muted); font-size: 11px; }
+  .ac-head { font-size: 11px; color: var(--muted); padding: 8px 10px 2px; text-transform: uppercase; letter-spacing: .05em; font-weight: 600; }
+  .ac-foot { font-size: 11px; color: var(--muted); padding: 6px 10px 4px; border-top: 1px solid var(--grid); margin-top: 4px; }
+  .ac-empty { padding: 10px; font-size: 13px; color: var(--muted); }
+  .picked { margin-top: 12px; padding: 10px 12px; border-radius: 10px; background: var(--series-wash); display: flex; gap: 10px; align-items: center; flex-wrap: wrap; font-size: 13px; }
+  .picked .grow { flex: 1; min-width: 200px; }
   .sect { border-top: 1px solid var(--grid); padding-top: 16px; margin-top: 16px; }
   #qr { background: #fff; padding: 8px; border-radius: 8px; display: inline-block; }
   #qr img, #qr canvas { display: block; }
@@ -192,7 +210,8 @@
     .steps { grid-template-columns: 1fr; }
     .mini-stats { grid-template-columns: 1fr 1fr; }
     .form-grid { grid-template-columns: 1fr 1fr; }
-    .form-grid > :first-child { grid-column: 1 / -1; }
+    .form-grid > :nth-child(2) { grid-column: 1 / -1; order: 3; }
+    .form-grid > :nth-child(3) { order: 2; }
   }
   @media (max-width: 520px) {
     .shop-row { grid-template-columns: 1fr auto auto; }
@@ -294,10 +313,18 @@
     <div class="dlg-head"><h2 id="eTitle">Add a part</h2><button type="button" onclick="editor.close()" aria-label="Close">✕</button></div>
     <div class="dlg-body">
       <div class="form-grid">
-        <label class="f">Name<input name="name" required placeholder="e.g. AMD Ryzen 7 7800X3D" autocomplete="off"></label>
         <label class="f">Category<select name="category" id="eCat"></select></label>
-        <label class="f">Target price (€)<input name="target" type="number" step="0.01" min="0" placeholder="optional, e.g. 329"></label>
+        <div class="f">
+          <label for="eName">Name <span class="hint" id="eNameHint">start typing for suggestions, e.g. “ASUS ROG”</span></label>
+          <div class="ac">
+            <input id="eName" name="name" required placeholder="e.g. ASUS ROG Strix RTX 5070" autocomplete="off"
+                   role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="acList">
+            <div class="ac-list hidden" id="acList" role="listbox" aria-label="Suggestions"></div>
+          </div>
+        </div>
+        <label class="f">Target price (€)<input name="target" type="number" step="0.01" min="0" placeholder="optional"></label>
       </div>
+      <div id="ePicked" class="picked hidden"></div>
       <div class="sect">
         <h3>1 · Find it at a shop</h3>
         <p class="small muted">These shops are known to work with the tracker. Each opens a search for your part in a new tab; copy the product page's address.</p>
@@ -412,11 +439,16 @@ async function gh(path, opts = {}) {
   return r.status === 204 ? null : r.json();
 }
 async function readFile(path, fallback) {
-  try {
-    if (token()) {
+  if (token()) {
+    try {
       const r = await gh(`/contents/${path}?ref=main&t=${Date.now()}`);
       return { data: JSON.parse(b64decode(r.content)), sha: r.sha };
+    } catch (e) {
+      console.warn(`GitHub API read of ${path} failed, using the published copy`, e);
+      S.tokenError = e.message;
     }
+  }
+  try {
     const r = await fetch(`${path}?t=${Date.now()}`, { cache: "no-store" });
     return { data: r.ok ? await r.json() : fallback, sha: null };
   } catch (e) {
@@ -472,6 +504,7 @@ function partModel(p) {
 
 // ---------- load ----------
 async function load() {
+  S.tokenError = null;
   const [config, shops, latest, history, alerts] = await Promise.all([
     readFile("products.json", { settings: {}, products: [] }), readFile("shops.json", { shops: {} }),
     readFile("data/latest.json", {}), readFile("data/history.json", {}), readFile("data/alerts.json", []),
@@ -511,6 +544,8 @@ function renderHeader(parts) {
 
 function renderBanners() {
   const b = [];
+  if (token() && S.tokenError)
+    b.push(`<div class="banner warn"><span>🔑</span><div class="grow"><b>Your GitHub connection isn't working</b> (${esc(S.tokenError)}). You're seeing the public copy; editing is disabled until you reconnect.</div><button class="primary" onclick="openSettings(true)">Reconnect</button></div>`);
   if (S.workflow && S.workflow.state !== "active")
     b.push(`<div class="banner warn"><span>⏸</span><div class="grow"><b>Automatic checks are turned off.</b> Prices won't update and you won't get alerts.</div><button class="primary" onclick="enableWorkflow()">Turn on</button></div>`);
   if (S.run && S.run.status === "completed" && S.run.conclusion === "failure")
@@ -522,7 +557,7 @@ function renderBanners() {
 
 function renderSetup(parts) {
   const steps = [
-    { done: !!token(), title: "Connect GitHub", text: "So you can edit parts from this page.", action: "openSettings(true)", btn: "Connect" },
+    { done: !!token() && !S.tokenError, title: "Connect GitHub", text: "So you can edit parts from this page.", action: "openSettings(true)", btn: "Connect" },
     { done: store.get("alertsTested") === "1", title: "Get alerts on your phone", text: "Install ntfy and send a test.", action: "openSettings(false, 'topicInput')", btn: "Set up" },
     { done: parts.length >= 2, title: "Add your parts", text: "Add every component of your build.", action: "openEditor()", btn: "Add part" },
   ];
@@ -727,13 +762,139 @@ function openEditor(id = null) {
   $("eSave").textContent = p ? "Save changes" : "Add & check prices";
   $("eDelete").classList.toggle("hidden", !p);
   $("eCat").innerHTML = Object.entries(CATS).map(([c, i]) => `<option value="${c}">${i} ${c}</option>`).join("");
-  f.name.value = p?.name || ""; f.category.value = p?.category || (S.cat !== "All" ? S.cat : "CPU"); f.target.value = p?.target_price ?? "";
+  f.name.value = p?.name || ""; f.category.value = p?.category || (S.cat !== "All" ? S.cat : "GPU"); f.target.value = p?.target_price ?? "";
   $("eLinks").innerHTML = "";
   (p?.shops?.length ? p.shops : [{ url: "" }, { url: "" }]).forEach((s) => addLinkRow(s.url));
   renderFindLinks();
+  showPicked(null);
+  closeSuggestions();
+  loadCatalog();
   editor.showModal();
   if (!p) f.name.focus();
 }
+
+// ---------- suggestions (catalog.json, built from Tweakers by tools/build_catalog.py) ----------
+let catalog = null, catalogPromise = null, acItems = [], acActive = -1;
+function loadCatalog() {
+  catalogPromise ??= fetch(`catalog.json?d=${new Date().toISOString().slice(0, 10)}`)
+    .then((r) => (r.ok ? r.json() : null))
+    .then((c) => {
+      if (!c) return;
+      catalog = Object.entries(c.categories).flatMap(([cat, rows]) => rows.map(([name, spec, price, shops, id]) => {
+        const text = norm(`${name} ${spec}`);
+        return { cat, name, spec, price, shops, id, text, compact: text.replace(/ /g, "") };
+      }));
+      catalog.generated = c.generated;
+      const n = catalog.length.toLocaleString("nl-NL");
+      $("eNameHint").textContent = `${n} products to pick from, e.g. type “ASUS ROG”`;
+    })
+    .catch(() => {});
+}
+const norm = (s) => s.toLowerCase().normalize("NFKD").replace(/[̀-ͯ]/g, "").replace(/[^a-z0-9.+]+/g, " ").trim();
+
+function searchCatalog(query, cat) {
+  const tokens = norm(query).split(" ").filter(Boolean);
+  if (!catalog || !tokens.length || query.trim().length < 2) return { same: [], other: [], total: 0, tokens };
+  const scored = [];
+  for (const it of catalog) {
+    let score = 0, ok = true;
+    for (const t of tokens) {
+      const i = it.text.indexOf(t);
+      if (i === -1 && !it.compact.includes(t)) { ok = false; break; }
+      // Word-start matches in the name rank higher than matches inside words or in the spec line.
+      score += i === 0 || (i > 0 && it.text[i - 1] === " ") ? (i < it.name.length ? 3 : 1) : 1;
+    }
+    if (!ok) continue;
+    if (it.cat === cat) score += 100;
+    scored.push({ it, score: score + Math.min(it.shops, 30) / 30 });
+  }
+  scored.sort((a, b) => b.score - a.score || a.it.name.length - b.it.name.length);
+  const same = scored.filter((s) => s.it.cat === cat).slice(0, 8).map((s) => s.it);
+  const other = same.length < 4 ? scored.filter((s) => s.it.cat !== cat).slice(0, 6 - same.length).map((s) => s.it) : [];
+  return { same, other, total: scored.length, tokens };
+}
+
+function highlight(name, tokens) {
+  const lower = name.toLowerCase(), marks = new Array(name.length).fill(false);
+  for (const t of tokens) {
+    let i = lower.indexOf(t);
+    while (i !== -1) { marks.fill(true, i, i + t.length); i = lower.indexOf(t, i + t.length); }
+  }
+  let out = "", open = false;
+  for (let i = 0; i < name.length; i++) {
+    if (marks[i] !== open) { out += marks[i] ? "<mark>" : "</mark>"; open = marks[i]; }
+    out += esc(name[i]);
+  }
+  return out + (open ? "</mark>" : "");
+}
+
+function renderSuggestions() {
+  const f = $("editForm").elements, list = $("acList");
+  if (!catalog) { closeSuggestions(); return; }
+  const res = searchCatalog(f.name.value, f.category.value);
+  if (!res.total && f.name.value.trim().length < 2) { closeSuggestions(); return; }
+  acItems = [...res.same, ...res.other];
+  acActive = acItems.length ? 0 : -1;
+  const item = (it, i) => `<div class="ac-item" role="option" id="ac-${i}" data-i="${i}" aria-selected="${i === acActive}">
+      <div class="nm">${highlight(it.name, res.tokens)}</div>
+      <div class="pr">${it.price ? `vanaf ${eur(it.price, 0)}` : ""}<small>${it.shops} shop${it.shops === 1 ? "" : "s"}</small></div>
+      <div class="sp">${esc(it.spec)}</div></div>`;
+  let html = "";
+  if (res.same.length) html += `<div class="ac-head">${CATS[f.category.value] || ""} ${esc(f.category.value)}</div>` + res.same.map(item).join("");
+  if (res.other.length) html += `<div class="ac-head">Other categories</div>` + res.other.map((it, j) => item(it, res.same.length + j).replace('class="nm">', `class="nm">${CATS[it.cat]} `)).join("");
+  if (!acItems.length) html = `<div class="ac-empty">No matches in the catalog — that's fine, just type the full name.</div>`;
+  else if (res.total > acItems.length) html += `<div class="ac-foot">${res.total - acItems.length} more — keep typing to narrow down (e.g. add “4070” or “OC”)</div>`;
+  list.innerHTML = html;
+  list.classList.remove("hidden");
+  f.name.setAttribute("aria-expanded", "true");
+  f.name.setAttribute("aria-activedescendant", acActive >= 0 ? `ac-${acActive}` : "");
+}
+function closeSuggestions() {
+  $("acList").classList.add("hidden");
+  $("eName").setAttribute("aria-expanded", "false");
+  acItems = []; acActive = -1;
+}
+function moveActive(d) {
+  if (!acItems.length) return;
+  acActive = (acActive + d + acItems.length) % acItems.length;
+  document.querySelectorAll("#acList .ac-item").forEach((el) => el.setAttribute("aria-selected", +el.dataset.i === acActive));
+  $(`ac-${acActive}`)?.scrollIntoView({ block: "nearest" });
+  $("eName").setAttribute("aria-activedescendant", `ac-${acActive}`);
+}
+function pickSuggestion(it) {
+  const f = $("editForm").elements;
+  f.name.value = it.name;
+  f.category.value = it.cat;
+  closeSuggestions();
+  renderFindLinks();
+  showPicked(it);
+}
+function showPicked(it) {
+  const box = $("ePicked");
+  if (!it) { box.classList.add("hidden"); return; }
+  const suggested = it.price ? Math.floor(it.price * 0.95) : null;
+  box.innerHTML = `<span style="font-size:18px">📊</span>
+    <div class="grow"><b>${esc(it.name)}</b><br><span class="ink2">${it.price ? `Today on Tweakers: from <b>${eur(it.price)}</b> at` : "Sold at"} ${it.shops} shop${it.shops === 1 ? "" : "s"} · ${esc(it.spec)}</span></div>
+    ${suggested ? `<button type="button" class="small" id="eSuggestTarget">🎯 Target ${eur(suggested, 0)} <span class="muted">(-5%)</span></button>` : ""}
+    <a class="btn small" href="https://tweakers.net/pricewatch/${it.id}/" target="_blank" rel="noopener">Tweakers ↗</a>`;
+  box.classList.remove("hidden");
+  $("eSuggestTarget")?.addEventListener("click", () => { $("editForm").elements.target.value = suggested; toast(`Target set to ${eur(suggested, 0)}`); });
+}
+
+$("eName").addEventListener("input", () => { renderSuggestions(); showPicked(null); });
+$("eName").addEventListener("focus", () => { if ($("eName").value.trim().length >= 2) renderSuggestions(); });
+$("eName").addEventListener("blur", () => setTimeout(closeSuggestions, 150));
+$("eName").addEventListener("keydown", (e) => {
+  if ($("acList").classList.contains("hidden")) { if (e.key === "ArrowDown") { renderSuggestions(); e.preventDefault(); } return; }
+  if (e.key === "ArrowDown") { moveActive(1); e.preventDefault(); }
+  else if (e.key === "ArrowUp") { moveActive(-1); e.preventDefault(); }
+  else if (e.key === "Enter" && acActive >= 0) { pickSuggestion(acItems[acActive]); e.preventDefault(); }
+  else if (e.key === "Escape") { closeSuggestions(); e.preventDefault(); e.stopPropagation(); }
+});
+$("acList").addEventListener("mousedown", (e) => e.preventDefault()); // keep focus in the input while clicking
+$("acList").addEventListener("click", (e) => { const el = e.target.closest(".ac-item"); if (el) pickSuggestion(acItems[+el.dataset.i]); });
+// Picking a category moves you straight to the name, with suggestions for that category.
+$("eCat").addEventListener("change", () => { $("eName").focus(); if ($("ePicked").classList.contains("hidden")) renderSuggestions(); });
 function addLinkRow(url = "") {
   const row = document.createElement("div");
   row.className = "link-row";

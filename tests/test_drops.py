@@ -7,6 +7,7 @@ def test_to_float():
     assert _to_float("1.234,56") == 1234.56
     assert _to_float("299.00") == 299.0
     assert _to_float(369) == 369.0
+    assert _to_float("€\xa0889,00") == 889.0  # Tweakers uses a non-breaking space
 
 
 def test_extract_price_json_ld():
