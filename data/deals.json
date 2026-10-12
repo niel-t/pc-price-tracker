@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-12T21:29:21+00:00",
+ "generated": "2026-10-12T22:13:00+00:00",
  "source": "Tweakers Pricewatch Deals",
  "deals": [
   {
@@ -171,20 +171,6 @@
    "score": 30.0
   },
   {
-   "id": 2158332,
-   "name": "Corsair Frame 4000D RS Wit",
-   "spec": "Tower • 6 interne bays",
-   "url": "https://tweakers.net/pricewatch/2158332/corsair-frame-4000d-rs-wit.html",
-   "image": "https://tweakers.net/i/xevwFUfcgi0g0gOZYgwPGh5bHoQ=/fit-in/60x50/filters:strip_icc():fill(white):strip_exif()/i/2007172444.jpeg?f=thumbmini",
-   "price": 49.0,
-   "before": 69.0,
-   "discount_pct": 29,
-   "low_6m": 49.95,
-   "badge": null,
-   "cat": "Case",
-   "score": 29.0
-  },
-  {
    "id": 2287624,
    "name": "Thermaltake View 270 Plus WS ARGB Snow",
    "spec": "Tower • 2 interne bays",
@@ -325,20 +311,6 @@
    "score": 25.0
   },
   {
-   "id": 2311530,
-   "name": "Iiyama ProLite XB2793HSU-B1 Zwart",
-   "spec": "27\" • 1920x1080 (Full HD) @ 120Hz • IPS • 1ms",
-   "url": "https://tweakers.net/pricewatch/2311530/iiyama-prolite-xb2793hsu-b1-zwart.html",
-   "image": "https://tweakers.net/i/Yfmeoa97PWkNQOzSxOnsQSYWkgU=/fit-in/60x50/filters:strip_icc():fill(white):strip_exif()/i/2007990272.jpeg?f=thumbmini",
-   "price": 114.88,
-   "before": 139.0,
-   "discount_pct": 17,
-   "low_6m": 131.0,
-   "badge": "Laagste prijs sinds 6 maanden",
-   "cat": "Monitor",
-   "score": 25.0
-  },
-  {
    "id": 2154578,
    "name": "Samsung S27DG612S Zilver",
    "spec": "27\" • 2560x1440 (Quad HD) @ 240Hz • QD-OLED • 0,03ms",
@@ -348,6 +320,20 @@
    "before": 513.7,
    "discount_pct": 17,
    "low_6m": 456.9,
+   "badge": "Laagste prijs sinds 6 maanden",
+   "cat": "Monitor",
+   "score": 25.0
+  },
+  {
+   "id": 2311530,
+   "name": "Iiyama ProLite XB2793HSU-B1 Zwart",
+   "spec": "27\" • 1920x1080 (Full HD) @ 120Hz • IPS • 1ms",
+   "url": "https://tweakers.net/pricewatch/2311530/iiyama-prolite-xb2793hsu-b1-zwart.html",
+   "image": "https://tweakers.net/i/Yfmeoa97PWkNQOzSxOnsQSYWkgU=/fit-in/60x50/filters:strip_icc():fill(white):strip_exif()/i/2007990272.jpeg?f=thumbmini",
+   "price": 114.88,
+   "before": 139.0,
+   "discount_pct": 17,
+   "low_6m": 131.0,
    "badge": "Laagste prijs sinds 6 maanden",
    "cat": "Monitor",
    "score": 25.0
@@ -549,6 +535,20 @@
    "score": 22.0
   },
   {
+   "id": 2302836,
+   "name": "HYTE X50 Matcha Milk",
+   "spec": "Tower • 3 interne bays",
+   "url": "https://tweakers.net/pricewatch/2302836/hyte-x50-matcha-milk.html",
+   "image": "https://tweakers.net/i/nLmDdmPDFskGUBfW7Cj1wt0gEzg=/fit-in/60x50/filters:strip_icc():fill(white):strip_exif()/i/2007947574.jpeg?f=thumbmini",
+   "price": 103.55,
+   "before": 120.96,
+   "discount_pct": 14,
+   "low_6m": 116.47,
+   "badge": "Laagste prijs sinds 6 maanden",
+   "cat": "Case",
+   "score": 22.0
+  },
+  {
    "id": 2243120,
    "name": "Cooler Master MasterFrame 500 Mesh, ARGB fans, Zilver",
    "spec": "Tower • 1 interne bays",
@@ -619,60 +619,18 @@
    "score": 21.0
   },
   {
-   "id": 2012590,
-   "name": "APNX C1 - Wit",
-   "spec": "Tower • 6 interne bays",
-   "url": "https://tweakers.net/pricewatch/2012590/apnx-c1-wit.html",
-   "image": "https://tweakers.net/i/VUKrb2Zvm9m4GyaD55ORYsflAsM=/fit-in/60x50/filters:strip_icc():fill(white):strip_exif()/i/2006274844.jpeg?f=thumbmini",
-   "price": 114.25,
-   "before": 151.57,
-   "discount_pct": 25,
-   "low_6m": 105.88,
+   "id": 2198548,
+   "name": "MSI GeForce RTX 5060 Ti 16G GAMING TRIO OC WHITE",
+   "spec": "Max. 2,662GHz • 16GB GDDR7 • 3x DP, HDMI",
+   "url": "https://tweakers.net/pricewatch/2198548/msi-geforce-rtx-5060-ti-16g-gaming-trio-oc-white.html",
+   "image": "https://tweakers.net/i/yfku7JMgqba-eKc1-nLrXcbsOWk=/fit-in/60x50/filters:fill(white):strip_exif()/i/2007404374.png?f=thumbmini",
+   "price": 723.47,
+   "before": 999.0,
+   "discount_pct": 28,
+   "low_6m": 629.0,
    "badge": null,
-   "cat": "Case",
-   "score": 21.0
-  },
-  {
-   "id": 2370180,
-   "name": "Samsung ViewFinity S7 S70H 32\" Zwart",
-   "spec": "32\" • 3840x2160 (4K) @ 60Hz • VA • 5ms",
-   "url": "https://tweakers.net/pricewatch/2370180/samsung-viewfinity-s7-s70h-32-inch-zwart.html",
-   "image": "https://tweakers.net/i/CqnUKgjyY2459M8cKrX9tT86OHc=/fit-in/60x50/filters:strip_icc():fill(white):strip_exif()/i/2008283816.jpeg?f=thumbmini",
-   "price": 229.0,
-   "before": 263.18,
-   "discount_pct": 13,
-   "low_6m": 263.18,
-   "badge": "Laagste prijs sinds 6 maanden",
-   "cat": "Monitor",
-   "score": 21.0
-  },
-  {
-   "id": 2317224,
-   "name": "ASRock PRO-650G",
-   "spec": "650W (80 Plus Gold (115V)) • niet-modulair",
-   "url": "https://tweakers.net/pricewatch/2317224/asrock-pro-650g.html",
-   "image": "https://tweakers.net/i/rXTwd7tSKoJhSEbVXwPOAsp18Ns=/fit-in/60x50/filters:fill(white):strip_exif()/i/2008017342.png?f=thumbmini",
-   "price": 52.91,
-   "before": 59.9,
-   "discount_pct": 12,
-   "low_6m": 58.85,
-   "badge": "Laagste prijs sinds 6 maanden",
-   "cat": "PSU",
-   "score": 20.0
-  },
-  {
-   "id": 2124020,
-   "name": "MSI MAG PANO 100R PZ",
-   "spec": "Tower • 5 interne bays",
-   "url": "https://tweakers.net/pricewatch/2124020/msi-mag-pano-100r-pz.html",
-   "image": "https://tweakers.net/i/Qw3PPG7VFSuLoqxZe8fkY1kiw-k=/fit-in/60x50/filters:strip_icc():fill(white):strip_exif()/i/2007013598.jpeg?f=thumbmini",
-   "price": 97.59,
-   "before": 110.9,
-   "discount_pct": 12,
-   "low_6m": 110.69,
-   "badge": "Laagste prijs sinds 6 maanden",
-   "cat": "Case",
-   "score": 20.0
+   "cat": "GPU",
+   "score": 20.5
   },
   {
    "id": 2279872,
@@ -703,6 +661,20 @@
    "score": 20.0
   },
   {
+   "id": 2124020,
+   "name": "MSI MAG PANO 100R PZ",
+   "spec": "Tower • 5 interne bays",
+   "url": "https://tweakers.net/pricewatch/2124020/msi-mag-pano-100r-pz.html",
+   "image": "https://tweakers.net/i/Qw3PPG7VFSuLoqxZe8fkY1kiw-k=/fit-in/60x50/filters:strip_icc():fill(white):strip_exif()/i/2007013598.jpeg?f=thumbmini",
+   "price": 97.59,
+   "before": 110.9,
+   "discount_pct": 12,
+   "low_6m": 110.69,
+   "badge": "Laagste prijs sinds 6 maanden",
+   "cat": "Case",
+   "score": 20.0
+  },
+  {
    "id": 2320064,
    "name": "TRYX FLOVA F50 Wit",
    "spec": "Tower • 4 interne bays",
@@ -714,20 +686,6 @@
    "low_6m": 93.79,
    "badge": "Laagste prijs sinds 6 maanden",
    "cat": "Case",
-   "score": 20.0
-  },
-  {
-   "id": 2311362,
-   "name": "AOC Gaming Q27G4ZD Rood, Zwart",
-   "spec": "27\" • 2560x1440 (Quad HD) @ 280Hz • QD-OLED • 0,03ms",
-   "url": "https://tweakers.net/pricewatch/2311362/aoc-gaming-q27g4zd-rood-zwart.html",
-   "image": "https://tweakers.net/i/eUzmj8Erf4gOhBGZUHdbzS2ZbQs=/fit-in/60x50/filters:strip_icc():fill(white):strip_exif()/i/2007989522.jpeg?f=thumbmini",
-   "price": 379.0,
-   "before": 429.0,
-   "discount_pct": 12,
-   "low_6m": 400.34,
-   "badge": "Laagste prijs sinds 6 maanden",
-   "cat": "Monitor",
    "score": 20.0
   },
   {
@@ -841,6 +799,48 @@
    "badge": "Laagste prijs sinds 6 maanden",
    "cat": "Case",
    "score": 19.0
+  },
+  {
+   "id": 2043048,
+   "name": "Thermalright Assassin Spirit 120 EVO ARGB, Zwart",
+   "spec": "120mm diameter met 28,2dB(A) geluidsproductie",
+   "url": "https://tweakers.net/pricewatch/2043048/thermalright-assassin-spirit-120-evo-argb-zwart.html",
+   "image": "https://tweakers.net/i/i6RYKTAS7XKRhn_xoTX2pLrFrn0=/fit-in/60x50/filters:strip_icc():fill(white):strip_exif()/i/2006444126.jpeg?f=thumbmini",
+   "price": 25.0,
+   "before": 30.95,
+   "discount_pct": 19,
+   "low_6m": 25.69,
+   "badge": null,
+   "cat": "Cooler",
+   "score": 19.0
+  },
+  {
+   "id": 2242706,
+   "name": "AOC Gaming 24G4HRE Rood, Zwart",
+   "spec": "23,8\" • 1920x1080 (Full HD) @ 200Hz • IPS • 1ms",
+   "url": "https://tweakers.net/pricewatch/2242706/aoc-gaming-24g4hre-rood-zwart.html",
+   "image": "https://tweakers.net/i/APEDyGLdm1zz-0A01WzL8U9kSbE=/fit-in/60x50/filters:strip_icc():fill(white):strip_exif()/i/2007662090.jpeg?f=thumbmini",
+   "price": 79.0,
+   "before": 97.89,
+   "discount_pct": 19,
+   "low_6m": 79.0,
+   "badge": null,
+   "cat": "Monitor",
+   "score": 19.0
+  },
+  {
+   "id": 2113314,
+   "name": "ASUS TUF Gaming X870-PLUS WIFI",
+   "spec": "Socket AM5 • ATX • AMD X870 chipset",
+   "url": "https://tweakers.net/pricewatch/2113314/asus-tuf-gaming-x870-plus-wifi.html",
+   "image": "https://tweakers.net/i/hdZvOBy_V3R1kodYHiIeoN-Jx_c=/fit-in/60x50/filters:strip_icc():fill(white):strip_exif()/i/2006948300.jpeg?f=thumbmini",
+   "price": 209.9,
+   "before": 254.9,
+   "discount_pct": 18,
+   "low_6m": 209.9,
+   "badge": null,
+   "cat": "Motherboard",
+   "score": 18.0
   }
  ]
 }
