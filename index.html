@@ -138,6 +138,41 @@
   .add-tile:hover { border-color: var(--series); color: var(--series); }
   .empty { text-align: center; padding: 40px 16px; }
 
+  /* deals of the day */
+  #dealChips .chip { min-height: 26px; padding: 2px 10px; font-size: 12px; }
+  .deal-hero { display: grid; grid-template-columns: auto 72px 1fr auto; gap: 14px; align-items: center; margin-top: 14px; padding: 14px;
+               border-radius: 12px; background: linear-gradient(135deg, var(--good-wash), transparent 70%); border: 1px solid var(--ring); }
+  .rank { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; font-weight: 700; font-size: 12px; background: var(--grid); color: var(--ink-2); flex: none; }
+  .deal-hero .rank { width: 36px; height: 36px; font-size: 14px; background: var(--good); color: #fff; }
+  .thumb { width: 72px; height: 60px; border-radius: 8px; background: #fff; display: grid; place-items: center; overflow: hidden; border: 1px solid var(--ring); }
+  .thumb img { max-width: 64px; max-height: 52px; }
+  .thumb.sm { width: 48px; height: 40px; } .thumb.sm img { max-width: 44px; max-height: 36px; }
+  .deal-name { font-weight: 600; line-height: 1.3; }
+  .deal-hero .deal-name { font-size: 16px; }
+  .deal-price { text-align: right; white-space: nowrap; }
+  .deal-price s { color: var(--muted); font-size: 12px; display: block; }
+  .deal-price b { font-size: 17px; }
+  .deal-hero .deal-price b { font-size: 24px; letter-spacing: -.02em; }
+  .deal-list { list-style: none; margin: 8px 0 0; padding: 0; }
+  .deal-row { display: grid; grid-template-columns: auto 48px minmax(0, 1fr) 150px auto auto; gap: 12px; align-items: center; padding: 10px 0; border-top: 1px solid var(--grid); }
+  .deal-row:first-child { border-top: 0; }
+  .deal-row .deal-name { font-size: 13.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .disc { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 700; color: var(--good-ink); font-variant-numeric: tabular-nums; }
+  .disc .track { flex: 1; height: 6px; border-radius: 3px; background: var(--grid); overflow: hidden; }
+  .disc .track span { display: block; height: 100%; background: var(--good); border-radius: 3px; }
+  .deal-actions { display: flex; gap: 6px; }
+  .deal-actions .btn, .deal-actions button { min-height: 30px; padding: 4px 10px; font-size: 12.5px; }
+  @media (max-width: 760px) {
+    .deal-hero { grid-template-columns: auto 1fr; }
+    .deal-hero .thumb { display: none; }
+    .deal-hero > .stack { grid-column: 1 / -1; display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .deal-hero > .stack > * + * { margin-top: 0; }
+    .deal-hero .deal-price { text-align: left; }
+    .deal-row { grid-template-columns: auto minmax(0, 1fr) auto; }
+    .deal-row .thumb, .deal-row .disc { display: none; }
+    .deal-row .deal-actions { grid-column: 2 / -1; }
+  }
+
   /* alerts */
   .alert { display: grid; grid-template-columns: 28px 1fr; gap: 10px; padding: 12px 0; border-top: 1px solid var(--grid); }
   .alert:first-child { border-top: 0; }
@@ -262,6 +297,19 @@
     <div class="card kpi"><div class="l">Parts tracked</div><div class="v" id="kParts">0</div><div class="s" id="kPartsSub"></div></div>
     <div class="card kpi"><div class="l">Targets hit</div><div class="v" id="kTargets">–</div><div class="s" id="kTargetsSub"></div></div>
     <div class="card kpi"><div class="l">Saved since tracking</div><div class="v" id="kSaved">–</div><div class="s">first price seen vs now</div></div>
+  </section>
+
+  <section class="card hidden" id="dealsCard" aria-labelledby="dealsTitle">
+    <div class="row spread" style="align-items:flex-start">
+      <div>
+        <h2 id="dealsTitle">🔥 Deals of the day</h2>
+        <div class="small muted" id="dealsSub"></div>
+      </div>
+      <div class="chips" id="dealChips" role="group" aria-label="Filter deals by category"></div>
+    </div>
+    <div id="dealsStale"></div>
+    <div id="dealHero"></div>
+    <ol class="deal-list" id="dealList" start="2"></ol>
   </section>
 
   <section class="stack">
@@ -505,12 +553,13 @@ function partModel(p) {
 // ---------- load ----------
 async function load() {
   S.tokenError = null;
-  const [config, shops, latest, history, alerts] = await Promise.all([
+  const [config, shops, latest, history, alerts, deals] = await Promise.all([
     readFile("products.json", { settings: {}, products: [] }), readFile("shops.json", { shops: {} }),
     readFile("data/latest.json", {}), readFile("data/history.json", {}), readFile("data/alerts.json", []),
+    readFile("data/deals.json", null),
   ]);
   S.config = config.data; S.configSha = config.sha; S.shops = shops.data.shops || {};
-  S.latest = latest.data; S.history = history.data; S.alerts = alerts.data;
+  S.latest = latest.data; S.history = history.data; S.alerts = alerts.data; S.deals = deals.data;
   if (token()) await refreshWorkflowState();
   render();
 }
@@ -525,7 +574,7 @@ async function refreshWorkflowState() {
 // ---------- render ----------
 function render() {
   const parts = S.config.products.map(partModel);
-  renderHeader(parts); renderBanners(); renderSetup(parts); renderKpis(parts); renderChips(parts); renderParts(parts); renderAlerts();
+  renderHeader(parts); renderBanners(); renderSetup(parts); renderKpis(parts); renderDeals(); renderChips(parts); renderParts(parts); renderAlerts();
   document.querySelectorAll(".needs-token").forEach((el) => el.classList.toggle("hidden", !token()));
   $("repoLink").href = GH;
 }
@@ -598,6 +647,64 @@ function renderKpis(parts) {
     $("kTotalSub").innerHTML = `<span class="delta ${d < 0 ? "down" : "up"}">${d < 0 ? "▼" : "▲"} ${eur(Math.abs(d), 0)}</span> <span class="muted">vs 7 days ago</span>`;
   } else $("kTotalSub").textContent = priced.length ? `${priced.length} part${priced.length > 1 ? "s" : ""} · no change in the last 7 days` : "Add parts to see your build total";
   lineChart("totalChart", pts, { compact: true, empty: "The chart fills in as prices are checked over time." });
+}
+
+// Deals of the day: data/deals.json is collected from Tweakers by tools/deals.py on the user's PC.
+// "All" shows the top 10 by score with at most 3 per category, so one category can't fill the list.
+function topDeals(deals, cat) {
+  if (cat !== "All") return deals.filter((d) => d.cat === cat).slice(0, 10);
+  const perCat = {}, out = [];
+  for (const d of deals) {
+    if ((perCat[d.cat] = (perCat[d.cat] || 0) + 1) > 3) continue;
+    out.push(d);
+    if (out.length === 10) break;
+  }
+  return out;
+}
+function dealBadges(d) {
+  const b = [];
+  if (d.badge) b.push(`<span class="badge good">★ ${esc(d.badge.replace(/^Laagste prijs sinds (\d+) maanden?$/, "Lowest in $1 months"))}</span>`);
+  else if (d.low_6m && d.price > d.low_6m * 1.02) b.push(`<span class="badge warn" title="Tweakers saw ${eur(d.low_6m)} recently">Was ${eur(d.low_6m, 0)} recently</span>`);
+  if (S.config.products.some((p) => p.category === d.cat)) b.push(`<span class="badge info" title="You track a ${esc(d.cat)} — this could be an alternative">In your build</span>`);
+  return b.join(" ");
+}
+function renderDeals() {
+  const data = S.deals, card = $("dealsCard");
+  if (!data?.deals?.length) { card.classList.add("hidden"); return; }
+  card.classList.remove("hidden");
+  const cats = ["All", ...Object.keys(CATS).filter((c) => data.deals.some((d) => d.cat === c))];
+  S.dealCat = cats.includes(S.dealCat) ? S.dealCat : "All";
+  $("dealChips").innerHTML = cats.map((c) => `<button class="chip" aria-pressed="${c === S.dealCat}" data-dcat="${c}">${c === "All" ? "All" : `${CATS[c]} ${c}`}</button>`).join("");
+  const hrs = (Date.now() - new Date(data.generated)) / 36e5;
+  $("dealsSub").textContent = `Biggest genuine price drops on PC parts today, from Tweakers · updated ${ago(data.generated)}`;
+  $("dealsStale").innerHTML = hrs > 36
+    ? `<div class="banner warn small" style="margin-top:10px"><span>⏳</span><div class="grow">These deals are ${Math.round(hrs / 24)} day(s) old. They refresh when your PC runs the daily deals task.</div></div>` : "";
+
+  const list = topDeals(data.deals, S.dealCat);
+  const maxPct = Math.max(...list.map((d) => d.discount_pct), 1);
+  const thumb = (d, sm) => `<div class="thumb ${sm ? "sm" : ""}">${d.image ? `<img src="${esc(d.image)}" alt="" loading="lazy">` : CATS[d.cat] || "📦"}</div>`;
+  const actions = (d, i) => `<div class="deal-actions">
+      ${token() ? `<button data-track="${i}" title="Track this part">＋ Track</button>` : ""}
+      <a class="btn" href="${esc(d.url)}" target="_blank" rel="noopener" title="Compare shops on Tweakers">View ↗</a></div>`;
+  const [top, ...rest] = list;
+  $("dealHero").innerHTML = top ? `<div class="deal-hero">
+      <div class="rank" aria-label="Number 1">1</div>${thumb(top)}
+      <div style="min-width:0"><div class="small muted">${CATS[top.cat] || ""} ${esc(top.cat)} · deal of the day</div>
+        <div class="deal-name">${esc(top.name)}</div>
+        <div class="small muted" style="margin:2px 0 6px">${esc(top.spec)}</div>
+        <div class="row" style="gap:4px"><span class="badge good">▼ ${top.discount_pct}%</span> ${dealBadges(top)}</div></div>
+      <div class="stack"><div class="deal-price"><s>${eur(top.before)}</s><b>${eur(top.price)}</b>
+        <div class="small" style="color:var(--good-ink); font-weight:600">save ${eur(top.before - top.price)}</div></div>${actions(top, 0)}</div>
+    </div>` : `<p class="small muted" style="margin-top:12px">No deals in this category today.</p>`;
+  $("dealList").innerHTML = rest.map((d, j) => `<li class="deal-row">
+      <div class="rank">${j + 2}</div>${thumb(d, true)}
+      <div style="min-width:0"><div class="deal-name" title="${esc(d.name)}">${esc(d.name)}</div>
+        <div class="small muted" style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis">${CATS[d.cat] || ""} ${esc(d.cat)} · ${esc(d.spec)}</div>
+        <div class="row" style="gap:4px; margin-top:3px">${dealBadges(d)}</div></div>
+      <div class="disc" aria-label="${d.discount_pct}% off"><div class="track"><span style="width:${(d.discount_pct / maxPct) * 100}%"></span></div>−${d.discount_pct}%</div>
+      <div class="deal-price"><s>${eur(d.before)}</s><b>${eur(d.price)}</b></div>
+      ${actions(d, j + 1)}</li>`).join("");
+  S.dealList = list;
 }
 
 function renderChips(parts) {
@@ -753,7 +860,7 @@ function openDetail(id) {
 
 // ---------- editor ----------
 let editingId = null;
-function openEditor(id = null) {
+function openEditor(id = null, prefill = null) {
   if (!token()) return openSettings(true);
   editingId = id;
   const p = id ? S.config.products.find((x) => x.id === id) : null;
@@ -765,12 +872,17 @@ function openEditor(id = null) {
   f.name.value = p?.name || ""; f.category.value = p?.category || (S.cat !== "All" ? S.cat : "GPU"); f.target.value = p?.target_price ?? "";
   $("eLinks").innerHTML = "";
   (p?.shops?.length ? p.shops : [{ url: "" }, { url: "" }]).forEach((s) => addLinkRow(s.url));
+  if (prefill) {
+    f.name.value = prefill.name; f.category.value = prefill.category;
+    f.target.value = prefill.target != null ? Math.floor(prefill.target) : "";
+  }
   renderFindLinks();
-  showPicked(null);
+  showPicked(prefill?.picked || null);
   closeSuggestions();
   loadCatalog();
   editor.showModal();
-  if (!p) f.name.focus();
+  if (prefill) $("eLinks").querySelector("input")?.focus();
+  else if (!p) f.name.focus();
 }
 
 // ---------- suggestions (catalog.json, built from Tweakers by tools/build_catalog.py) ----------
@@ -874,7 +986,8 @@ function showPicked(it) {
   if (!it) { box.classList.add("hidden"); return; }
   const suggested = it.price ? Math.floor(it.price * 0.95) : null;
   box.innerHTML = `<span style="font-size:18px">📊</span>
-    <div class="grow"><b>${esc(it.name)}</b><br><span class="ink2">${it.price ? `Today on Tweakers: from <b>${eur(it.price)}</b> at` : "Sold at"} ${it.shops} shop${it.shops === 1 ? "" : "s"} · ${esc(it.spec)}</span></div>
+    <div class="grow"><b>${esc(it.name)}</b><br><span class="ink2">${it.price ? `Today on Tweakers: from <b>${eur(it.price)}</b>` : ""}${
+      it.shops ? `${it.price ? " at" : "Sold at"} ${it.shops} shop${it.shops === 1 ? "" : "s"}` : ""} · ${esc(it.spec)}</span></div>
     ${suggested ? `<button type="button" class="small" id="eSuggestTarget">🎯 Target ${eur(suggested, 0)} <span class="muted">(-5%)</span></button>` : ""}
     <a class="btn small" href="https://tweakers.net/pricewatch/${it.id}/" target="_blank" rel="noopener">Tweakers ↗</a>`;
   box.classList.remove("hidden");
@@ -1065,6 +1178,13 @@ $("addBtn").onclick = () => openEditor();
 $("settingsBtn").onclick = () => openSettings();
 $("hideSetup").onclick = () => { store.set("hideSetup", "1"); render(); };
 $("sort").onchange = (e) => { S.sort = e.target.value; store.set("sort", S.sort); render(); };
+$("dealChips").addEventListener("click", (e) => { const c = e.target.closest("[data-dcat]"); if (c) { S.dealCat = c.dataset.dcat; renderDeals(); } });
+$("dealsCard").addEventListener("click", (e) => {
+  const b = e.target.closest("[data-track]");
+  if (!b) return;
+  const d = S.dealList[+b.dataset.track];
+  openEditor(null, { name: d.name, category: d.cat, target: d.price, picked: { ...d, shops: null } });
+});
 $("chips").addEventListener("click", (e) => { const c = e.target.closest("[data-cat]"); if (c) { S.cat = c.dataset.cat; render(); } });
 $("parts").addEventListener("click", (e) => { const c = e.target.closest(".part"); if (c) openDetail(c.dataset.id); });
 $("parts").addEventListener("keydown", (e) => { const c = e.target.closest(".part"); if (c && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); openDetail(c.dataset.id); } });

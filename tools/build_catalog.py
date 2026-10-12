@@ -36,6 +36,10 @@ IDS_PER_MONTH = 17_000
 GPU_RE = re.compile(r"\b(?:RTX\s?(?:30|40|50)[5-9]0|RX\s?(?:5|6|7|9)\d{3})\b", re.I)
 GPU_EXCLUDE = re.compile(r"\b(?:Ada|Quadro|Radeon Pro|RTX A\d|Blackwell)\b", re.I)
 CPU_SOCKETS = re.compile(r"\b(?:AM4|AM5|1700|1851) socket", re.I)
+# Server/OEM parts don't belong in a PC build. (Not applied to monitors: Dell and Lenovo make consumer monitors.)
+SERVER_PARTS = re.compile(r"\b(?:HPE|Dell|Lenovo|Fujitsu|Supermicro|ASRock Rack|ThinkSystem|Enterprise|RDIMM|LRDIMM|Registered|ECC|SAS|U\.[23]|E[13]\.[SL])\b", re.I)
+# Consumer SSDs list their interface (M.2 / SATA / PCIe).
+SSD_CONSUMER = re.compile(r"M\.2|SATA|PCI-?e", re.I)
 
 CATEGORIES = {
     # dashboard category: (tweakers listing slug, filter mode)
@@ -116,6 +120,10 @@ def keep(cat: str, item: dict, min_id: int) -> bool:
         return False
     if cat == "CPU":
         return bool(CPU_SOCKETS.search(item["spec"]))
+    if cat in ("Storage", "RAM", "Motherboard") and SERVER_PARTS.search(f"{item['name']} {item['spec']}"):
+        return False
+    if cat == "Storage":
+        return bool(SSD_CONSUMER.search(item["spec"]))
     return True
 
 

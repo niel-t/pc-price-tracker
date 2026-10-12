@@ -37,6 +37,22 @@ git add catalog.json && git commit -m "Refresh catalog" && git push
 
 You can always type any name yourself; suggestions are just a shortcut.
 
+## Deals of the day
+
+The dashboard shows a top 10 of today's biggest *genuine* price drops on PC parts, from
+[Tweakers Pricewatch Deals](https://tweakers.net/pricewatch/deals/), with the same product rules as the suggestions
+(RTX 3000+/RX 5000+, otherwise max. 36 months old, no server parts).
+
+Ranking = discount %, **+8** if it's the lowest price in months, **minus** points when Tweakers saw it cheaper
+recently (an inflated "before" price). The *All* view has at most 3 deals per category. Click **＋ Track**
+to start tracking a deal with its price as your target.
+
+Like the catalog, deals are collected on your own PC (Tweakers blocks GitHub):
+
+```
+.venv\Scripts\python tools\deals.py --push
+```
+
 ## Which shops work?
 
 Shops are read from GitHub's servers, and some shops block those. Known status lives in
@@ -63,6 +79,8 @@ On each check it compares against the previous check and alerts when:
 | `data/latest.json` | latest price per shop, per part |
 | `data/history.json` | per-shop price changes over time |
 | `data/alerts.json` | recent alerts |
+| `data/deals.json` | deals of the day (from `tools/deals.py`) |
+| `catalog.json` | part suggestions (from `tools/build_catalog.py`) |
 | `check.py` | the hourly check |
 
 ## Running locally
