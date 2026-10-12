@@ -1,7 +1,7 @@
 {
  "amd-ryzen-7-7800x3d": {
   "name": "AMD Ryzen 7 7800X3D Boxed",
-  "checked_at": "2026-10-12T09:35:28+00:00",
+  "checked_at": "2026-10-12T10:33:31+00:00",
   "offers": [
    {
     "shop": "Reichelt",
@@ -14,20 +14,6 @@
     "shop": "CAPS",
     "url": "https://www.caps.nl/amd-ryzen-7-7800x3d-boxed-id-873668.html",
     "price": 358.99,
-    "status": "ok",
-    "detail": ""
-   },
-   {
-    "shop": "Orion Computerworld",
-    "url": "https://www.orioncomputerworld.nl/detail.php?artikelid=133603",
-    "price": 361.3,
-    "status": "ok",
-    "detail": ""
-   },
-   {
-    "shop": "NBB.com",
-    "url": "https://nl.nbb.com/nl/p/amd-ryzen-7-7800x3d-processor-8c-16t-4-20-5-00-ghz-in-doos-zonder-koeler/a1013366",
-    "price": 365.03,
     "status": "ok",
     "detail": ""
    },
@@ -51,6 +37,20 @@
     "price": 369.0,
     "status": "ok",
     "detail": ""
+   },
+   {
+    "shop": "Orion Computerworld",
+    "url": "https://www.orioncomputerworld.nl/detail.php?artikelid=133603",
+    "price": 393.9,
+    "status": "ok",
+    "detail": ""
+   },
+   {
+    "shop": "NBB.com",
+    "url": "https://nl.nbb.com/nl/p/amd-ryzen-7-7800x3d-processor-8c-16t-4-20-5-00-ghz-in-doos-zonder-koeler/a1013366",
+    "price": null,
+    "status": "blocked",
+    "detail": "HTTP 503"
    }
   ]
  }
