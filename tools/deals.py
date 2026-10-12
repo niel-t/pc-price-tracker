@@ -19,6 +19,7 @@ from bs4 import BeautifulSoup
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from tools.build_catalog import CATEGORIES, Tweakers, cutoff_id, keep, tweakers_price  # noqa: E402
+from tools import pepper  # noqa: E402
 from tools.gitpush import local_config, push, setup_log  # noqa: E402
 from tracker.alerts import send_ntfy  # noqa: E402
 from tracker.drops import eur  # noqa: E402
@@ -64,14 +65,26 @@ def parse_deals(html: str) -> list[dict]:
 
 def score(d: dict) -> float:
     """Discount %, nudged by whether it's a genuine low: a 'lowest price in N months' badge earns
-    a bonus; being well above the recent lowest price (an inflated 'before' price) costs points."""
+    a bonus; being well above the recent lowest price (an inflated 'before' price) costs points.
+    Pepper deals are measured against Tweakers' lowest NL price today, which is already a real low."""
     s = d["discount_pct"]
     if d["badge"]:
         s += 8
     if d["price"] and d["low_6m"]:
         above = d["price"] / d["low_6m"] - 1
         s -= max(0.0, above) * 50
+    if d.get("suspect"):
+        s /= 2
     return round(s, 1)
+
+
+def load_catalog() -> list[dict]:
+    path = ROOT / "catalog.json"
+    if not path.exists():
+        return []
+    c = json.loads(path.read_text(encoding="utf-8"))
+    return [{"cat": cat, "name": n, "spec": s, "price": p, "shops": sh, "id": i}
+            for cat, rows in c["categories"].items() for n, s, p, sh, i in rows]
 
 
 def collect() -> list[dict]:
@@ -85,13 +98,24 @@ def collect() -> list[dict]:
             rows = parse_deals(html)
             for d in rows:
                 if d["price"] and d["price"] >= MIN_PRICE and d["before"] and keep(cat, d, min_id):
-                    found.append(d | {"cat": cat, "score": score(d)})
+                    found.append(d | {"cat": cat, "source": "tweakers"})
                     n += 1
             if f"page={page + 1}" not in html:
                 break
         print(f"{cat}: {n} deals", flush=True)
-    found.sort(key=lambda d: -d["score"])
-    return found[:KEEP]
+
+    try:
+        found += pepper.collect(tw, load_catalog())
+    except Exception as e:  # one source failing shouldn't cost us the other
+        print(f"Pepper failed: {e}", flush=True)
+
+    # Same product from both sources: keep the cheaper offer.
+    best = {}
+    for d in found:
+        d["score"] = score(d)
+        if d["id"] not in best or d["price"] < best[d["id"]]["price"]:
+            best[d["id"]] = d
+    return sorted(best.values(), key=lambda d: -d["score"])[:KEEP]
 
 
 def notify(deals: list[dict]):
@@ -106,7 +130,8 @@ def notify(deals: list[dict]):
     if not d or state.get("date") == date.today().isoformat() or state.get("id") == d["id"]:
         print("Notify: already sent today or same deal as last time, skipping")
         return
-    lines = [f"{eur(d['price'])} (was {eur(d['before'])}, -{d['discount_pct']}%)"]
+    where = f" at {d['shop']}" if d.get("shop") else ""
+    lines = [f"{eur(d['price'])}{where} ({d.get('before_label', 'was').lower()} {eur(d['before'])}, -{d['discount_pct']}%)"]
     if d["badge"]:
         lines.append(d["badge"].replace("Laagste prijs sinds", "Lowest price in").replace("maanden", "months"))
     lines.append(f"{d['cat']} · {d['spec']}")
@@ -126,7 +151,8 @@ def main():
                               ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
     print(f"Wrote {OUT} ({len(deals)} deals)")
     for i, d in enumerate(deals[:10], 1):
-        print(f"{i:>2}. -{d['discount_pct']}% {d['cat']:<11} €{d['price']:>8.2f}  {d['name'][:60]}  (score {d['score']})")
+        src = f"{d['source']}/{d['shop']}" if d.get("shop") else d["source"]
+        print(f"{i:>2}. -{d['discount_pct']}% {d['cat']:<11} €{d['price']:>8.2f}  {d['name'][:55]}  [{src}] (score {d['score']})")
     if "--push" in sys.argv:
         push("data/deals.json", f"Deals of the day {datetime.now():%Y-%m-%d}")
     if "--notify" in sys.argv:

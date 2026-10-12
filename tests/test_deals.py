@@ -24,3 +24,9 @@ def test_score_rewards_real_lows_and_punishes_inflated_before_prices():
     inflated = {"discount_pct": 12, "badge": None, "price": 799, "low_6m": 699}  # was €699 recently
     assert score(genuine) == 20
     assert score(inflated) < 12
+
+
+def test_suspect_pepper_deals_are_halved():
+    pepper = {"discount_pct": 48, "badge": "Cheaper than all NL shops on Tweakers", "price": 217, "low_6m": None}
+    assert score(pepper) == 56
+    assert score(pepper | {"suspect": True}) == 28

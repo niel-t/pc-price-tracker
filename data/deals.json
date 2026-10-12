@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-12T22:13:00+00:00",
+ "generated": "2026-10-12T22:34:03+00:00",
  "source": "Tweakers Pricewatch Deals",
  "deals": [
   {
@@ -14,6 +14,7 @@
    "low_6m": 59.0,
    "badge": "Laagste prijs sinds 6 maanden",
    "cat": "Case",
+   "source": "tweakers",
    "score": 56.0
   },
   {
@@ -28,6 +29,7 @@
    "low_6m": 88.16,
    "badge": "Laagste prijs sinds 6 maanden",
    "cat": "Case",
+   "source": "tweakers",
    "score": 53.0
   },
   {
@@ -42,6 +44,7 @@
    "low_6m": 56.9,
    "badge": "Laagste prijs sinds 6 maanden",
    "cat": "Case",
+   "source": "tweakers",
    "score": 47.0
   },
   {
@@ -56,6 +59,7 @@
    "low_6m": 110.99,
    "badge": "Laagste prijs sinds 6 maanden",
    "cat": "Case",
+   "source": "tweakers",
    "score": 46.0
   },
   {
@@ -70,6 +74,7 @@
    "low_6m": 107.0,
    "badge": "Laagste prijs sinds 6 maanden",
    "cat": "Case",
+   "source": "tweakers",
    "score": 44.0
   },
   {
@@ -84,6 +89,7 @@
    "low_6m": 139.0,
    "badge": "Laagste prijs sinds 6 maanden",
    "cat": "Case",
+   "source": "tweakers",
    "score": 41.0
   },
   {
@@ -98,7 +104,68 @@
    "low_6m": 885.99,
    "badge": "Laagste prijs sinds 6 maanden",
    "cat": "Storage",
+   "source": "tweakers",
    "score": 37.0
+  },
+  {
+   "source": "pepper",
+   "id": 2125744,
+   "name": "Thermalright Peerless Assassin 140 Black",
+   "spec": "140mm diameter met 25,6dB(A) geluidsproductie",
+   "cat": "Cooler",
+   "shop": "Amazon.nl",
+   "url": "https://nl.pepper.com/aanbiedingen/thermalright-peerless-assassin-140-black-421527",
+   "image": "https://static.pepper.com/threads/raw/sF7SS/421527_1/re/150x150/qt/55/421527_1.jpg",
+   "posted": "2026-10-07T10:15:16+00:00",
+   "price": 33.6,
+   "before": 47.17,
+   "before_label": "Tweakers lowest",
+   "discount_pct": 29,
+   "low_6m": null,
+   "badge": "Cheaper than all NL shops on Tweakers",
+   "pepper_title": "Thermalright Peerless Assassin 140 Black",
+   "suspect": false,
+   "score": 37
+  },
+  {
+   "source": "pepper",
+   "id": 2158340,
+   "name": "Corsair RM750e (2025) Zwart",
+   "spec": "750W (Cybenetics ETA Platinum (230V)) • volledig modulair",
+   "cat": "PSU",
+   "shop": "Amazon.nl",
+   "url": "https://nl.pepper.com/aanbiedingen/corsair-rm750e-voeding-421180",
+   "image": "https://static.pepper.com/threads/raw/mFTIg/421180_1/re/150x150/qt/55/421180_1.jpg",
+   "posted": "2026-10-05T22:19:30+00:00",
+   "price": 74.9,
+   "before": 102.9,
+   "before_label": "Tweakers lowest",
+   "discount_pct": 27,
+   "low_6m": null,
+   "badge": "Cheaper than all NL shops on Tweakers",
+   "pepper_title": "Corsair rm750e voeding",
+   "suspect": false,
+   "score": 35
+  },
+  {
+   "source": "pepper",
+   "id": 2374774,
+   "name": "ASUS VY279HG2 Zwart",
+   "spec": "27\" • 1920x1080 (Full HD) @ 144Hz • IPS • 1ms",
+   "cat": "Monitor",
+   "shop": "Amazon.nl",
+   "url": "https://nl.pepper.com/aanbiedingen/prime-asus-eye-care-gaming-monitor-vy279hg2-27-full-hd-1920x1080-ips-144hz-1ms-mprt-amd-freesync-zwart-421460",
+   "image": "https://static.pepper.com/threads/raw/yzpY6/421460_1/re/150x150/qt/55/421460_1.jpg",
+   "posted": "2026-10-07T03:14:37+00:00",
+   "price": 99.0,
+   "before": 136.0,
+   "before_label": "Tweakers lowest",
+   "discount_pct": 27,
+   "low_6m": null,
+   "badge": "Cheaper than all NL shops on Tweakers",
+   "pepper_title": "[PRIME] ASUS Eye Care Gaming Monitor VY279HG2 — 27\" Full HD (1920x1080) IPS, 144Hz, 1ms MPRT, AMD FreeSync, zwart",
+   "suspect": false,
+   "score": 35
   },
   {
    "id": 2334936,
@@ -112,6 +179,7 @@
    "low_6m": 79.0,
    "badge": "Laagste prijs sinds 6 maanden",
    "cat": "PSU",
+   "source": "tweakers",
    "score": 33.0
   },
   {
@@ -126,6 +194,7 @@
    "low_6m": 79.0,
    "badge": "Laagste prijs sinds 6 maanden",
    "cat": "Case",
+   "source": "tweakers",
    "score": 33.0
   },
   {
@@ -140,6 +209,7 @@
    "low_6m": 99.0,
    "badge": "Laagste prijs sinds 6 maanden",
    "cat": "Case",
+   "source": "tweakers",
    "score": 32.0
   },
   {
@@ -154,6 +224,7 @@
    "low_6m": 499.0,
    "badge": "Laagste prijs sinds 6 maanden",
    "cat": "Monitor",
+   "source": "tweakers",
    "score": 32.0
   },
   {
@@ -168,6 +239,7 @@
    "low_6m": 749.0,
    "badge": "Laagste prijs sinds 6 maanden",
    "cat": "Monitor",
+   "source": "tweakers",
    "score": 30.0
   },
   {
@@ -182,6 +254,7 @@
    "low_6m": 69.0,
    "badge": "Laagste prijs sinds 6 maanden",
    "cat": "Case",
+   "source": "tweakers",
    "score": 28.0
   },
   {
@@ -196,6 +269,27 @@
    "low_6m": 219.0,
    "badge": "Laagste prijs sinds 6 maanden",
    "cat": "Monitor",
+   "source": "tweakers",
+   "score": 28.0
+  },
+  {
+   "source": "pepper",
+   "id": 2119748,
+   "name": "AMD Ryzen 7 9800X3D Boxed",
+   "spec": "AM5 socket • Octa (8) core @ 4,7GHz-5,2GHz",
+   "cat": "CPU",
+   "shop": "Dustin Home",
+   "url": "https://nl.pepper.com/aanbiedingen/amd-ryzen-7-9800x3d-421139",
+   "image": "https://static.pepper.com/threads/raw/g6u7z/421139_1/re/150x150/qt/55/421139_1.jpg",
+   "posted": "2026-10-05T15:31:46+00:00",
+   "price": 217.2,
+   "before": 419.08,
+   "before_label": "Tweakers lowest",
+   "discount_pct": 48,
+   "low_6m": null,
+   "badge": "Cheaper than all NL shops on Tweakers",
+   "pepper_title": "AMD Ryzen 7 9800X3D",
+   "suspect": true,
    "score": 28.0
   },
   {
@@ -210,6 +304,7 @@
    "low_6m": 97.6,
    "badge": "Laagste prijs sinds 6 maanden",
    "cat": "PSU",
+   "source": "tweakers",
    "score": 27.0
   },
   {
@@ -224,6 +319,7 @@
    "low_6m": 906.93,
    "badge": "Laagste prijs sinds 6 maanden",
    "cat": "Monitor",
+   "source": "tweakers",
    "score": 27.0
   },
   {
@@ -238,6 +334,7 @@
    "low_6m": 849.0,
    "badge": "Laagste prijs sinds 6 maanden",
    "cat": "Motherboard",
+   "source": "tweakers",
    "score": 26.0
   },
   {
@@ -252,6 +349,7 @@
    "low_6m": 298.23,
    "badge": "Laagste prijs sinds 6 maanden",
    "cat": "PSU",
+   "source": "tweakers",
    "score": 26.0
   },
   {
@@ -266,6 +364,7 @@
    "low_6m": 104.0,
    "badge": null,
    "cat": "Case",
+   "source": "tweakers",
    "score": 25.2
   },
   {
@@ -280,6 +379,7 @@
    "low_6m": 125.99,
    "badge": "Laagste prijs sinds 6 maanden",
    "cat": "Storage",
+   "source": "tweakers",
    "score": 25.0
   },
   {
@@ -294,6 +394,7 @@
    "low_6m": 77.79,
    "badge": "Laagste prijs sinds 6 maanden",
    "cat": "Case",
+   "source": "tweakers",
    "score": 25.0
   },
   {
@@ -308,6 +409,7 @@
    "low_6m": 1097.05,
    "badge": "Laagste prijs sinds 6 maanden",
    "cat": "Monitor",
+   "source": "tweakers",
    "score": 25.0
   },
   {
@@ -322,6 +424,7 @@
    "low_6m": 456.9,
    "badge": "Laagste prijs sinds 6 maanden",
    "cat": "Monitor",
+   "source": "tweakers",
    "score": 25.0
   },
   {
@@ -336,6 +439,7 @@
    "low_6m": 131.0,
    "badge": "Laagste prijs sinds 6 maanden",
    "cat": "Monitor",
+   "source": "tweakers",
    "score": 25.0
   },
   {
@@ -350,6 +454,7 @@
    "low_6m": 874.3,
    "badge": "Laagste prijs sinds 6 maanden",
    "cat": "Monitor",
+   "source": "tweakers",
    "score": 25.0
   },
   {
@@ -364,6 +469,7 @@
    "low_6m": 160.29,
    "badge": "Laagste prijs sinds 6 maanden",
    "cat": "Monitor",
+   "source": "tweakers",
    "score": 25.0
   },
   {
@@ -378,6 +484,7 @@
    "low_6m": 80.56,
    "badge": "Laagste prijs sinds 6 maanden",
    "cat": "Case",
+   "source": "tweakers",
    "score": 24.0
   },
   {
@@ -392,6 +499,7 @@
    "low_6m": 174.07,
    "badge": "Laagste prijs sinds 6 maanden",
    "cat": "Case",
+   "source": "tweakers",
    "score": 24.0
   },
   {
@@ -406,6 +514,7 @@
    "low_6m": 129.0,
    "badge": "Laagste prijs sinds 6 maanden",
    "cat": "Monitor",
+   "source": "tweakers",
    "score": 24.0
   },
   {
@@ -420,6 +529,7 @@
    "low_6m": 569.0,
    "badge": "Laagste prijs sinds 6 maanden",
    "cat": "Monitor",
+   "source": "tweakers",
    "score": 24.0
   },
   {
@@ -434,6 +544,7 @@
    "low_6m": 158.59,
    "badge": "Laagste prijs sinds 6 maanden",
    "cat": "Motherboard",
+   "source": "tweakers",
    "score": 23.0
   },
   {
@@ -448,6 +559,7 @@
    "low_6m": 89.0,
    "badge": "Laagste prijs sinds 6 maanden",
    "cat": "Motherboard",
+   "source": "tweakers",
    "score": 23.0
   },
   {
@@ -462,6 +574,7 @@
    "low_6m": 32.9,
    "badge": "Laagste prijs sinds 6 maanden",
    "cat": "Case",
+   "source": "tweakers",
    "score": 23.0
   },
   {
@@ -476,6 +589,7 @@
    "low_6m": 65.64,
    "badge": "Laagste prijs sinds 6 maanden",
    "cat": "Cooler",
+   "source": "tweakers",
    "score": 23.0
   },
   {
@@ -490,6 +604,7 @@
    "low_6m": 124.99,
    "badge": null,
    "cat": "Monitor",
+   "source": "tweakers",
    "score": 22.4
   },
   {
@@ -504,6 +619,7 @@
    "low_6m": 171.2,
    "badge": "Laagste prijs sinds 6 maanden",
    "cat": "RAM",
+   "source": "tweakers",
    "score": 22.0
   },
   {
@@ -518,6 +634,7 @@
    "low_6m": 125.39,
    "badge": "Laagste prijs sinds 6 maanden",
    "cat": "Case",
+   "source": "tweakers",
    "score": 22.0
   },
   {
@@ -532,6 +649,7 @@
    "low_6m": 171.99,
    "badge": "Laagste prijs sinds 6 maanden",
    "cat": "Case",
+   "source": "tweakers",
    "score": 22.0
   },
   {
@@ -546,6 +664,7 @@
    "low_6m": 116.47,
    "badge": "Laagste prijs sinds 6 maanden",
    "cat": "Case",
+   "source": "tweakers",
    "score": 22.0
   },
   {
@@ -560,6 +679,7 @@
    "low_6m": 79.0,
    "badge": "Laagste prijs sinds 6 maanden",
    "cat": "Case",
+   "source": "tweakers",
    "score": 22.0
   },
   {
@@ -574,7 +694,48 @@
    "low_6m": 46.9,
    "badge": "Laagste prijs sinds 6 maanden",
    "cat": "Cooler",
+   "source": "tweakers",
    "score": 22.0
+  },
+  {
+   "source": "pepper",
+   "id": 2181684,
+   "name": "XFX Mercury AMD Radeon RX 9070 XT OC White Gaming Edition",
+   "spec": "Max. 3,1GHz • 16GB GDDR6 • 3x DP, HDMI",
+   "cat": "GPU",
+   "shop": "Amazon.nl",
+   "url": "https://nl.pepper.com/aanbiedingen/xfx-mercury-white-rx-9070-xt-16gb-voor-maar-eur810-bij-amazon-nl-421729",
+   "image": "https://static.pepper.com/threads/raw/4lIVk/421729_1/re/150x150/qt/55/421729_1.jpg",
+   "posted": "2026-10-08T14:46:06+00:00",
+   "price": 810.21,
+   "before": 946.99,
+   "before_label": "Tweakers lowest",
+   "discount_pct": 14,
+   "low_6m": null,
+   "badge": "Cheaper than all NL shops on Tweakers",
+   "pepper_title": "XFX Mercury White RX 9070 XT 16gb voor maar €810 bij Amazon NL",
+   "suspect": false,
+   "score": 22
+  },
+  {
+   "source": "pepper",
+   "id": 1997960,
+   "name": "Verbatim Vi5000 1TB",
+   "spec": "M.2 80mm • PCI-e 4.0 x4",
+   "cat": "Storage",
+   "shop": "NBB.com",
+   "url": "https://nl.pepper.com/aanbiedingen/verbatim-vi5000-ssd-1tb-m2-2280-pcie-gen4-bij-nbb-voor-slechts-139-euro-gratis-norton-421131",
+   "image": "https://static.pepper.com/threads/raw/CkOPM/421131_1/re/150x150/qt/55/421131_1.jpg",
+   "posted": "2026-10-05T14:28:28+00:00",
+   "price": 139.0,
+   "before": 161.57,
+   "before_label": "Tweakers lowest",
+   "discount_pct": 14,
+   "low_6m": null,
+   "badge": "Cheaper than all NL shops on Tweakers",
+   "pepper_title": "Verbatim Vi5000 SSD 1TB M.2 2280 PCIe Gen4 bij NBB voor slechts 139 euro + gratis Norton",
+   "suspect": false,
+   "score": 22
   },
   {
    "id": 2384270,
@@ -588,6 +749,7 @@
    "low_6m": 49.77,
    "badge": null,
    "cat": "Storage",
+   "source": "tweakers",
    "score": 21.9
   },
   {
@@ -602,6 +764,7 @@
    "low_6m": 225.99,
    "badge": "Laagste prijs sinds 6 maanden",
    "cat": "Motherboard",
+   "source": "tweakers",
    "score": 21.0
   },
   {
@@ -616,6 +779,7 @@
    "low_6m": 63.0,
    "badge": "Laagste prijs sinds 6 maanden",
    "cat": "Case",
+   "source": "tweakers",
    "score": 21.0
   },
   {
@@ -630,6 +794,7 @@
    "low_6m": 629.0,
    "badge": null,
    "cat": "GPU",
+   "source": "tweakers",
    "score": 20.5
   },
   {
@@ -644,6 +809,7 @@
    "low_6m": 239.0,
    "badge": "Laagste prijs sinds 6 maanden",
    "cat": "Case",
+   "source": "tweakers",
    "score": 20.0
   },
   {
@@ -658,6 +824,7 @@
    "low_6m": 79.0,
    "badge": "Laagste prijs sinds 6 maanden",
    "cat": "Case",
+   "source": "tweakers",
    "score": 20.0
   },
   {
@@ -672,6 +839,7 @@
    "low_6m": 110.69,
    "badge": "Laagste prijs sinds 6 maanden",
    "cat": "Case",
+   "source": "tweakers",
    "score": 20.0
   },
   {
@@ -686,7 +854,28 @@
    "low_6m": 93.79,
    "badge": "Laagste prijs sinds 6 maanden",
    "cat": "Case",
+   "source": "tweakers",
    "score": 20.0
+  },
+  {
+   "source": "pepper",
+   "id": 2085090,
+   "name": "AMD Ryzen 9 9900X Boxed",
+   "spec": "AM5 socket • 12 core @ 4,4GHz-5,6GHz",
+   "cat": "CPU",
+   "shop": "Amazon.nl",
+   "url": "https://nl.pepper.com/aanbiedingen/amd-ryzen-9-9900x-processor-421663",
+   "image": "https://static.pepper.com/threads/raw/27aJd/421663_1/re/150x150/qt/55/421663_1.jpg",
+   "posted": "2026-10-08T08:22:56+00:00",
+   "price": 309.99,
+   "before": 351.23,
+   "before_label": "Tweakers lowest",
+   "discount_pct": 12,
+   "low_6m": null,
+   "badge": "Cheaper than all NL shops on Tweakers",
+   "pepper_title": "AMD Ryzen 9 9900X Processor",
+   "suspect": false,
+   "score": 20
   },
   {
    "id": 2259970,
@@ -700,6 +889,7 @@
    "low_6m": 484.83,
    "badge": null,
    "cat": "Monitor",
+   "source": "tweakers",
    "score": 19.5
   },
   {
@@ -714,6 +904,7 @@
    "low_6m": 200.7,
    "badge": null,
    "cat": "Case",
+   "source": "tweakers",
    "score": 19.1
   },
   {
@@ -728,6 +919,7 @@
    "low_6m": 97.93,
    "badge": "Laagste prijs sinds 6 maanden",
    "cat": "Motherboard",
+   "source": "tweakers",
    "score": 19.0
   },
   {
@@ -742,105 +934,8 @@
    "low_6m": 169.0,
    "badge": "Laagste prijs sinds 6 maanden",
    "cat": "PSU",
+   "source": "tweakers",
    "score": 19.0
-  },
-  {
-   "id": 2227662,
-   "name": "Enermax Revolution III 850 watt",
-   "spec": "850W (80 Plus Gold (115V)) • volledig modulair",
-   "url": "https://tweakers.net/pricewatch/2227662/enermax-revolution-iii-850-watt.html",
-   "image": "https://tweakers.net/i/Z0Obn8D9XtKp2ycVxHyoF0zXnIg=/fit-in/60x50/filters:strip_icc():fill(white):strip_exif()/i/2007578324.jpeg?f=thumbmini",
-   "price": 74.9,
-   "before": 92.86,
-   "discount_pct": 19,
-   "low_6m": 74.9,
-   "badge": null,
-   "cat": "PSU",
-   "score": 19.0
-  },
-  {
-   "id": 2106036,
-   "name": "NZXT H5 Flow (2024) Wit",
-   "spec": "Tower • 3 interne bays",
-   "url": "https://tweakers.net/pricewatch/2106036/nzxt-h5-flow-2024-wit.html",
-   "image": "https://tweakers.net/i/ZVa01ZYdyNVA6r0Z0x_eX0qDssY=/fit-in/60x50/filters:strip_icc():fill(white):strip_exif()/i/2007043462.jpeg?f=thumbmini",
-   "price": 64.9,
-   "before": 79.9,
-   "discount_pct": 19,
-   "low_6m": 68.0,
-   "badge": null,
-   "cat": "Case",
-   "score": 19.0
-  },
-  {
-   "id": 2114136,
-   "name": "Sharkoon VK3",
-   "spec": "Tower • 6 interne bays",
-   "url": "https://tweakers.net/pricewatch/2114136/sharkoon-vk3.html",
-   "image": "https://tweakers.net/i/jKYqxzCJSORHEld2cB6JHj4OqDk=/fit-in/60x50/filters:strip_icc():fill(white):strip_exif()/i/2006954486.jpeg?f=thumbmini",
-   "price": 44.37,
-   "before": 49.9,
-   "discount_pct": 11,
-   "low_6m": 49.32,
-   "badge": "Laagste prijs sinds 6 maanden",
-   "cat": "Case",
-   "score": 19.0
-  },
-  {
-   "id": 2290720,
-   "name": "Cooler Master MasterFrame 400 Mesh Zwart",
-   "spec": "Small form factor • 1 interne bays",
-   "url": "https://tweakers.net/pricewatch/2290720/cooler-master-masterframe-400-mesh-zwart.html",
-   "image": "https://tweakers.net/i/4ansGDHBQTpAm7L7McaYlJUjbL8=/fit-in/60x50/filters:fill(white):strip_exif()/i/2007892456.png?f=thumbmini",
-   "price": 89.0,
-   "before": 99.9,
-   "discount_pct": 11,
-   "low_6m": 99.9,
-   "badge": "Laagste prijs sinds 6 maanden",
-   "cat": "Case",
-   "score": 19.0
-  },
-  {
-   "id": 2043048,
-   "name": "Thermalright Assassin Spirit 120 EVO ARGB, Zwart",
-   "spec": "120mm diameter met 28,2dB(A) geluidsproductie",
-   "url": "https://tweakers.net/pricewatch/2043048/thermalright-assassin-spirit-120-evo-argb-zwart.html",
-   "image": "https://tweakers.net/i/i6RYKTAS7XKRhn_xoTX2pLrFrn0=/fit-in/60x50/filters:strip_icc():fill(white):strip_exif()/i/2006444126.jpeg?f=thumbmini",
-   "price": 25.0,
-   "before": 30.95,
-   "discount_pct": 19,
-   "low_6m": 25.69,
-   "badge": null,
-   "cat": "Cooler",
-   "score": 19.0
-  },
-  {
-   "id": 2242706,
-   "name": "AOC Gaming 24G4HRE Rood, Zwart",
-   "spec": "23,8\" • 1920x1080 (Full HD) @ 200Hz • IPS • 1ms",
-   "url": "https://tweakers.net/pricewatch/2242706/aoc-gaming-24g4hre-rood-zwart.html",
-   "image": "https://tweakers.net/i/APEDyGLdm1zz-0A01WzL8U9kSbE=/fit-in/60x50/filters:strip_icc():fill(white):strip_exif()/i/2007662090.jpeg?f=thumbmini",
-   "price": 79.0,
-   "before": 97.89,
-   "discount_pct": 19,
-   "low_6m": 79.0,
-   "badge": null,
-   "cat": "Monitor",
-   "score": 19.0
-  },
-  {
-   "id": 2113314,
-   "name": "ASUS TUF Gaming X870-PLUS WIFI",
-   "spec": "Socket AM5 • ATX • AMD X870 chipset",
-   "url": "https://tweakers.net/pricewatch/2113314/asus-tuf-gaming-x870-plus-wifi.html",
-   "image": "https://tweakers.net/i/hdZvOBy_V3R1kodYHiIeoN-Jx_c=/fit-in/60x50/filters:strip_icc():fill(white):strip_exif()/i/2006948300.jpeg?f=thumbmini",
-   "price": 209.9,
-   "before": 254.9,
-   "discount_pct": 18,
-   "low_6m": 209.9,
-   "badge": null,
-   "cat": "Motherboard",
-   "score": 18.0
   }
  ]
 }

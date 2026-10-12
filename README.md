@@ -39,13 +39,21 @@ You can always type any name yourself; suggestions are just a shortcut.
 
 ## Deals of the day
 
-The dashboard shows a top 10 of today's biggest *genuine* price drops on PC parts, from
-[Tweakers Pricewatch Deals](https://tweakers.net/pricewatch/deals/), with the same product rules as the suggestions
-(RTX 3000+/RX 5000+, otherwise max. 36 months old, no server parts).
+The dashboard shows a top 10 of today's biggest *genuine* price drops on PC parts, with the same product rules
+as the suggestions (RTX 3000+/RX 5000+, otherwise max. 36 months old, no server parts). Two sources:
 
-Ranking = discount %, **+8** if it's the lowest price in months, **minus** points when Tweakers saw it cheaper
-recently (an inflated "before" price). The *All* view has at most 3 deals per category. Click **＋ Track**
-to start tracking a deal with its price as your target.
+- **[Tweakers Pricewatch Deals](https://tweakers.net/pricewatch/deals/)**: price drops across all Dutch shops.
+- **[Pepper.com](https://nl.pepper.com/groep/computer-onderdelen)** RSS feeds (PC parts, graphics cards, monitors, SSDs):
+  community-posted deals from Dutch retailers (Megekko, Azerty, Coolblue, NBB, Proshop, Amazon.nl, bol, …).
+  A Pepper deal is only kept if it matches a catalog product **and is cheaper than Tweakers' lowest price
+  today** across all Dutch shops (checked live). Non-Dutch marketplaces (AliExpress etc.) are skipped. Deals
+  from the last 10 days are considered, so check that an older one is still running.
+
+Ranking = discount %, **+8** if it's the lowest price in months (Tweakers) or beats every Dutch shop (Pepper),
+**minus** points when Tweakers saw it cheaper recently (an inflated "before" price). Pepper deals more than 35%
+below every shop are usually pricing errors that are already fixed: they're flagged "Too good to be true?" and
+their score is halved. The *All* view has at most 3 deals per category. Click **＋ Track** to start tracking a
+deal with its price as your target.
 
 Like the catalog, deals are collected on your own PC (Tweakers blocks GitHub):
 
