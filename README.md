@@ -53,6 +53,26 @@ Like the catalog, deals are collected on your own PC (Tweakers blocks GitHub):
 .venv\Scripts\python tools\deals.py --push
 ```
 
+## Scheduled jobs on your PC
+
+Two Windows scheduled tasks (Task Scheduler → *PC Price Tracker - …*) keep the Tweakers-based data fresh.
+Both run without a window, catch up as soon as the PC is on if it was off at the scheduled time,
+and log to `logs/` (not committed).
+
+| Task | When | Runs |
+|---|---|---|
+| Deals of the day | daily 08:00 | `tools\deals.py --push --notify --log` |
+| Refresh catalog | every 4 weeks, Sunday 10:00 | `tools\build_catalog.py --push --log` |
+
+The daily deal notification uses `local.json` (not committed):
+
+```json
+{ "ntfy_server": "https://ntfy.sh", "ntfy_topic": "your-topic", "notify_deals": true }
+```
+
+Set `notify_deals` to `false` to stop the daily ping. It's sent at most once a day, and not when the #1 deal
+is the same product as last time.
+
 ## Which shops work?
 
 Shops are read from GitHub's servers, and some shops block those. Known status lives in
