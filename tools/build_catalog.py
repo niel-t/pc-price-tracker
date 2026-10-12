@@ -3,7 +3,9 @@
 Reads Tweakers Pricewatch category listings (only products currently sold in NL).
 Tweakers blocks GitHub's servers, so run this on your own PC now and then, then commit catalog.json:
 
-    .venv\\Scripts\\python tools\\build_catalog.py
+    .venv\\Scripts\\python tools\\build_catalog.py              # all categories
+    .venv\\Scripts\\python tools\\build_catalog.py GPU CPU      # only some
+    .venv\\Scripts\\python tools\\build_catalog.py --push       # and commit + push catalog.json
 
 Which products are included:
 - GPU: NVIDIA GeForce RTX 3000 series and newer, AMD Radeon RX 5000 series and newer (any age).
@@ -23,6 +25,7 @@ import httpx
 from bs4 import BeautifulSoup
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from tools.gitpush import push, setup_log  # noqa: E402
 from tracker.shop import USER_AGENT, _to_float  # noqa: E402
 
 OUT = Path(__file__).resolve().parent.parent / "catalog.json"
@@ -128,11 +131,12 @@ def keep(cat: str, item: dict, min_id: int) -> bool:
 
 
 def main():
+    setup_log("catalog")
     now = datetime.now(timezone.utc)
     min_id = cutoff_id(now)
     tw = Tweakers()
     catalog = {}
-    only = set(sys.argv[1:])  # optionally limit to some categories, e.g. "GPU CPU"
+    only = {a for a in sys.argv[1:] if not a.startswith("--")}  # optionally limit to some categories, e.g. "GPU CPU"
     if only and OUT.exists():
         catalog = json.loads(OUT.read_text(encoding="utf-8"))["categories"]
 
@@ -163,6 +167,8 @@ def main():
         "categories": catalog,
     }, ensure_ascii=False, separators=(",", ":")) + "\n", encoding="utf-8")
     print(f"Wrote {OUT} ({OUT.stat().st_size // 1024} KB, {sum(len(v) for v in catalog.values())} products)")
+    if "--push" in sys.argv:
+        push("catalog.json", f"Refresh part suggestions catalog {now:%Y-%m-%d}")
 
 
 if __name__ == "__main__":

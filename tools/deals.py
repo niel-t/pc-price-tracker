@@ -2,26 +2,31 @@
 
 Tweakers blocks GitHub's servers, so this runs on your own PC (e.g. daily via Windows Task Scheduler):
 
-    .venv\\Scripts\\python tools\\deals.py           # just write data/deals.json
-    .venv\\Scripts\\python tools\\deals.py --push    # and commit + push it so the dashboard shows it
+    .venv\\Scripts\\python tools\\deals.py                    # just write data/deals.json
+    .venv\\Scripts\\python tools\\deals.py --push             # and commit + push it so the dashboard shows it
+    .venv\\Scripts\\python tools\\deals.py --push --notify    # and send the #1 deal to your phone (ntfy topic in local.json)
 
 Uses the same product rules as the suggestions catalog (GPU: RTX 3000+/RX 5000+; other parts:
 released in the last 36 months; desktop CPUs only).
 """
 import json
 import re
-import subprocess
 import sys
-from datetime import datetime, timezone
+from datetime import date, datetime, timezone
 from pathlib import Path
 
 from bs4 import BeautifulSoup
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from tools.build_catalog import CATEGORIES, Tweakers, cutoff_id, keep, tweakers_price  # noqa: E402
+from tools.gitpush import local_config, push, setup_log  # noqa: E402
+from tracker.alerts import send_ntfy  # noqa: E402
+from tracker.drops import eur  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "data" / "deals.json"
+STATE = ROOT / "logs" / "deals_state.json"  # what we last notified about (not committed)
+DASHBOARD = "https://niel-t.github.io/pc-price-tracker/"
 MAX_PAGES = 5      # per category; most categories have one page of deals per day
 KEEP = 60          # deals stored (the dashboard shows the top 10, optionally per category)
 MIN_PRICE = 15     # skip cables and other small stuff
@@ -89,21 +94,31 @@ def collect() -> list[dict]:
     return found[:KEEP]
 
 
-def push():
-    def git(*args):
-        subprocess.run(["git", *args], cwd=ROOT, check=True)
-    git("pull", "--rebase", "--autostash", "-q", "origin", "main")
-    if subprocess.run(["git", "diff", "--quiet", "--", "data/deals.json"], cwd=ROOT).returncode == 0 and \
-       subprocess.run(["git", "ls-files", "--error-unmatch", "data/deals.json"], cwd=ROOT, capture_output=True).returncode == 0:
-        print("No changes to push")
+def notify(deals: list[dict]):
+    """Sends the #1 deal to ntfy once per day, and not if it's the same product as last time."""
+    cfg = local_config()
+    topic = cfg.get("ntfy_topic")
+    if not topic or not cfg.get("notify_deals", True):
+        print("Notify: no ntfy_topic in local.json (or notify_deals is false), skipping")
         return
-    git("add", "data/deals.json")
-    git("commit", "-q", "-m", f"Deals of the day {datetime.now():%Y-%m-%d}", "--", "data/deals.json")
-    git("push", "-q", "origin", "main")
-    print("Pushed data/deals.json")
+    d = deals[0] if deals else None
+    state = json.loads(STATE.read_text(encoding="utf-8")) if STATE.exists() else {}
+    if not d or state.get("date") == date.today().isoformat() or state.get("id") == d["id"]:
+        print("Notify: already sent today or same deal as last time, skipping")
+        return
+    lines = [f"{eur(d['price'])} (was {eur(d['before'])}, -{d['discount_pct']}%)"]
+    if d["badge"]:
+        lines.append(d["badge"].replace("Laagste prijs sinds", "Lowest price in").replace("maanden", "months"))
+    lines.append(f"{d['cat']} · {d['spec']}")
+    send_ntfy(cfg.get("ntfy_server", "https://ntfy.sh"), topic, f"🔥 Deal of the day: {d['name']}", "\n".join(lines),
+              click_url=DASHBOARD, priority=3)
+    STATE.parent.mkdir(exist_ok=True)
+    STATE.write_text(json.dumps({"date": date.today().isoformat(), "id": d["id"]}), encoding="utf-8")
+    print(f"Notify: sent {d['name']}")
 
 
 def main():
+    setup_log("deals")
     deals = collect()
     OUT.parent.mkdir(exist_ok=True)
     OUT.write_text(json.dumps({"generated": datetime.now(timezone.utc).isoformat(timespec="seconds"),
@@ -113,7 +128,9 @@ def main():
     for i, d in enumerate(deals[:10], 1):
         print(f"{i:>2}. -{d['discount_pct']}% {d['cat']:<11} €{d['price']:>8.2f}  {d['name'][:60]}  (score {d['score']})")
     if "--push" in sys.argv:
-        push()
+        push("data/deals.json", f"Deals of the day {datetime.now():%Y-%m-%d}")
+    if "--notify" in sys.argv:
+        notify(deals)
 
 
 if __name__ == "__main__":
