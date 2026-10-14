@@ -1,12 +1,19 @@
 {
  "amd-ryzen-7-7800x3d": {
   "name": "AMD Ryzen 7 7800X3D Boxed",
-  "checked_at": "2026-10-14T14:43:34+00:00",
+  "checked_at": "2026-10-14T15:48:26+00:00",
   "offers": [
    {
     "shop": "Reichelt",
     "url": "https://www.reichelt.com/nl/nl/shop/product/amd_am5_ryzen_7_7800x3d_8x_4_20_ghz_boxed_zonder_koeler-348524",
     "price": 345.61,
+    "status": "ok",
+    "detail": ""
+   },
+   {
+    "shop": "Orion Computerworld",
+    "url": "https://www.orioncomputerworld.nl/detail.php?artikelid=133603",
+    "price": 367.4,
     "status": "ok",
     "detail": ""
    },
@@ -35,13 +42,6 @@
     "shop": "Yorcom",
     "url": "https://www.yorcom.nl/artikel/amd-ryzen-7-7800x3d-processor/CPUA5R77800X3/",
     "price": 369.0,
-    "status": "ok",
-    "detail": ""
-   },
-   {
-    "shop": "Orion Computerworld",
-    "url": "https://www.orioncomputerworld.nl/detail.php?artikelid=133603",
-    "price": 372.2,
     "status": "ok",
     "detail": ""
    },
