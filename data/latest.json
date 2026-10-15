@@ -1,7 +1,7 @@
 {
  "amd-ryzen-7-7800x3d": {
   "name": "AMD Ryzen 7 7800X3D Boxed",
-  "checked_at": "2026-10-15T13:51:10+00:00",
+  "checked_at": "2026-10-15T14:44:45+00:00",
   "offers": [
    {
     "shop": "Reichelt",
@@ -50,7 +50,7 @@
     "url": "https://nl.nbb.com/nl/p/amd-ryzen-7-7800x3d-processor-8c-16t-4-20-5-00-ghz-in-doos-zonder-koeler/a1013366",
     "price": null,
     "status": "blocked",
-    "detail": "HTTP 503"
+    "detail": "HTTP 403"
    }
   ]
  }
