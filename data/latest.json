@@ -1,15 +1,8 @@
 {
  "amd-ryzen-7-7800x3d": {
   "name": "AMD Ryzen 7 7800X3D Boxed",
-  "checked_at": "2026-10-18T15:38:10+00:00",
+  "checked_at": "2026-10-18T16:40:32+00:00",
   "offers": [
-   {
-    "shop": "Reichelt",
-    "url": "https://www.reichelt.com/nl/nl/shop/product/amd_am5_ryzen_7_7800x3d_8x_4_20_ghz_boxed_zonder_koeler-348524",
-    "price": 345.61,
-    "status": "ok",
-    "detail": ""
-   },
    {
     "shop": "Megekko",
     "url": "https://www.megekko.nl/product/0/295018/AMD-Ryzen-7-7800X3D",
@@ -51,6 +44,13 @@
     "price": null,
     "status": "blocked",
     "detail": "HTTP 403"
+   },
+   {
+    "shop": "Reichelt",
+    "url": "https://www.reichelt.com/nl/nl/shop/product/amd_am5_ryzen_7_7800x3d_8x_4_20_ghz_boxed_zonder_koeler-348524",
+    "price": null,
+    "status": "error",
+    "detail": "ReadTimeout"
    }
   ]
  }
