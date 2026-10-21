@@ -1,7 +1,7 @@
 {
  "amd-ryzen-7-7800x3d": {
   "name": "AMD Ryzen 7 7800X3D Boxed",
-  "checked_at": "2026-10-21T05:41:25+00:00",
+  "checked_at": "2026-10-21T06:52:56+00:00",
   "offers": [
    {
     "shop": "Reichelt",
@@ -13,13 +13,6 @@
    {
     "shop": "CAPS",
     "url": "https://www.caps.nl/amd-ryzen-7-7800x3d-boxed-id-873668.html",
-    "price": 369.0,
-    "status": "ok",
-    "detail": ""
-   },
-   {
-    "shop": "Paradigit",
-    "url": "https://www.paradigit.nl/AMD-Ryzen-7-7800X3D/21298766/product",
     "price": 369.0,
     "status": "ok",
     "detail": ""
@@ -42,6 +35,13 @@
     "shop": "Megekko",
     "url": "https://www.megekko.nl/product/0/295018/AMD-Ryzen-7-7800X3D",
     "price": 374.9,
+    "status": "ok",
+    "detail": ""
+   },
+   {
+    "shop": "Paradigit",
+    "url": "https://www.paradigit.nl/AMD-Ryzen-7-7800X3D/21298766/product",
+    "price": 389.0,
     "status": "ok",
     "detail": ""
    },
