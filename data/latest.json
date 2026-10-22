@@ -1,12 +1,19 @@
 {
  "amd-ryzen-7-7800x3d": {
   "name": "AMD Ryzen 7 7800X3D Boxed",
-  "checked_at": "2026-10-22T09:46:01+00:00",
+  "checked_at": "2026-10-22T10:42:33+00:00",
   "offers": [
    {
     "shop": "Reichelt",
     "url": "https://www.reichelt.com/nl/nl/shop/product/amd_am5_ryzen_7_7800x3d_8x_4_20_ghz_boxed_zonder_koeler-348524",
     "price": 345.61,
+    "status": "ok",
+    "detail": ""
+   },
+   {
+    "shop": "Orion Computerworld",
+    "url": "https://www.orioncomputerworld.nl/detail.php?artikelid=133603",
+    "price": 368.9,
     "status": "ok",
     "detail": ""
    },
@@ -25,25 +32,18 @@
     "detail": ""
    },
    {
-    "shop": "Orion Computerworld",
-    "url": "https://www.orioncomputerworld.nl/detail.php?artikelid=133603",
-    "price": 372.2,
+    "shop": "Paradigit",
+    "url": "https://www.paradigit.nl/AMD-Ryzen-7-7800X3D/21298766/product",
+    "price": 389.0,
     "status": "ok",
     "detail": ""
    },
    {
     "shop": "Megekko",
     "url": "https://www.megekko.nl/product/0/295018/AMD-Ryzen-7-7800X3D",
-    "price": 374.9,
-    "status": "ok",
-    "detail": ""
-   },
-   {
-    "shop": "Paradigit",
-    "url": "https://www.paradigit.nl/AMD-Ryzen-7-7800X3D/21298766/product",
-    "price": 389.0,
-    "status": "ok",
-    "detail": ""
+    "price": null,
+    "status": "no-price",
+    "detail": "No price found on page"
    },
    {
     "shop": "NBB.com",
