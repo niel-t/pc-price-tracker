@@ -7,14 +7,29 @@ Runs hourly on GitHub Actions, so your PC can be off.
 
 ## Using it
 
-1. Open the dashboard → **⚙ Settings** → *Connect to GitHub* (follow the 1-minute token steps shown there).
-2. In Settings → *Phone alerts*: install the ntfy app, enter your topic (same as the `NTFY_TOPIC` repo secret),
-   scan the QR code and send a test.
-3. **＋ Add part**: name, category, optional target price, and one product link per shop.
-   The form has quick search buttons for shops that are known to work, and tags every link
-   ✓ works / ✕ blocked / ? untested. Saving starts a check right away.
+The dashboard has five pages (sidebar on desktop, tab bar at the bottom on phones):
 
-Click any part for its price history, the price at every shop, and which shops failed.
+| Page | What's there |
+|---|---|
+| **Overview** | Build total and its trend, what needs your attention (targets hit, big drops, shops that can't be read), top 3 deals and latest alerts |
+| **My build** | All your parts as a list with a total row (or as cards), filter by category, sort; click a part for its price history and every shop's price |
+| **Deals** | Deals of the day, filterable by category and source (Tweakers / Pepper) |
+| **Alerts** | Every price alert, grouped by day, filterable per part |
+| **Settings** | GitHub connection, phone alerts, alert sensitivity, light/dark theme, data sources |
+
+Each page has its own address (e.g. `#/deals`, or `#/build/<part id>` for a part's details), so the browser's
+back button works and you can bookmark a page.
+
+Getting started:
+
+1. **Settings** → *GitHub connection* (follow the 1-minute token steps shown there).
+2. **Settings** → *Phone alerts*: install the ntfy app, enter your topic (same as the `NTFY_TOPIC` repo secret),
+   scan the QR code and send a test.
+3. **My build** → **＋ Add part**: category, name (pick from the suggestions), optional target price, and one
+   product link per shop. The form has quick search buttons for shops that are known to work, and tags every
+   link ✓ works / ✕ blocked / ? untested. Saving starts a check right away.
+
+The dashboard is `index.html` with `assets/app.css` and `assets/app.js`; no build step.
 
 ## Part suggestions
 
