@@ -233,6 +233,8 @@ function renderOverview(parts) {
       <div style="min-width:0"><div class="t">${esc(d.name)}</div><div class="small muted">${CATS[d.cat] || ""} ${esc(d.cat)}${d.shop ? ` · ${esc(d.shop)}` : ""}</div></div>
       <div class="p">${eur(d.price)}<small>−${d.discount_pct}%</small></div></a>`).join("")
     : `<div class="quiet small">No deals collected yet. They're added every morning by the task on your PC.</div>`;
+  const techN = S.deals?.tech?.length || 0;
+  if (techN) $("overviewDeals").innerHTML += `<a class="more" href="#/deals/tech" style="margin-top:10px">🏷️ ${techN} tech deals at 30%+ off today <svg class="ic sm"><use href="#i-chevron"/></svg></a>`;
 
   $("overviewAlerts").innerHTML = S.alerts.length ? S.alerts.slice(0, 3).map((a) => `<a class="mini" href="#/alerts">
       <div class="ai">📉</div>
@@ -338,29 +340,40 @@ function dealBadges(d) {
   return b.join(" ");
 }
 const dealThumb = (d, sm) => `<div class="thumb ${sm ? "sm" : ""}">${d.image ? `<img src="${esc(d.image)}" alt="" loading="lazy">` : CATS[d.cat] || "📦"}</div>`;
+// Two lists on the Deals page: #/deals (PC parts, top 10) and #/deals/tech (all tech at 30%+ off).
 function renderDeals() {
-  const data = S.deals;
-  if (!data?.deals?.length) {
-    $("dealsSub").textContent = "Today's biggest genuine price drops on PC parts.";
-    $("dealChips").innerHTML = ""; $("dealSrc").classList.add("hidden"); $("dealsStale").innerHTML = ""; $("dealList").innerHTML = "";
+  const data = S.deals, mode = route().arg === "tech" ? "tech" : "pc";
+  document.querySelectorAll("[data-mode]").forEach((a) => { if (a.dataset.mode === mode) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current"); });
+  document.querySelectorAll(".explain[data-for]").forEach((d) => d.classList.toggle("hidden", d.dataset.for !== mode));
+  $("dealSrc").classList.toggle("hidden", mode !== "pc");
+  $("techMin").classList.toggle("hidden", mode !== "tech");
+  $("dealMore").innerHTML = "";
+  const list = mode === "tech" ? data?.tech : data?.deals;
+  if (!list?.length) {
+    $("dealsSub").textContent = mode === "tech" ? "Tech that's at least 30% off today, genuine lows only." : "Today's biggest genuine price drops on PC parts.";
+    $("dealChips").innerHTML = ""; $("dealSrc").classList.add("hidden"); $("techMin").classList.add("hidden"); $("dealsStale").innerHTML = ""; $("dealList").innerHTML = "";
     $("dealHero").innerHTML = `<div class="empty"><div style="font-size:36px">🏷️</div><h2>No deals yet</h2>
       <p class="muted">Deals are collected every morning by the scheduled task on your PC. <a href="${GH}#deals-of-the-day" target="_blank" rel="noopener">How it works</a></p></div>`;
     return;
   }
   store.set("dealsSeen", data.generated);
-  $("dealSrc").classList.remove("hidden");
+  const hrs = (Date.now() - new Date(data.generated)) / 36e5;
+  $("dealsStale").innerHTML = hrs > 36
+    ? `<div class="banner warn small"><span>⏳</span><div class="grow">These deals are ${Math.round(hrs / 24)} day(s) old. They refresh when your PC runs the daily deals task.</div></div>` : "";
+  if (mode === "tech") renderTechDeals(data); else renderPcDeals(data);
+}
+
+function renderPcDeals(data) {
+  $("dealList").setAttribute("start", "2");
   S.dealSrc ??= "all";
   $("dealSrc").querySelectorAll("button").forEach((b) => b.setAttribute("aria-pressed", b.dataset.src === S.dealSrc));
   const inSrc = data.deals.filter((d) => S.dealSrc === "all" || d.source === S.dealSrc);
   const cats = ["All", ...Object.keys(CATS).filter((c) => inSrc.some((d) => d.cat === c))];
   S.dealCat = cats.includes(S.dealCat) ? S.dealCat : "All";
   $("dealChips").innerHTML = cats.map((c) => `<button class="chip" aria-pressed="${c === S.dealCat}" data-dcat="${c}">${c === "All" ? "All" : `${CATS[c]} ${c}`}</button>`).join("");
-  const hrs = (Date.now() - new Date(data.generated)) / 36e5;
   const pepperShops = [...new Set(data.deals.filter((d) => d.source === "pepper").map((d) => d.shop))];
   $("dealsSub").innerHTML = `Today's biggest genuine price drops on PC parts, from Tweakers${pepperShops.length
     ? ` and Pepper <span title="Retailers in today's Pepper deals">(${esc(pepperShops.slice(0, 4).join(", "))}${pepperShops.length > 4 ? ", …" : ""})</span>` : ""}. Updated ${ago(data.generated)}.`;
-  $("dealsStale").innerHTML = hrs > 36
-    ? `<div class="banner warn small"><span>⏳</span><div class="grow">These deals are ${Math.round(hrs / 24)} day(s) old. They refresh when your PC runs the daily deals task.</div></div>` : "";
 
   const list = topDeals(data.deals, S.dealCat, S.dealSrc);
   const maxPct = Math.max(...list.map((d) => d.discount_pct), 1);
@@ -387,6 +400,53 @@ function renderDeals() {
       <div class="deal-price">${beforeHtml(d)}<b>${eur(d.price)}</b></div>
       ${actions(d, j + 1)}</li>`).join("");
   S.dealList = list;
+}
+
+// Tweakers category names (Dutch) → this app's part categories, for "Track" on a tech deal.
+const TW_CATS = { "Videokaarten": "GPU", "Processors": "CPU", "Moederborden": "Motherboard", "Geheugen intern": "RAM",
+  "Interne ssd's": "Storage", "Voedingen": "PSU", "Behuizingen": "Case", "Processorkoeling": "Cooler", "Waterkoeling": "Cooler",
+  "Monitors": "Monitor", "Toetsenborden": "Peripherals", "Muizen": "Peripherals", "Gaming headsets": "Peripherals" };
+const TECH_SHOWN = 25;
+function renderTechDeals(data) {
+  S.techMin ??= 30;
+  $("techMin").querySelectorAll("button").forEach((b) => b.setAttribute("aria-pressed", +b.dataset.min === S.techMin));
+  const atMin = data.tech.filter((d) => d.discount_pct >= S.techMin);
+  const counts = {};
+  for (const d of atMin) counts[d.tw_cat] = (counts[d.tw_cat] || 0) + 1;
+  const cats = Object.entries(counts).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+  if (S.techCat && !counts[S.techCat]) S.techCat = null;
+  // The biggest categories as chips, the long tail in a dropdown, so filters stay on one or two rows.
+  const CHIPS = 8, top = cats.slice(0, CHIPS), tail = cats.slice(CHIPS);
+  const inTail = tail.some(([c]) => c === S.techCat);
+  $("dealChips").innerHTML = `<button class="chip" aria-pressed="${!S.techCat}" data-tcat="">All <span class="n">${atMin.length}</span></button>`
+    + top.map(([c, n]) => `<button class="chip" aria-pressed="${c === S.techCat}" data-tcat="${esc(c)}">${esc(c)} <span class="n">${n}</span></button>`).join("")
+    + (tail.length ? `<select class="chip-more ${inTail ? "on" : ""}" id="techMore" aria-label="More categories">
+        <option value="">${inTail ? "All categories" : `More categories (${tail.length})`}</option>
+        ${tail.map(([c, n]) => `<option value="${esc(c)}" ${c === S.techCat ? "selected" : ""}>${esc(c)} (${n})</option>`).join("")}</select>` : "");
+  $("dealsSub").innerHTML = `${data.tech.length} tech products at least 30% off today on Tweakers, all at a genuine low. Updated ${ago(data.generated)}.`;
+
+  const list = atMin.filter((d) => !S.techCat || d.tw_cat === S.techCat);
+  const shown = S.techAll ? list : list.slice(0, TECH_SHOWN);
+  const maxPct = Math.max(...shown.map((d) => d.discount_pct), 1);
+  const badge = (d) => d.badge
+    ? `<span class="badge good">★ ${esc(d.badge.replace(/^Laagste prijs sinds (\d+) maanden?$/, "Lowest in $1 months"))}</span>`
+    : `<span class="badge good" title="Within 2% of the lowest price of the last 6 months">★ At its 6-month low</span>`;
+  const actions = (d, i) => `<div class="deal-actions">
+      ${token() ? `<button data-track="${i}" title="Track this product">＋ Track</button>` : ""}
+      <a class="btn" href="${esc(d.url)}" target="_blank" rel="noopener" title="Compare shops on Tweakers">View ↗</a></div>`;
+  $("dealHero").innerHTML = list.length ? "" : `<p class="quiet small">No tech deals for this filter today.</p>`;
+  $("dealList").setAttribute("start", "1");
+  $("dealList").innerHTML = shown.map((d, i) => `<li class="deal-row">
+      <div class="rank">${i + 1}</div>${dealThumb(d, true)}
+      <div style="min-width:0"><div class="deal-name" title="${esc(d.name)}">${esc(d.name)}</div>
+        <div class="small muted" style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis">${esc(d.tw_cat || "")}${d.spec ? ` · ${esc(d.spec)}` : ""}</div>
+        <div class="row" style="gap:4px; margin-top:3px">${badge(d)}</div></div>
+      <div class="disc" aria-label="${d.discount_pct}% off"><div class="track"><span style="width:${(d.discount_pct / maxPct) * 100}%"></span></div>−${d.discount_pct}%</div>
+      <div class="deal-price"><s>${eur(d.before)}</s><b>${eur(d.price)}</b></div>
+      ${actions(d, i)}</li>`).join("");
+  $("dealMore").innerHTML = list.length > shown.length
+    ? `<div class="deal-more"><button id="techAll">Show all ${list.length}</button></div>` : "";
+  S.dealList = shown.map((d) => ({ ...d, cat: TW_CATS[d.tw_cat] || "Other" }));
 }
 
 function renderBuild(parts) {
@@ -955,13 +1015,20 @@ $("thSave").onclick = () => saveConfig((cfg) => { cfg.settings = { ...cfg.settin
 $("addBtn").onclick = () => openEditor();
 $("hideSetup").onclick = () => { store.set("hideSetup", "1"); render(); };
 $("sort").onchange = (e) => { S.sort = e.target.value; store.set("sort", S.sort); render(); };
-$("dealChips").addEventListener("click", (e) => { const c = e.target.closest("[data-dcat]"); if (c) { S.dealCat = c.dataset.dcat; renderDeals(); } });
+$("dealChips").addEventListener("click", (e) => {
+  const c = e.target.closest("[data-dcat]"), t = e.target.closest("[data-tcat]");
+  if (c) { S.dealCat = c.dataset.dcat; renderDeals(); }
+  if (t) { S.techCat = t.dataset.tcat || null; S.techAll = false; renderDeals(); }
+});
 $("dealsCard").addEventListener("click", (e) => {
   const b = e.target.closest("[data-track]");
   if (!b) return;
   const d = S.dealList[+b.dataset.track];
   openEditor(null, { name: d.name, category: d.cat, target: d.price, picked: { ...d, shops: null } });
 });
+$("dealChips").addEventListener("change", (e) => { if (e.target.id === "techMore") { S.techCat = e.target.value || null; S.techAll = false; renderDeals(); } });
+$("techMin").addEventListener("click", (e) => { const b = e.target.closest("[data-min]"); if (b) { S.techMin = +b.dataset.min; S.techAll = false; renderDeals(); } });
+$("dealMore").addEventListener("click", (e) => { if (e.target.closest("#techAll")) { S.techAll = true; renderDeals(); } });
 $("dealSrc").addEventListener("click", (e) => { const b = e.target.closest("[data-src]"); if (b) { S.dealSrc = b.dataset.src; renderDeals(); } });
 $("alertFilter").onchange = (e) => { S.alertPart = e.target.value; renderAlertsView(); };
 $("chips").addEventListener("click", (e) => { const c = e.target.closest("[data-cat]"); if (c) { S.cat = c.dataset.cat; render(); } });

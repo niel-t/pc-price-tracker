@@ -70,7 +70,15 @@ below every shop are usually pricing errors that are already fixed: they're flag
 their score is halved. The *All* view has at most 3 deals per category. Click **＋ Track** to start tracking a
 deal with its price as your target.
 
-Like the catalog, deals are collected on your own PC (Tweakers blocks GitHub):
+### Tech deals (−30% or more)
+
+A second list on the Deals page (`#/deals/tech`): everything on Tweakers Pricewatch (phones, laptops, TVs, audio,
+networking, PC parts…) that is **at least 30% off** today, filterable by category and 30/40/50%+.
+Only genuine lows (Tweakers' "lowest price in months", or within 2% of the 6-month low); no consumables,
+accessories, household appliances, business/server gear, or anything under €40.
+
+Like the catalog, deals are collected on your own PC (Tweakers blocks GitHub; Pepper's feeds would work there,
+but the Tweakers deals and the Pepper price check can't):
 
 ```
 .venv\Scripts\python tools\deals.py --push
@@ -84,7 +92,7 @@ and log to `logs/` (not committed).
 
 | Task | When | Runs |
 |---|---|---|
-| Deals of the day | daily 08:00 | `tools\deals.py --push --notify --log` |
+| Deals of the day | daily 08:00, and 3 min after you log in (skipped if the deals are < 12 h old) | `tools\deals.py --if-older 12 --push --notify --log` |
 | Refresh catalog | every 4 weeks, Sunday 10:00 | `tools\build_catalog.py --push --log` |
 
 The daily deal notification uses `local.json` (not committed):

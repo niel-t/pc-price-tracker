@@ -12,7 +12,7 @@ released in the last 36 months; desktop CPUs only).
 import json
 import re
 import sys
-from datetime import date, datetime, timezone
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
 from bs4 import BeautifulSoup
@@ -32,6 +32,21 @@ MAX_PAGES = 5      # per category; most categories have one page of deals per da
 KEEP = 60          # deals stored (the dashboard shows the top 10, optionally per category)
 MIN_PRICE = 15     # skip cables and other small stuff
 
+# "Tech deals": all of Tweakers Pricewatch, at least 30% off, genuine lows only.
+TECH_MIN_PCT = 30
+TECH_MIN_PRICE = 40   # cables, cases and cartridges are rarely worth a look
+TECH_MAX_PAGES = 12   # 40 deals per page, sorted by biggest % drop
+TECH_KEEP = 150
+# Consumables, accessories and household appliances: not what "tech deals" is for.
+NOT_TECH = re.compile(
+    r"cartridge|toner|inkt|hoesje|hoes|sleeve|screenprotector|beschermglas|kabel|adapter|accessoire|tassen|rugzak|"
+    r"thermometer|blender|kookpla|oven|magnetron|koelkast|vriezer|wasmachine|droger|vaatwas|airfryer|koffie|"
+    r"waterkoker|stofzuiger|hogedruk|boormachine|gereedschap|grasmaaier|verlichting|lamp|batterij|papier|label|pomp",
+    re.I)
+# Business and server gear (label printers, signage, server RAM, workstation CPUs).
+BUSINESS = re.compile(r"\b(?:HPE|Zebra|Threadripper|Xeon|EPYC|RDIMM|LRDIMM|Registered|ThinkSystem|PowerEdge)\b|Brother TD-|\d+BDL\d", re.I)
+TECH_MAX_PRICE = 3000  # above this it's mostly business equipment
+
 
 def parse_deals(html: str) -> list[dict]:
     soup = BeautifulSoup(html, "html.parser")
@@ -47,6 +62,7 @@ def parse_deals(html: str) -> list[dict]:
         badge = tr.select_one(".lowestPriceBadge")
         spec = tr.select_one("p.specline")
         img = tr.select_one("td.pwimage img")
+        cat = tr.select_one("td.category a")
         deals.append({
             "id": int(re.search(r"pricewatch/(\d+)/", a["href"]).group(1)),
             "name": a.get("title") or a.get_text(strip=True),
@@ -59,6 +75,7 @@ def parse_deals(html: str) -> list[dict]:
             # Tweakers' lowest price over the last months; price/low > 1 means it has been cheaper recently.
             "low_6m": float(disc["data-lowest-price"]) if disc.get("data-lowest-price") else None,
             "badge": badge.get_text(" ", strip=True) if badge else None,
+            "tw_cat": cat.get_text(strip=True) if cat else None,
         })
     return deals
 
@@ -78,6 +95,29 @@ def score(d: dict) -> float:
     return round(s, 1)
 
 
+def keep_tech(d: dict) -> bool:
+    """A real tech deal: big enough, not a consumable/accessory, and a genuine low (Tweakers' 'lowest price
+    in N months' badge, or at most 2% above the 6-month low) rather than a discount off an inflated price."""
+    if not d["price"] or d["price"] < TECH_MIN_PRICE or d["discount_pct"] < TECH_MIN_PCT or not d["before"]:
+        return False
+    if NOT_TECH.search(d.get("tw_cat") or "") or BUSINESS.search(d["name"]) or d["price"] > TECH_MAX_PRICE:
+        return False
+    genuine = bool(d["badge"]) or (d["low_6m"] and d["price"] <= d["low_6m"] * 1.02)
+    return bool(genuine)
+
+
+def collect_tech(tw) -> list[dict]:
+    found = []
+    for page in range(1, TECH_MAX_PAGES + 1):
+        rows = parse_deals(tw.get(f"https://tweakers.net/pricewatch/deals/?orderField=relativePriceDrop&orderSort=desc&page={page}"))
+        found += [d | {"source": "tweakers", "score": score(d)} for d in rows if keep_tech(d)]
+        if not rows or rows[-1]["discount_pct"] < TECH_MIN_PCT:
+            break
+    print(f"Tech deals ({TECH_MIN_PCT}%+): {len(found)} from {page} pages", flush=True)
+    found.sort(key=lambda d: (-d["discount_pct"], -d["score"]))
+    return found[:TECH_KEEP]
+
+
 def load_catalog() -> list[dict]:
     path = ROOT / "catalog.json"
     if not path.exists():
@@ -87,8 +127,7 @@ def load_catalog() -> list[dict]:
             for cat, rows in c["categories"].items() for n, s, p, sh, i in rows]
 
 
-def collect() -> list[dict]:
-    tw = Tweakers()
+def collect(tw) -> list[dict]:
     min_id = cutoff_id(datetime.now(timezone.utc))
     found = []
     for cat, (slug, _) in CATEGORIES.items():
@@ -142,14 +181,33 @@ def notify(deals: list[dict]):
     print(f"Notify: sent {d['name']}")
 
 
+def is_fresh(hours: float) -> bool:
+    """True when data/deals.json was generated less than `hours` ago (so a run at login can be skipped)."""
+    if not OUT.exists():
+        return False
+    generated = datetime.fromisoformat(json.loads(OUT.read_text(encoding="utf-8"))["generated"])
+    return datetime.now(timezone.utc) - generated < timedelta(hours=hours)
+
+
 def main():
     setup_log("deals")
-    deals = collect()
+    if "--if-older" in sys.argv:
+        hours = float(sys.argv[sys.argv.index("--if-older") + 1])
+        if is_fresh(hours):
+            print(f"Deals are less than {hours:g} h old, nothing to do")
+            return
+    tw = Tweakers()
+    deals = collect(tw)
+    try:
+        tech = collect_tech(tw)
+    except Exception as e:  # PC-part deals are still worth publishing
+        print(f"Tech deals failed: {e}", flush=True)
+        tech = []
     OUT.parent.mkdir(exist_ok=True)
     OUT.write_text(json.dumps({"generated": datetime.now(timezone.utc).isoformat(timespec="seconds"),
-                               "source": "Tweakers Pricewatch Deals", "deals": deals},
+                               "source": "Tweakers Pricewatch Deals", "deals": deals, "tech": tech},
                               ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
-    print(f"Wrote {OUT} ({len(deals)} deals)")
+    print(f"Wrote {OUT} ({len(deals)} PC-part deals, {len(tech)} tech deals)")
     for i, d in enumerate(deals[:10], 1):
         src = f"{d['source']}/{d['shop']}" if d.get("shop") else d["source"]
         print(f"{i:>2}. -{d['discount_pct']}% {d['cat']:<11} €{d['price']:>8.2f}  {d['name'][:55]}  [{src}] (score {d['score']})")

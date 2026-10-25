@@ -119,19 +119,26 @@
   <section class="view" data-view="deals" aria-labelledby="h-deals">
     <div class="page-head">
       <div><h1 tabindex="-1" id="h-deals">Deals of the day</h1><p class="lede" id="dealsSub"></p></div>
+      <nav class="seg tabs" aria-label="Deal lists">
+        <a href="#/deals" data-mode="pc">🖥️ PC parts</a><a href="#/deals/tech" data-mode="tech">🏷️ Tech −30%+</a>
+      </nav>
     </div>
     <div class="toolbar">
       <div class="chips" id="dealChips" role="group" aria-label="Filter deals by category"></div>
       <div class="seg" id="dealSrc" role="group" aria-label="Source">
         <button data-src="all">All sources</button><button data-src="tweakers">Tweakers</button><button data-src="pepper">Pepper</button>
       </div>
+      <div class="seg hidden" id="techMin" role="group" aria-label="Minimum discount">
+        <button data-min="30">30%+</button><button data-min="40">40%+</button><button data-min="50">50%+</button>
+      </div>
     </div>
     <div id="dealsStale"></div>
     <div class="card" id="dealsCard">
       <div id="dealHero"></div>
       <ol class="deal-list" id="dealList" start="2"></ol>
+      <div id="dealMore"></div>
     </div>
-    <details class="explain">
+    <details class="explain" data-for="pc">
       <summary>How are deals picked?</summary>
       <ul>
         <li><b>Tweakers</b>: today's price drops across all Dutch shops.</li>
@@ -139,6 +146,15 @@
         <li>Only PC parts that match your suggestion rules: RTX 3000+ / RX 5000+, otherwise at most 36 months old, no server parts.</li>
         <li>Ranked by discount, with a bonus for real lows and a penalty for inflated "before" prices. "All" shows at most 3 per category.</li>
         <li>Deals are collected every morning by the scheduled task on your PC.</li>
+      </ul>
+    </details>
+    <details class="explain" data-for="tech">
+      <summary>Which tech deals are shown?</summary>
+      <ul>
+        <li>Everything on Tweakers Pricewatch (phones, laptops, TVs, audio, networking, PC parts…) that is <b>at least 30% off</b> today.</li>
+        <li>Only <b>genuine lows</b>: Tweakers' "lowest price in months", or at most 2% above the lowest price of the last 6 months. A "discount" off an inflated price is left out.</li>
+        <li>No consumables, accessories or household appliances (cartridges, phone cases, cables, blenders…), nothing under €40, and no business or server equipment.</li>
+        <li>Collected every morning by the scheduled task on your PC.</li>
       </ul>
     </details>
   </section>

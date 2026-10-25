@@ -389,3 +389,14 @@ a.mini:hover { background: var(--series-wash); }
 h1:focus { outline: none; }
 #dealsCard:has(.empty) { padding: 0; }
 [data-view="settings"], [data-view="alerts"] { max-width: 760px; }
+
+/* deals: list tabs (PC parts / Tech) */
+.seg.tabs a { min-height: 32px; padding: 6px 14px; border-radius: 8px; font-size: 13px; font-weight: 600; color: var(--ink-2); text-decoration: none; display: inline-flex; align-items: center; }
+.seg.tabs a[aria-current="page"] { background: var(--raised); color: var(--ink); box-shadow: 0 1px 2px rgba(0,0,0,.12); }
+.deal-more { display: flex; justify-content: center; padding-top: 12px; }
+.chip .n { color: var(--muted); font-weight: 600; margin-left: 2px; }
+.chip[aria-pressed="true"] .n { color: inherit; opacity: .7; }
+.chip-more { width: auto; min-height: 30px; border-radius: 99px; padding: 3px 12px; font-size: 13px; background: var(--raised); }
+.chip-more.on { background: var(--ink); color: var(--page); border-color: var(--ink); }
+#dealHero:empty { display: none; }
+#dealHero:empty + .deal-list { margin-top: 0; }
