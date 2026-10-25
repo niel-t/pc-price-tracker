@@ -1,6 +1,346 @@
 {
- "generated": "2026-10-25T14:51:26+00:00",
+ "generated": "2026-10-25T15:14:10+00:00",
  "source": "Tweakers Pricewatch Deals",
+ "top10": {
+  "pc": [
+   {
+    "id": 2318796,
+    "name": "Montech King 15 PRO ARGB Wit",
+    "spec": "Small form factor • 4 interne bays",
+    "url": "https://tweakers.net/pricewatch/2318796/montech-king-15-pro-argb-wit.html",
+    "image": "https://tweakers.net/i/IbWEfhauVbgjDP4mue765FJBC3M=/fit-in/60x50/filters:fill(white):strip_exif()/i/2008025474.webp?f=thumbmini",
+    "price": 48.9,
+    "before": 89.58,
+    "discount_pct": 45,
+    "low_6m": 88.16,
+    "badge": "Laagste prijs sinds 6 maanden",
+    "tw_cat": "Behuizingen",
+    "cat": "Case",
+    "source": "tweakers",
+    "score": 53.0,
+    "image_large": "https://tweakers.net/i/oB2dbNI2Ii2IhZP1X50DHlT5jTA=/fit-in/374x326/filters:fill(white):strip_exif()/i/2008025474.webp?f=imagemediumplus"
+   },
+   {
+    "id": 2210364,
+    "name": "AOC Gaming 25G4SXU Grijs, Zwart",
+    "spec": "24,5\" • 1920x1080 (Full HD) @ 310Hz • IPS • 1ms",
+    "url": "https://tweakers.net/pricewatch/2210364/aoc-gaming-25g4sxu-grijs-zwart.html",
+    "image": "https://tweakers.net/i/BX-BR5w0dpnz-FedAkl9sxJbcrk=/fit-in/60x50/filters:strip_icc():fill(white):strip_exif()/i/2007456022.jpeg?f=thumbmini",
+    "price": 109.0,
+    "before": 158.09,
+    "discount_pct": 31,
+    "low_6m": 129.0,
+    "badge": "Laagste prijs sinds 6 maanden",
+    "tw_cat": "Monitors",
+    "cat": "Monitor",
+    "source": "tweakers",
+    "score": 39.0,
+    "image_large": "https://tweakers.net/i/RqwOUS_ddbd_IUtUddgN19KC5L8=/fit-in/374x326/filters:strip_icc():fill(white):strip_exif()/i/2007456022.jpeg?f=imagemediumplus"
+   },
+   {
+    "id": 2158330,
+    "name": "Corsair Frame 4000D RS Zwart",
+    "spec": "Tower • 6 interne bays",
+    "url": "https://tweakers.net/pricewatch/2158330/corsair-frame-4000d-rs-zwart.html",
+    "image": "https://tweakers.net/i/U85KyBg844hzvRr8YzNfNXmM3S0=/fit-in/60x50/filters:strip_icc():fill(white):strip_exif()/i/2007172462.jpeg?f=thumbmini",
+    "price": 59.9,
+    "before": 98.95,
+    "discount_pct": 39,
+    "low_6m": 59.0,
+    "badge": null,
+    "tw_cat": "Behuizingen",
+    "cat": "Case",
+    "source": "tweakers",
+    "score": 38.2,
+    "image_large": "https://tweakers.net/i/V2COADObN_dz-wLRmHxP-VcjLtE=/fit-in/374x326/filters:strip_icc():fill(white):strip_exif()/i/2007172462.jpeg?f=imagemediumplus"
+   },
+   {
+    "id": 2095224,
+    "name": "Lian Li SUP01 Zwart",
+    "spec": "Tower • 4 interne bays",
+    "url": "https://tweakers.net/pricewatch/2095224/lian-li-sup01-zwart.html",
+    "image": "https://tweakers.net/i/M4tF8iFgCSVIjrRcNvlknef681Q=/fit-in/60x50/filters:strip_icc():fill(white):strip_exif()/i/2006824438.jpeg?f=thumbmini",
+    "price": 45.65,
+    "before": 81.54,
+    "discount_pct": 44,
+    "low_6m": 40.62,
+    "badge": null,
+    "tw_cat": "Behuizingen",
+    "cat": "Case",
+    "source": "tweakers",
+    "score": 37.8,
+    "image_large": "https://tweakers.net/i/2K7V9Vs98bVWfAxFRJUM17d02h8=/fit-in/374x326/filters:strip_icc():fill(white):strip_exif()/i/2006824438.jpeg?f=imagemediumplus"
+   },
+   {
+    "source": "pepper",
+    "id": 2118416,
+    "name": "ASUS ROG Strix XG27UCG Zwart",
+    "spec": "27\" • 3840x2160 (4K) @ 160Hz (dual-mode) • IPS • 1ms",
+    "cat": "Monitor",
+    "shop": "Alternate",
+    "url": "https://nl.pepper.com/aanbiedingen/asus-rog-strix-xg27ucg-gen2-xg27ucgr-27-4k-ultra-hd-gaming-monitor-zwart-1x-displayport-1x-hdmi-1x-usb-c-162-hz-485-hz-423467",
+    "image": "https://static.pepper.com/threads/raw/POd2Q/423467_1/re/150x150/qt/55/423467_1.jpg",
+    "posted": "2026-10-24T09:16:02+00:00",
+    "price": 249.0,
+    "before": 349.0,
+    "before_label": "Tweakers lowest",
+    "discount_pct": 29,
+    "low_6m": null,
+    "badge": "Cheaper than all NL shops on Tweakers",
+    "pepper_title": "ASUS ROG Strix XG27UCG Gen2 (XG27UCGR) 27\"4K Ultra HD Fast IPS gaming monitor (Zwart, 1x DisplayPort, 1x HDMI, 1x USB-C, 0,3ms, 162Hz/485Hz)",
+    "suspect": false,
+    "score": 37,
+    "image_large": "https://tweakers.net/i/cqaj9eri6AOGL1Vgziw8C3O16-s=/fit-in/374x326/filters:strip_icc():fill(white):strip_exif()/i/2006985850.jpeg?f=imagemediumplus"
+   },
+   {
+    "id": 2322136,
+    "name": "ASUS ProArt OLED PA27UCDMR Zilver",
+    "spec": "26,5\" • 3840x2160 (4K) @ 240Hz • QD-OLED • 0,1ms",
+    "url": "https://tweakers.net/pricewatch/2322136/asus-proart-oled-pa27ucdmr-zilver.html",
+    "image": "https://tweakers.net/i/Ip7vwWJJQ0k_SM-8a7jrv3SC3Jk=/fit-in/60x50/filters:strip_icc():fill(white):strip_exif()/i/2008043574.jpeg?f=thumbmini",
+    "price": 939.0,
+    "before": 1249.0,
+    "discount_pct": 25,
+    "low_6m": 1009.0,
+    "badge": "Laagste prijs sinds 6 maanden",
+    "tw_cat": "Monitors",
+    "cat": "Monitor",
+    "source": "tweakers",
+    "score": 33.0,
+    "image_large": "https://tweakers.net/i/BcqIPEtXZOaspPn13Da3LBttEgk=/fit-in/374x326/filters:strip_icc():fill(white):strip_exif()/i/2008043574.jpeg?f=imagemediumplus"
+   },
+   {
+    "id": 2254834,
+    "name": "Gigabyte X870E AORUS ELITE X3D",
+    "spec": "Socket AM5 • ATX • AMD X870E chipset",
+    "url": "https://tweakers.net/pricewatch/2254834/gigabyte-x870e-aorus-elite-x3d.html",
+    "image": "https://tweakers.net/i/CideAq5PXjnyHmSB4iv9h0-mM_8=/fit-in/60x50/filters:fill(white):strip_exif()/i/2007724614.png?f=thumbmini",
+    "price": 229.99,
+    "before": 299.0,
+    "discount_pct": 23,
+    "low_6m": 299.0,
+    "badge": "Laagste prijs sinds 6 maanden",
+    "tw_cat": "Moederborden",
+    "cat": "Motherboard",
+    "source": "tweakers",
+    "score": 31.0,
+    "image_large": "https://tweakers.net/i/TAy0zq15qMCyTJOc7g09CV0_Aak=/fit-in/374x326/filters:fill(white):strip_exif()/i/2007724614.png?f=imagemediumplus"
+   },
+   {
+    "id": 1990000,
+    "name": "Kingston Fury Beast RGB KF436C18BB2AK2/32",
+    "spec": "32GB DDR4 @ 3.600MT/s, kit van 2",
+    "url": "https://tweakers.net/pricewatch/1990000/kingston-fury-beast-rgb-kf436c18bb2ak2-32.html",
+    "image": "https://tweakers.net/i/uNB14glTuyFKtY5JTQYn3gtpwN4=/fit-in/60x50/filters:strip_icc():fill(white):strip_exif()/i/2006147330.jpeg?f=thumbmini",
+    "price": 262.6,
+    "before": 318.0,
+    "discount_pct": 17,
+    "low_6m": 279.0,
+    "badge": "Laagste prijs sinds 6 maanden",
+    "tw_cat": "Geheugen intern",
+    "cat": "RAM",
+    "source": "tweakers",
+    "score": 25.0,
+    "image_large": "https://tweakers.net/i/74Iz7mBC3WtX0M2J8DTpDVcF8lY=/fit-in/374x326/filters:strip_icc():fill(white):strip_exif()/i/2006147330.jpeg?f=imagemediumplus"
+   },
+   {
+    "id": 2341508,
+    "name": "WD Blue SA510 SATA SSD 2.5\" 500GB",
+    "spec": "2,5\" • SATA-600",
+    "url": "https://tweakers.net/pricewatch/2341508/wd-blue-sa510-sata-ssd-25-inch-500gb.html",
+    "image": "https://tweakers.net/i/jJAt5wgkAct3pgVHYhd7rAe4T3Y=/fit-in/60x50/filters:fill(white):strip_exif()/i/2008148470.png?f=thumbmini",
+    "price": 104.72,
+    "before": 126.86,
+    "discount_pct": 17,
+    "low_6m": 125.99,
+    "badge": "Laagste prijs sinds 6 maanden",
+    "tw_cat": "Interne ssd's",
+    "cat": "Storage",
+    "source": "tweakers",
+    "score": 25.0,
+    "image_large": "https://tweakers.net/i/u8zViRcErD8tbLadq6n9Kcivg4o=/fit-in/374x326/filters:fill(white):strip_exif()/i/2008148470.png?f=imagemediumplus"
+   },
+   {
+    "id": 2372986,
+    "name": "ASUS TUF Gaming 1200G-EVO",
+    "spec": "1.200W (80 Plus Gold (115V)) • volledig modulair",
+    "url": "https://tweakers.net/pricewatch/2372986/asus-tuf-gaming-1200g-evo.html",
+    "image": "https://tweakers.net/i/UqutKvo1EegsqPrGar18S3iBhpE=/fit-in/60x50/filters:strip_icc():fill(white):strip_exif()/i/2008298096.jpeg?f=thumbmini",
+    "price": 161.18,
+    "before": 188.99,
+    "discount_pct": 15,
+    "low_6m": 188.99,
+    "badge": "Laagste prijs sinds 6 maanden",
+    "tw_cat": "Voedingen",
+    "cat": "PSU",
+    "source": "tweakers",
+    "score": 23.0,
+    "image_large": "https://tweakers.net/i/xwzakC7hNZsXdcu3QiF8hA-C0hI=/fit-in/374x326/filters:strip_icc():fill(white):strip_exif()/i/2008298096.jpeg?f=imagemediumplus"
+   }
+  ],
+  "tech": [
+   {
+    "id": 2227370,
+    "name": "Lenovo X9 Charging GaN Dock",
+    "spec": "USB 3.2 (G2) type-C, 60W PD dock met USB, video",
+    "url": "https://tweakers.net/pricewatch/2227370/lenovo-x9-charging-gan-dock.html",
+    "image": "https://tweakers.net/i/y-4BB7Yj79BRcxrT25mtG_AkP9w=/fit-in/60x50/filters:strip_icc():fill(white):strip_exif()/i/2007577274.jpeg?f=thumbmini",
+    "price": 42.82,
+    "before": 79.15,
+    "discount_pct": 46,
+    "low_6m": 66.79,
+    "badge": "Laagste prijs sinds 6 maanden",
+    "tw_cat": "Dockingstations",
+    "source": "tweakers",
+    "score": 54.0,
+    "image_large": "https://tweakers.net/i/-inj4nFv8Y8GdxSLAUEPWCv5tcY=/fit-in/374x326/filters:strip_icc():fill(white):strip_exif()/i/2007577274.jpeg?f=imagemediumplus"
+   },
+   {
+    "id": 2318796,
+    "name": "Montech King 15 PRO ARGB Wit",
+    "spec": "Small form factor • 4 interne bays",
+    "url": "https://tweakers.net/pricewatch/2318796/montech-king-15-pro-argb-wit.html",
+    "image": "https://tweakers.net/i/IbWEfhauVbgjDP4mue765FJBC3M=/fit-in/60x50/filters:fill(white):strip_exif()/i/2008025474.webp?f=thumbmini",
+    "price": 48.9,
+    "before": 89.58,
+    "discount_pct": 45,
+    "low_6m": 88.16,
+    "badge": "Laagste prijs sinds 6 maanden",
+    "tw_cat": "Behuizingen",
+    "source": "tweakers",
+    "score": 53.0,
+    "image_large": "https://tweakers.net/i/oB2dbNI2Ii2IhZP1X50DHlT5jTA=/fit-in/374x326/filters:fill(white):strip_exif()/i/2008025474.webp?f=imagemediumplus"
+   },
+   {
+    "id": 1739756,
+    "name": "Apple iPhone 13, 128GB opslag Zwart",
+    "spec": "6,1\" • 2532x1170 • 128GB",
+    "url": "https://tweakers.net/pricewatch/1739756/apple-iphone-13-128gb-opslag-zwart.html",
+    "image": "https://tweakers.net/i/pgSkHASHUKXwcRiTbV0iYKiE9tg=/fit-in/60x50/filters:fill(white):strip_exif()/i/2004606044.png?f=thumbmini",
+    "price": 319.0,
+    "before": 581.0,
+    "discount_pct": 45,
+    "low_6m": 397.0,
+    "badge": "Laagste prijs sinds 6 maanden",
+    "tw_cat": "Smartphones",
+    "source": "tweakers",
+    "score": 53.0,
+    "image_large": "https://tweakers.net/i/x9fGbfbDVqGpXQ8GygNOubYS8pc=/fit-in/374x326/filters:fill(white):strip_exif()/i/2004606044.png?f=imagemediumplus"
+   },
+   {
+    "id": 1849982,
+    "name": "Transcend 110S 2TB",
+    "spec": "M.2 80mm • PCI-e 3.0 x4",
+    "url": "https://tweakers.net/pricewatch/1849982/transcend-110s-2tb.html",
+    "image": "https://tweakers.net/i/RM1vnNoJpSBQzgyy-cX389gni2E=/fit-in/60x50/filters:strip_icc():fill(white):strip_exif()/i/2005287906.jpeg?f=thumbmini",
+    "price": 235.19,
+    "before": 424.33,
+    "discount_pct": 45,
+    "low_6m": 409.49,
+    "badge": "Laagste prijs sinds 6 maanden",
+    "tw_cat": "Interne ssd's",
+    "source": "tweakers",
+    "score": 53.0,
+    "image_large": "https://tweakers.net/i/YXZncb4z_974LQeaE4cDUEWDx6I=/fit-in/374x326/filters:strip_icc():fill(white):strip_exif()/i/2005287906.jpeg?f=imagemediumplus"
+   },
+   {
+    "id": 1972694,
+    "name": "Lian Li Galahad II Trinity SL-INF 240 Zwart",
+    "spec": "240mm radiator (2x 120mm fans)",
+    "url": "https://tweakers.net/pricewatch/1972694/lian-li-galahad-ii-trinity-sl-inf-240-zwart.html",
+    "image": "https://tweakers.net/i/YBDILKBMi5sIW7Tb8eJzl1-4hFg=/fit-in/60x50/filters:strip_icc():fill(white):strip_exif()/i/2006058418.jpeg?f=thumbmini",
+    "price": 81.4,
+    "before": 144.47,
+    "discount_pct": 44,
+    "low_6m": 134.9,
+    "badge": "Laagste prijs sinds 6 maanden",
+    "tw_cat": "Waterkoeling",
+    "source": "tweakers",
+    "score": 52.0,
+    "image_large": "https://tweakers.net/i/tJotW17R_0pdydFjO7zQvUorCWo=/fit-in/374x326/filters:strip_icc():fill(white):strip_exif()/i/2006058418.jpeg?f=imagemediumplus"
+   },
+   {
+    "id": 1726148,
+    "name": "Ubiquiti UniFi Flex 10 GbE",
+    "spec": "RJ45: 1x 1G, 4x 10G",
+    "url": "https://tweakers.net/pricewatch/1726148/ubiquiti-unifi-flex-10-gbe.html",
+    "image": "https://tweakers.net/i/GCAlnMl9LZU46RaJZHy7jaMtUVE=/fit-in/60x50/filters:fill(white):strip_exif()/i/2004496838.webp?f=thumbmini",
+    "price": 179.0,
+    "before": 317.0,
+    "discount_pct": 44,
+    "low_6m": 272.73,
+    "badge": "Laagste prijs sinds 6 maanden",
+    "tw_cat": "Netwerk switches",
+    "source": "tweakers",
+    "score": 52.0,
+    "image_large": "https://tweakers.net/i/gG_m30zZz-fpQV2sltMiynj_p4A=/fit-in/374x326/filters:fill(white):strip_exif()/i/2004496838.webp?f=imagemediumplus"
+   },
+   {
+    "id": 1858904,
+    "name": "Apple iPhone 14 Pro, 128GB opslag Paars",
+    "spec": "6,1\" • 2556x1179 • 128GB",
+    "url": "https://tweakers.net/pricewatch/1858904/apple-iphone-14-pro-128gb-opslag-paars.html",
+    "image": "https://tweakers.net/i/hJkuatqieUyPkaW8XlAUQRwlmZg=/fit-in/60x50/filters:strip_icc():fill(white):strip_exif()/i/2005333604.jpeg?f=thumbmini",
+    "price": 477.95,
+    "before": 825.58,
+    "discount_pct": 42,
+    "low_6m": 597.0,
+    "badge": "Laagste prijs sinds 6 maanden",
+    "tw_cat": "Smartphones",
+    "source": "tweakers",
+    "score": 50.0,
+    "image_large": "https://tweakers.net/i/_8n_p3YU1FtcgaQl33vpruCqI4o=/fit-in/374x326/filters:strip_icc():fill(white):strip_exif()/i/2005333604.jpeg?f=imagemediumplus"
+   },
+   {
+    "id": 1945688,
+    "name": "PNY CS2241 2TB",
+    "spec": "M.2 80mm • PCI-e 4.0 x4",
+    "url": "https://tweakers.net/pricewatch/1945688/pny-cs2241-2tb.html",
+    "image": "https://tweakers.net/i/XCT1xDMaqbU7XDYDOUH7cC1Tbkg=/fit-in/60x50/filters:fill(white):strip_exif()/i/2005930054.png?f=thumbmini",
+    "price": 281.0,
+    "before": 480.37,
+    "discount_pct": 42,
+    "low_6m": 480.37,
+    "badge": "Laagste prijs sinds 6 maanden",
+    "tw_cat": "Interne ssd's",
+    "source": "tweakers",
+    "score": 50.0,
+    "image_large": "https://tweakers.net/i/kRPhyy0Dg41DKMG8AyLDD_yAQgE=/fit-in/374x326/filters:fill(white):strip_exif()/i/2005930054.png?f=imagemediumplus"
+   },
+   {
+    "id": 2162910,
+    "name": "Lian Li UNI FAN TL Wireless, met LCD, Wit, 3 stuks, 120mm",
+    "spec": "27dB(A) bij maximaal 1.900rpm",
+    "url": "https://tweakers.net/pricewatch/2162910/lian-li-uni-fan-tl-wireless-met-lcd-wit-3-stuks-120mm.html",
+    "image": "https://tweakers.net/i/cNl04YzgHtOcrkRid0RbZk1wsPc=/fit-in/60x50/filters:strip_icc():fill(white):strip_exif()/i/2007204786.jpeg?f=thumbmini",
+    "price": 79.0,
+    "before": 134.93,
+    "discount_pct": 41,
+    "low_6m": 117.91,
+    "badge": "Laagste prijs sinds 6 maanden",
+    "tw_cat": "Case fans",
+    "source": "tweakers",
+    "score": 49.0,
+    "image_large": "https://tweakers.net/i/geu0v_rYcMq60gqChA7mUZ1SA-0=/fit-in/374x326/filters:strip_icc():fill(white):strip_exif()/i/2007204786.jpeg?f=imagemediumplus"
+   },
+   {
+    "id": 1908780,
+    "name": "Acer CB273 Zwart",
+    "spec": "27\" • 1920x1080 (Full HD) • IPS • 4ms",
+    "url": "https://tweakers.net/pricewatch/1908780/acer-cb273-zwart.html",
+    "image": "https://tweakers.net/i/cVa6YFKCCiZ7o2JlmaGOHeA8PjI=/fit-in/60x50/filters:strip_icc():fill(white):strip_exif()/i/2005617840.jpeg?f=thumbmini",
+    "price": 179.0,
+    "before": 292.94,
+    "discount_pct": 39,
+    "low_6m": 292.94,
+    "badge": "Laagste prijs sinds 6 maanden",
+    "tw_cat": "Monitors",
+    "source": "tweakers",
+    "score": 47.0,
+    "image_large": "https://tweakers.net/i/I_6A4_4JoHT0D04hl_Xpy1b99Jo=/fit-in/374x326/filters:strip_icc():fill(white):strip_exif()/i/2005617840.jpeg?f=imagemediumplus"
+   }
+  ]
+ },
  "deals": [
   {
    "id": 2318796,
@@ -16,7 +356,8 @@
    "tw_cat": "Behuizingen",
    "cat": "Case",
    "source": "tweakers",
-   "score": 53.0
+   "score": 53.0,
+   "image_large": "https://tweakers.net/i/oB2dbNI2Ii2IhZP1X50DHlT5jTA=/fit-in/374x326/filters:fill(white):strip_exif()/i/2008025474.webp?f=imagemediumplus"
   },
   {
    "id": 2210364,
@@ -32,7 +373,8 @@
    "tw_cat": "Monitors",
    "cat": "Monitor",
    "source": "tweakers",
-   "score": 39.0
+   "score": 39.0,
+   "image_large": "https://tweakers.net/i/RqwOUS_ddbd_IUtUddgN19KC5L8=/fit-in/374x326/filters:strip_icc():fill(white):strip_exif()/i/2007456022.jpeg?f=imagemediumplus"
   },
   {
    "id": 2158330,
@@ -48,7 +390,8 @@
    "tw_cat": "Behuizingen",
    "cat": "Case",
    "source": "tweakers",
-   "score": 38.2
+   "score": 38.2,
+   "image_large": "https://tweakers.net/i/V2COADObN_dz-wLRmHxP-VcjLtE=/fit-in/374x326/filters:strip_icc():fill(white):strip_exif()/i/2007172462.jpeg?f=imagemediumplus"
   },
   {
    "id": 2095224,
@@ -64,7 +407,8 @@
    "tw_cat": "Behuizingen",
    "cat": "Case",
    "source": "tweakers",
-   "score": 37.8
+   "score": 37.8,
+   "image_large": "https://tweakers.net/i/2K7V9Vs98bVWfAxFRJUM17d02h8=/fit-in/374x326/filters:strip_icc():fill(white):strip_exif()/i/2006824438.jpeg?f=imagemediumplus"
   },
   {
    "source": "pepper",
@@ -84,23 +428,8 @@
    "badge": "Cheaper than all NL shops on Tweakers",
    "pepper_title": "ASUS ROG Strix XG27UCG Gen2 (XG27UCGR) 27\"4K Ultra HD Fast IPS gaming monitor (Zwart, 1x DisplayPort, 1x HDMI, 1x USB-C, 0,3ms, 162Hz/485Hz)",
    "suspect": false,
-   "score": 37
-  },
-  {
-   "id": 2231658,
-   "name": "Philips 65BDL3511Q/00 Zwart",
-   "spec": "65\" • 3840x2160 (4K) @ 60Hz • IPS • 8ms",
-   "url": "https://tweakers.net/pricewatch/2231658/philips-65bdl3511q-00-zwart.html",
-   "image": "https://tweakers.net/i/qvSJd-6_OlP5NzDJmoa_u0n6QLU=/fit-in/60x50/filters:strip_icc():fill(white):strip_exif()/i/2007607826.jpeg?f=thumbmini",
-   "price": 1035.76,
-   "before": 1618.02,
-   "discount_pct": 36,
-   "low_6m": 1069.0,
-   "badge": null,
-   "tw_cat": "Monitors",
-   "cat": "Monitor",
-   "source": "tweakers",
-   "score": 36.0
+   "score": 37,
+   "image_large": "https://tweakers.net/i/cqaj9eri6AOGL1Vgziw8C3O16-s=/fit-in/374x326/filters:strip_icc():fill(white):strip_exif()/i/2006985850.jpeg?f=imagemediumplus"
   },
   {
    "id": 2117886,
@@ -119,20 +448,36 @@
    "score": 35.3
   },
   {
-   "id": 2231938,
-   "name": "Sony FW-98BZ53L Zwart",
-   "spec": "98\" • 3840x2160 (4K) @ 100Hz • VA • 6,5ms",
-   "url": "https://tweakers.net/pricewatch/2231938/sony-fw-98bz53l-zwart.html",
-   "image": "https://tweakers.net/i/rA_zbADgSjspqahoxqt0RD7GWwA=/fit-in/60x50/filters:strip_icc():fill(white):strip_exif()/i/2007610260.jpeg?f=thumbmini",
-   "price": 5547.73,
-   "before": 7621.79,
-   "discount_pct": 27,
-   "low_6m": 6049.88,
+   "id": 2175082,
+   "name": "Thermaltake TR100 Snow",
+   "spec": "Small form factor • 2 interne bays",
+   "url": "https://tweakers.net/pricewatch/2175082/thermaltake-tr100-snow.html",
+   "image": "https://tweakers.net/i/fa4M-BKUzZ0ABLG8BgrYxnyd5yw=/fit-in/60x50/filters:strip_icc():fill(white):strip_exif()/i/2007266534.jpeg?f=thumbmini",
+   "price": 85.1,
+   "before": 113.23,
+   "discount_pct": 25,
+   "low_6m": 102.72,
    "badge": "Laagste prijs sinds 6 maanden",
-   "tw_cat": "Monitors",
-   "cat": "Monitor",
+   "tw_cat": "Behuizingen",
+   "cat": "Case",
    "source": "tweakers",
-   "score": 35.0
+   "score": 33.0
+  },
+  {
+   "id": 2279870,
+   "name": "Corsair Air 5400 LX-R LINK Wit",
+   "spec": "Tower • 3 interne bays",
+   "url": "https://tweakers.net/pricewatch/2279870/corsair-air-5400-lx-r-link-wit.html",
+   "image": "https://tweakers.net/i/q59OZ541EoG-hiNVNyltNCRLPRE=/fit-in/60x50/filters:fill(white):strip_exif()/i/2007907382.webp?f=thumbmini",
+   "price": 209.9,
+   "before": 281.05,
+   "discount_pct": 25,
+   "low_6m": 241.47,
+   "badge": "Laagste prijs sinds 6 maanden",
+   "tw_cat": "Behuizingen",
+   "cat": "Case",
+   "source": "tweakers",
+   "score": 33.0
   },
   {
    "id": 2322136,
@@ -148,7 +493,8 @@
    "tw_cat": "Monitors",
    "cat": "Monitor",
    "source": "tweakers",
-   "score": 33.0
+   "score": 33.0,
+   "image_large": "https://tweakers.net/i/BcqIPEtXZOaspPn13Da3LBttEgk=/fit-in/374x326/filters:strip_icc():fill(white):strip_exif()/i/2008043574.jpeg?f=imagemediumplus"
   },
   {
    "id": 2254834,
@@ -164,39 +510,8 @@
    "tw_cat": "Moederborden",
    "cat": "Motherboard",
    "source": "tweakers",
-   "score": 31.0
-  },
-  {
-   "id": 2231154,
-   "name": "Iiyama ProLite LH4365UHSB-B1 Zwart",
-   "spec": "42,5\" • 3840x2160 (4K) @ 60Hz • IPS • 8ms",
-   "url": "https://tweakers.net/pricewatch/2231154/iiyama-prolite-lh4365uhsb-b1-zwart.html",
-   "image": "https://tweakers.net/i/2HnNq0MoxbfJ2wGZfsH9Fa9KMMg=/fit-in/60x50/filters:strip_icc():fill(white):strip_exif()/i/2007604234.jpeg?f=thumbmini",
-   "price": 479.72,
-   "before": 619.0,
-   "discount_pct": 23,
-   "low_6m": 512.0,
-   "badge": "Laagste prijs sinds 6 maanden",
-   "tw_cat": "Monitors",
-   "cat": "Monitor",
-   "source": "tweakers",
-   "score": 31.0
-  },
-  {
-   "id": 2231720,
-   "name": "Sony FW-75BZ30L Zwart",
-   "spec": "75\" • 3840x2160 (4K) @ 60Hz • IPS • 8ms",
-   "url": "https://tweakers.net/pricewatch/2231720/sony-fw-75bz30l-zwart.html",
-   "image": "https://tweakers.net/i/tfGWQs_eS7fcYboXIcWm7LLrW8o=/fit-in/60x50/filters:strip_icc():fill(white):strip_exif()/i/2007608272.jpeg?f=thumbmini",
-   "price": 1208.67,
-   "before": 1579.05,
-   "discount_pct": 23,
-   "low_6m": 1283.0,
-   "badge": "Laagste prijs sinds 6 maanden",
-   "tw_cat": "Monitors",
-   "cat": "Monitor",
-   "source": "tweakers",
-   "score": 31.0
+   "score": 31.0,
+   "image_large": "https://tweakers.net/i/TAy0zq15qMCyTJOc7g09CV0_Aak=/fit-in/374x326/filters:fill(white):strip_exif()/i/2007724614.png?f=imagemediumplus"
   },
   {
    "id": 2287620,
@@ -213,22 +528,6 @@
    "cat": "Case",
    "source": "tweakers",
    "score": 27.0
-  },
-  {
-   "id": 2330280,
-   "name": "ASUS Pro WS W890-SAGE",
-   "spec": "Socket 4710-2 • SSI CEB • Intel W890 chipset",
-   "url": "https://tweakers.net/pricewatch/2330280/asus-pro-ws-w890-sage.html",
-   "image": "https://tweakers.net/i/ARAZzXmNKCL8sr_ViZBmCGhypNM=/fit-in/60x50/filters:strip_icc():fill(white):strip_exif()/i/2008080658.jpeg?f=thumbmini",
-   "price": 699.0,
-   "before": 849.0,
-   "discount_pct": 18,
-   "low_6m": 849.0,
-   "badge": "Laagste prijs sinds 6 maanden",
-   "tw_cat": "Moederborden",
-   "cat": "Motherboard",
-   "source": "tweakers",
-   "score": 26.0
   },
   {
    "id": 2329510,
@@ -312,7 +611,8 @@
    "tw_cat": "Geheugen intern",
    "cat": "RAM",
    "source": "tweakers",
-   "score": 25.0
+   "score": 25.0,
+   "image_large": "https://tweakers.net/i/74Iz7mBC3WtX0M2J8DTpDVcF8lY=/fit-in/374x326/filters:strip_icc():fill(white):strip_exif()/i/2006147330.jpeg?f=imagemediumplus"
   },
   {
    "id": 2341508,
@@ -328,7 +628,8 @@
    "tw_cat": "Interne ssd's",
    "cat": "Storage",
    "source": "tweakers",
-   "score": 25.0
+   "score": 25.0,
+   "image_large": "https://tweakers.net/i/u8zViRcErD8tbLadq6n9Kcivg4o=/fit-in/374x326/filters:fill(white):strip_exif()/i/2008148470.png?f=imagemediumplus"
   },
   {
    "id": 2233970,
@@ -428,7 +729,8 @@
    "tw_cat": "Voedingen",
    "cat": "PSU",
    "source": "tweakers",
-   "score": 23.0
+   "score": 23.0,
+   "image_large": "https://tweakers.net/i/xwzakC7hNZsXdcu3QiF8hA-C0hI=/fit-in/374x326/filters:strip_icc():fill(white):strip_exif()/i/2008298096.jpeg?f=imagemediumplus"
   },
   {
    "id": 2120024,
@@ -567,6 +869,22 @@
    "score": 21.0
   },
   {
+   "id": 2307154,
+   "name": "ASUS TUF Gaming B850-PRO WIFI7 W NEO",
+   "spec": "Socket AM5 • ATX • AMD B850 chipset",
+   "url": "https://tweakers.net/pricewatch/2307154/asus-tuf-gaming-b850-pro-wifi7-w-neo.html",
+   "image": "https://tweakers.net/i/gSusiQSu-4nMLiQKCKECqfe92k4=/fit-in/60x50/filters:strip_icc():fill(white):strip_exif()/i/2008068721.jpeg?f=thumbmini",
+   "price": 199.0,
+   "before": 228.68,
+   "discount_pct": 13,
+   "low_6m": 225.99,
+   "badge": "Laagste prijs sinds 6 maanden",
+   "tw_cat": "Moederborden",
+   "cat": "Motherboard",
+   "source": "tweakers",
+   "score": 21.0
+  },
+  {
    "id": 2277642,
    "name": "AOC Q27G4SRU Zwart",
    "spec": "27\" • 2560x1440 (Quad HD) @ 320Hz • IPS • 1ms",
@@ -615,22 +933,6 @@
    "score": 19.0
   },
   {
-   "id": 2257640,
-   "name": "Iiyama ProLite P1671HSC-B1 Zwart",
-   "spec": "15,6\" • 1920x1080 (Full HD) @ 60Hz • IPS • 3ms",
-   "url": "https://tweakers.net/pricewatch/2257640/iiyama-prolite-p1671hsc-b1-zwart.html",
-   "image": "https://tweakers.net/i/Mri8dFt-8p31nCPBmwqKfSy5t9I=/fit-in/60x50/filters:strip_icc():fill(white):strip_exif()/i/2007738992.jpeg?f=thumbmini",
-   "price": 99.92,
-   "before": 112.25,
-   "discount_pct": 11,
-   "low_6m": 112.25,
-   "badge": "Laagste prijs sinds 6 maanden",
-   "tw_cat": "Monitors",
-   "cat": "Monitor",
-   "source": "tweakers",
-   "score": 19.0
-  },
-  {
    "id": 2157710,
    "name": "Philips 5000-serie 24B2G5200/00 Antraciet",
    "spec": "23,8\" • 1920x1080 (Full HD) @ 100Hz • IPS • 4ms",
@@ -640,6 +942,22 @@
    "before": 149.0,
    "discount_pct": 11,
    "low_6m": 139.0,
+   "badge": "Laagste prijs sinds 6 maanden",
+   "tw_cat": "Monitors",
+   "cat": "Monitor",
+   "source": "tweakers",
+   "score": 19.0
+  },
+  {
+   "id": 2257640,
+   "name": "Iiyama ProLite P1671HSC-B1 Zwart",
+   "spec": "15,6\" • 1920x1080 (Full HD) @ 60Hz • IPS • 3ms",
+   "url": "https://tweakers.net/pricewatch/2257640/iiyama-prolite-p1671hsc-b1-zwart.html",
+   "image": "https://tweakers.net/i/Mri8dFt-8p31nCPBmwqKfSy5t9I=/fit-in/60x50/filters:strip_icc():fill(white):strip_exif()/i/2007738992.jpeg?f=thumbmini",
+   "price": 99.92,
+   "before": 112.25,
+   "discount_pct": 11,
+   "low_6m": 112.25,
    "badge": "Laagste prijs sinds 6 maanden",
    "tw_cat": "Monitors",
    "cat": "Monitor",
@@ -727,6 +1045,22 @@
    "score": 18.0
   },
   {
+   "id": 2224014,
+   "name": "MSI MAG PANO 110R PZ WHITE",
+   "spec": "Tower • 6 interne bays",
+   "url": "https://tweakers.net/pricewatch/2224014/msi-mag-pano-110r-pz-white.html",
+   "image": "https://tweakers.net/i/NlIL1y9odxwHCIKuAkNtHZtJ3GE=/fit-in/60x50/filters:fill(white):strip_exif()/i/2007544378.png?f=thumbmini",
+   "price": 70.82,
+   "before": 78.34,
+   "discount_pct": 10,
+   "low_6m": 77.79,
+   "badge": "Laagste prijs sinds 6 maanden",
+   "tw_cat": "Behuizingen",
+   "cat": "Case",
+   "source": "tweakers",
+   "score": 18.0
+  },
+  {
    "id": 2300676,
    "name": "Corsair Frame 4000D LCD RS ARGB Zwart",
    "spec": "Tower • 6 interne bays",
@@ -743,15 +1077,15 @@
    "score": 18.0
   },
   {
-   "id": 2224014,
-   "name": "MSI MAG PANO 110R PZ WHITE",
+   "id": 2223000,
+   "name": "MSI MPG VELOX 300R AIRFLOW PZ",
    "spec": "Tower • 6 interne bays",
-   "url": "https://tweakers.net/pricewatch/2224014/msi-mag-pano-110r-pz-white.html",
-   "image": "https://tweakers.net/i/NlIL1y9odxwHCIKuAkNtHZtJ3GE=/fit-in/60x50/filters:fill(white):strip_exif()/i/2007544378.png?f=thumbmini",
-   "price": 70.82,
-   "before": 78.34,
+   "url": "https://tweakers.net/pricewatch/2223000/msi-mpg-velox-300r-airflow-pz.html",
+   "image": "https://tweakers.net/i/WC58AH5tLIJqv4K6PNpfPpkflaU=/fit-in/60x50/filters:strip_icc():fill(white):strip_exif()/i/2007538390.jpeg?f=thumbmini",
+   "price": 82.65,
+   "before": 91.58,
    "discount_pct": 10,
-   "low_6m": 77.79,
+   "low_6m": 91.58,
    "badge": "Laagste prijs sinds 6 maanden",
    "tw_cat": "Behuizingen",
    "cat": "Case",
@@ -821,22 +1155,6 @@
    "cat": "Cooler",
    "source": "tweakers",
    "score": 17.0
-  },
-  {
-   "id": 2231722,
-   "name": "Sony FW-65BZ40L Zwart",
-   "spec": "65\" • 3840x2160 (4K) @ 60Hz • IPS • 8ms",
-   "url": "https://tweakers.net/pricewatch/2231722/sony-fw-65bz40l-zwart.html",
-   "image": "https://tweakers.net/i/Yk4FjXnqMkdCK40lUgwEhUDoNu0=/fit-in/60x50/filters:strip_icc():fill(white):strip_exif()/i/2007608290.jpeg?f=thumbmini",
-   "price": 1153.0,
-   "before": 1427.8,
-   "discount_pct": 19,
-   "low_6m": 1101.0,
-   "badge": null,
-   "tw_cat": "Monitors",
-   "cat": "Monitor",
-   "source": "tweakers",
-   "score": 16.6
   },
   {
    "id": 2165020,
@@ -981,6 +1299,38 @@
    "cat": "Motherboard",
    "source": "tweakers",
    "score": 14.9
+  },
+  {
+   "id": 2161444,
+   "name": "ASUS TUF Gaming B860M-PLUS",
+   "spec": "Socket 1851 • Micro-ATX • Intel B860 chipset",
+   "url": "https://tweakers.net/pricewatch/2161444/asus-tuf-gaming-b860m-plus.html",
+   "image": "https://tweakers.net/i/EH89fP2N9e80mzfAaNlaaT4XZbM=/fit-in/60x50/filters:strip_icc():fill(white):strip_exif()/i/2007189894.jpeg?f=thumbmini",
+   "price": 160.0,
+   "before": 193.99,
+   "discount_pct": 18,
+   "low_6m": 149.0,
+   "badge": null,
+   "tw_cat": "Moederborden",
+   "cat": "Motherboard",
+   "source": "tweakers",
+   "score": 14.3
+  },
+  {
+   "id": 2354674,
+   "name": "MSI PRO A1000PL PCIE5",
+   "spec": "1.000W (Cybenetics ETA Titanium (230V)) • volledig modulair",
+   "url": "https://tweakers.net/pricewatch/2354674/msi-pro-a1000pl-pcie5.html",
+   "image": "https://tweakers.net/i/nXa2oo2sArxD3uH4Je8j1yXWUrY=/fit-in/60x50/filters:strip_icc():fill(white):strip_exif()/i/2008204186.jpeg?f=thumbmini",
+   "price": 159.0,
+   "before": 169.0,
+   "discount_pct": 6,
+   "low_6m": 169.0,
+   "badge": "Laagste prijs sinds 6 maanden",
+   "tw_cat": "Voedingen",
+   "cat": "PSU",
+   "source": "tweakers",
+   "score": 14.0
   }
  ],
  "tech": [
@@ -997,7 +1347,8 @@
    "badge": "Laagste prijs sinds 6 maanden",
    "tw_cat": "Dockingstations",
    "source": "tweakers",
-   "score": 54.0
+   "score": 54.0,
+   "image_large": "https://tweakers.net/i/-inj4nFv8Y8GdxSLAUEPWCv5tcY=/fit-in/374x326/filters:strip_icc():fill(white):strip_exif()/i/2007577274.jpeg?f=imagemediumplus"
   },
   {
    "id": 2318796,
@@ -1012,7 +1363,8 @@
    "badge": "Laagste prijs sinds 6 maanden",
    "tw_cat": "Behuizingen",
    "source": "tweakers",
-   "score": 53.0
+   "score": 53.0,
+   "image_large": "https://tweakers.net/i/oB2dbNI2Ii2IhZP1X50DHlT5jTA=/fit-in/374x326/filters:fill(white):strip_exif()/i/2008025474.webp?f=imagemediumplus"
   },
   {
    "id": 1739756,
@@ -1027,7 +1379,8 @@
    "badge": "Laagste prijs sinds 6 maanden",
    "tw_cat": "Smartphones",
    "source": "tweakers",
-   "score": 53.0
+   "score": 53.0,
+   "image_large": "https://tweakers.net/i/x9fGbfbDVqGpXQ8GygNOubYS8pc=/fit-in/374x326/filters:fill(white):strip_exif()/i/2004606044.png?f=imagemediumplus"
   },
   {
    "id": 1849982,
@@ -1042,7 +1395,8 @@
    "badge": "Laagste prijs sinds 6 maanden",
    "tw_cat": "Interne ssd's",
    "source": "tweakers",
-   "score": 53.0
+   "score": 53.0,
+   "image_large": "https://tweakers.net/i/YXZncb4z_974LQeaE4cDUEWDx6I=/fit-in/374x326/filters:strip_icc():fill(white):strip_exif()/i/2005287906.jpeg?f=imagemediumplus"
   },
   {
    "id": 1972694,
@@ -1057,7 +1411,8 @@
    "badge": "Laagste prijs sinds 6 maanden",
    "tw_cat": "Waterkoeling",
    "source": "tweakers",
-   "score": 52.0
+   "score": 52.0,
+   "image_large": "https://tweakers.net/i/tJotW17R_0pdydFjO7zQvUorCWo=/fit-in/374x326/filters:strip_icc():fill(white):strip_exif()/i/2006058418.jpeg?f=imagemediumplus"
   },
   {
    "id": 1726148,
@@ -1072,7 +1427,8 @@
    "badge": "Laagste prijs sinds 6 maanden",
    "tw_cat": "Netwerk switches",
    "source": "tweakers",
-   "score": 52.0
+   "score": 52.0,
+   "image_large": "https://tweakers.net/i/gG_m30zZz-fpQV2sltMiynj_p4A=/fit-in/374x326/filters:fill(white):strip_exif()/i/2004496838.webp?f=imagemediumplus"
   },
   {
    "id": 1858904,
@@ -1087,7 +1443,8 @@
    "badge": "Laagste prijs sinds 6 maanden",
    "tw_cat": "Smartphones",
    "source": "tweakers",
-   "score": 50.0
+   "score": 50.0,
+   "image_large": "https://tweakers.net/i/_8n_p3YU1FtcgaQl33vpruCqI4o=/fit-in/374x326/filters:strip_icc():fill(white):strip_exif()/i/2005333604.jpeg?f=imagemediumplus"
   },
   {
    "id": 1945688,
@@ -1102,7 +1459,8 @@
    "badge": "Laagste prijs sinds 6 maanden",
    "tw_cat": "Interne ssd's",
    "source": "tweakers",
-   "score": 50.0
+   "score": 50.0,
+   "image_large": "https://tweakers.net/i/kRPhyy0Dg41DKMG8AyLDD_yAQgE=/fit-in/374x326/filters:fill(white):strip_exif()/i/2005930054.png?f=imagemediumplus"
   },
   {
    "id": 2162910,
@@ -1117,7 +1475,8 @@
    "badge": "Laagste prijs sinds 6 maanden",
    "tw_cat": "Case fans",
    "source": "tweakers",
-   "score": 49.0
+   "score": 49.0,
+   "image_large": "https://tweakers.net/i/geu0v_rYcMq60gqChA7mUZ1SA-0=/fit-in/374x326/filters:strip_icc():fill(white):strip_exif()/i/2007204786.jpeg?f=imagemediumplus"
   },
   {
    "id": 1908780,
@@ -1132,7 +1491,8 @@
    "badge": "Laagste prijs sinds 6 maanden",
    "tw_cat": "Monitors",
    "source": "tweakers",
-   "score": 47.0
+   "score": 47.0,
+   "image_large": "https://tweakers.net/i/I_6A4_4JoHT0D04hl_Xpy1b99Jo=/fit-in/374x326/filters:strip_icc():fill(white):strip_exif()/i/2005617840.jpeg?f=imagemediumplus"
   },
   {
    "id": 2158330,

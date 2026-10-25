@@ -1,4 +1,4 @@
-from tools.deals import keep_tech, parse_deals, score
+from tools.deals import keep_tech, large_image, parse_deals, score, top10
 
 ROW = '''<table><tr><td class="pwimage"><a><img src="https://tweakers.net/i/x/thumbmini.png"></a></td>
 <td class="itemname"><p><a class="editionName" href="https://tweakers.net/pricewatch/2179976/sapphire-pulse-radeon-rx-9070-xt.html"
@@ -49,6 +49,7 @@ def test_tech_deals_skip_small_fake_and_accessories():
     assert not tech(tw_cat="Printer cartridges")
     assert not tech(tw_cat="Smartphonehoesjes")
     assert not tech(tw_cat="Kookplaten")
+    assert not tech(tw_cat="Beugels en standaarden")
 
 
 def test_tech_deals_skip_business_gear():
@@ -58,3 +59,24 @@ def test_tech_deals_skip_business_gear():
     assert not tech(name="Philips 65BDL3511Q/00 Zwart", tw_cat="Monitors")
     assert not tech(name="Netgear M4350-24X8F8V", price=4521.55, before=7345.0, low_6m=4521.55)
     assert tech(name="HP Smart Tank Plus 570", tw_cat="Printers")
+
+
+def test_top10_limits_each_category():
+    deals = [{"cat": "Case", "n": i} for i in range(6)] + [{"cat": "GPU", "n": i} for i in range(6)] + [{"cat": "RAM", "n": 0}]
+    top = top10(deals, "cat")
+    assert len(top) == 7  # 3 cases + 3 GPUs + 1 RAM
+    assert [d["cat"] for d in top].count("Case") == 3
+
+
+def test_large_image_picks_main_product_photo():
+    html = '''<img src="https://tweakers.net/i/a=/fit-in/60x50/x.png?f=thumbmini">
+              <img src="https://tweakers.net/i/b=/fit-in/374x326/y.webp?f=imagemediumplus">'''
+    assert large_image(html).endswith("y.webp?f=imagemediumplus")
+
+
+def test_business_gear_regex_covers_signage_and_workstation_boards():
+    from tools.deals import BUSINESS
+    assert BUSINESS.search("Philips 65BDL3511Q/00 Zwart")
+    assert BUSINESS.search("ASUS Pro WS W890-SAGE")
+    assert BUSINESS.search("Sony FW-98BZ53L Zwart")  # Sony professional display
+    assert not BUSINESS.search("ASUS ROG Strix XG27UCG Zwart")

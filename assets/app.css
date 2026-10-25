@@ -126,40 +126,10 @@ label.f { display: flex; flex-direction: column; gap: 4px; font-size: 12px; colo
 .add-tile:hover { border-color: var(--series); color: var(--series); }
 .empty { text-align: center; padding: 40px 16px; }
 
-/* deals of the day */
-#dealChips .chip { min-height: 26px; padding: 2px 10px; font-size: 12px; }
-.deal-hero { display: grid; grid-template-columns: auto 72px 1fr auto; gap: 14px; align-items: center; padding: 14px;
-             border-radius: 12px; background: linear-gradient(135deg, var(--good-wash), transparent 70%); border: 1px solid var(--ring); }
-.rank { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; font-weight: 700; font-size: 12px; background: var(--grid); color: var(--ink-2); flex: none; }
-.deal-hero .rank { width: 36px; height: 36px; font-size: 14px; background: var(--good); color: #fff; }
+/* small deal thumbnails (Overview) */
 .thumb { width: 72px; height: 60px; border-radius: 8px; background: #fff; display: grid; place-items: center; overflow: hidden; border: 1px solid var(--ring); }
 .thumb img { max-width: 64px; max-height: 52px; }
 .thumb.sm { width: 48px; height: 40px; } .thumb.sm img { max-width: 44px; max-height: 36px; }
-.deal-name { font-weight: 600; line-height: 1.3; }
-.deal-hero .deal-name { font-size: 16px; }
-.deal-price { text-align: right; white-space: nowrap; }
-.deal-price s { color: var(--muted); font-size: 12px; display: block; }
-.deal-price b { font-size: 17px; }
-.deal-hero .deal-price b { font-size: 24px; letter-spacing: -.02em; }
-.deal-list { list-style: none; margin: 8px 0 0; padding: 0; }
-.deal-row { display: grid; grid-template-columns: auto 48px minmax(0, 1fr) 150px auto auto; gap: 12px; align-items: center; padding: 10px 0; border-top: 1px solid var(--grid); }
-.deal-row:first-child { border-top: 0; }
-.deal-row .deal-name { font-size: 13.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.disc { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 700; color: var(--good-ink); font-variant-numeric: tabular-nums; }
-.disc .track { flex: 1; height: 6px; border-radius: 3px; background: var(--grid); overflow: hidden; }
-.disc .track span { display: block; height: 100%; background: var(--good); border-radius: 3px; }
-.deal-actions { display: flex; gap: 6px; }
-.deal-actions .btn, .deal-actions button { min-height: 30px; padding: 4px 10px; font-size: 12.5px; }
-@media (max-width: 760px) {
-  .deal-hero { grid-template-columns: auto 1fr; }
-  .deal-hero .thumb { display: none; }
-  .deal-hero > .stack { grid-column: 1 / -1; display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
-  .deal-hero > .stack > * + * { margin-top: 0; }
-  .deal-hero .deal-price { text-align: left; }
-  .deal-row { grid-template-columns: auto minmax(0, 1fr) auto; }
-  .deal-row .thumb, .deal-row .disc { display: none; }
-  .deal-row .deal-actions { grid-column: 2 / -1; }
-}
 
 /* alerts */
 .alert { display: grid; grid-template-columns: 28px 1fr; gap: 10px; padding: 12px 0; border-top: 1px solid var(--grid); }
@@ -393,10 +363,102 @@ h1:focus { outline: none; }
 /* deals: list tabs (PC parts / Tech) */
 .seg.tabs a { min-height: 32px; padding: 6px 14px; border-radius: 8px; font-size: 13px; font-weight: 600; color: var(--ink-2); text-decoration: none; display: inline-flex; align-items: center; }
 .seg.tabs a[aria-current="page"] { background: var(--raised); color: var(--ink); box-shadow: 0 1px 2px rgba(0,0,0,.12); }
-.deal-more { display: flex; justify-content: center; padding-top: 12px; }
-.chip .n { color: var(--muted); font-weight: 600; margin-left: 2px; }
-.chip[aria-pressed="true"] .n { color: inherit; opacity: .7; }
-.chip-more { width: auto; min-height: 30px; border-radius: 99px; padding: 3px 12px; font-size: 13px; background: var(--raised); }
-.chip-more.on { background: var(--ink); color: var(--page); border-color: var(--ink); }
-#dealHero:empty { display: none; }
-#dealHero:empty + .deal-list { margin-top: 0; }
+
+/* ======================= deals showcase ======================= */
+:root {
+  --hot-1: #ef4444; --hot-2: #f97316;                  /* discount ribbons */
+  --gold: #f2b705; --silver: #a9b1bc; --bronze: #c97b3d;
+  --show-a: #1e3a8a; --show-b: #6d28d9; --show-c: #db2777; /* header gradient */
+}
+.showcase { position: relative; overflow: hidden; border-radius: 18px; padding: 26px 28px 22px; color: #fff;
+            background: radial-gradient(120% 140% at 0% 0%, var(--show-a) 0%, var(--show-b) 55%, var(--show-c) 100%); box-shadow: 0 10px 30px rgba(76, 29, 149, .25); }
+.showcase::after { content: ""; position: absolute; inset: auto -60px -90px auto; width: 280px; height: 280px; border-radius: 50%;
+                   background: radial-gradient(circle, rgba(255,255,255,.18), transparent 70%); pointer-events: none; }
+.showcase-top { display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-start; justify-content: space-between; position: relative; z-index: 1; }
+.showcase h1 { font-size: 34px; letter-spacing: -.03em; }
+.showcase .lede { color: rgba(255,255,255,.82); }
+.eyebrow { font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: rgba(255,255,255,.75); margin-bottom: 4px; }
+.showcase .seg.tabs { background: rgba(255,255,255,.16); backdrop-filter: blur(6px); }
+.showcase .seg.tabs a { color: rgba(255,255,255,.85); }
+.showcase .seg.tabs a[aria-current="page"] { background: #fff; color: #1f1147; }
+.show-stats { position: relative; z-index: 1; display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+.show-stat { background: rgba(255,255,255,.14); border: 1px solid rgba(255,255,255,.18); border-radius: 12px; padding: 8px 14px; min-width: 120px; }
+.show-stat .v { font-size: 20px; font-weight: 800; letter-spacing: -.02em; }
+.show-stat .l { font-size: 11.5px; color: rgba(255,255,255,.78); font-weight: 600; }
+
+/* shared bits */
+.photo { background: #fff; border-radius: 14px; display: grid; place-items: center; overflow: hidden; position: relative; }
+.photo img { max-width: 88%; max-height: 88%; object-fit: contain; transition: transform .35s ease; }
+.photo .fallback { font-size: 44px; }
+.ribbon { position: absolute; top: 10px; left: 10px; z-index: 1; padding: 4px 10px; border-radius: 99px; font-weight: 800; font-size: 13px; color: #fff;
+          background: linear-gradient(135deg, var(--hot-1), var(--hot-2)); box-shadow: 0 4px 12px rgba(239, 68, 68, .35); letter-spacing: -.01em; }
+.medal { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; font-size: 14px; color: #fff; flex: none;
+         background: var(--axis); box-shadow: inset 0 -2px 0 rgba(0,0,0,.18); }
+.medal.r1 { background: linear-gradient(135deg, #ffd84d, var(--gold)); color: #4a3500; }
+.medal.r2 { background: linear-gradient(135deg, #dfe4ea, var(--silver)); color: #2b3240; }
+.medal.r3 { background: linear-gradient(135deg, #e8a26b, var(--bronze)); color: #3d1e05; }
+.was { color: var(--muted); font-size: 13px; text-decoration: line-through; }
+.was.ref { text-decoration: none; }
+.now { font-weight: 800; letter-spacing: -.02em; }
+.save { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 700; color: var(--good-ink); background: var(--good-wash); border-radius: 99px; padding: 2px 9px; }
+.via { font-size: 12px; color: var(--muted); }
+.cta { background: linear-gradient(135deg, var(--hot-1), var(--hot-2)); border: 0; color: #fff; font-weight: 700; }
+.cta:hover { filter: brightness(1.06); }
+.lift { transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease; }
+.lift:hover { transform: translateY(-3px); box-shadow: 0 12px 28px rgba(0,0,0,.12); border-color: var(--axis); }
+.lift:hover .photo img { transform: scale(1.05); }
+
+/* #1 */
+.top-deal { display: grid; grid-template-columns: minmax(0, 340px) minmax(0, 1fr); gap: 24px; padding: 18px; border-radius: 18px; position: relative;
+            background: linear-gradient(135deg, color-mix(in srgb, var(--gold) 14%, var(--surface)), var(--surface) 60%); border: 1px solid color-mix(in srgb, var(--gold) 45%, var(--ring)); }
+.top-deal .photo { aspect-ratio: 4 / 3.3; }
+.top-deal .ribbon { font-size: 18px; padding: 6px 14px; top: 14px; left: 14px; }
+.top-deal .body { display: flex; flex-direction: column; gap: 10px; min-width: 0; padding: 6px 4px; }
+.top-deal .kicker { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 13px; color: color-mix(in srgb, var(--gold) 70%, var(--ink)); text-transform: uppercase; letter-spacing: .05em; }
+.top-deal h2 { font-size: 24px; letter-spacing: -.02em; line-height: 1.25; }
+.top-deal .price-line { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-top: auto; }
+.top-deal .now { font-size: 40px; }
+.top-deal .actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.top-deal .actions .btn, .top-deal .actions button { min-height: 40px; padding: 8px 16px; }
+
+/* #2 and #3 */
+.podium { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.podium:empty { display: none; }
+.pod { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 16px; padding: 14px; border-radius: 16px; background: var(--surface); border: 1px solid var(--ring); position: relative; }
+.pod .photo { aspect-ratio: 1; }
+.pod .ribbon { font-size: 13px; }
+.pod .body { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.pod h3 { margin: 0; font-size: 15.5px; color: var(--ink); line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.pod .now { font-size: 24px; }
+.pod .medal { position: absolute; top: 10px; right: 10px; }
+
+/* #4 – #10 */
+.deal-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; }
+.deal-grid:empty { display: none; }
+.tile { display: flex; flex-direction: column; gap: 8px; padding: 12px; border-radius: 16px; background: var(--surface); border: 1px solid var(--ring); position: relative; height: 100%; }
+.tile .photo { aspect-ratio: 4 / 3; }
+.tile .ribbon { font-size: 12px; padding: 3px 9px; top: 8px; left: 8px; }
+.tile .rank-n { position: absolute; top: 18px; right: 18px; z-index: 1; width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center;
+                font-size: 12px; font-weight: 800; background: rgba(15, 15, 15, .72); color: #fff; }
+.tile h3 { margin: 0; font-size: 13.5px; color: var(--ink); line-height: 1.3; min-height: 2.6em; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.tile .price-row { display: flex; align-items: baseline; justify-content: space-between; gap: 6px; margin-top: auto; }
+.tile .now { font-size: 18px; }
+.tile .tile-actions { display: flex; gap: 6px; }
+.tile .tile-actions > * { flex: 1; justify-content: center; min-height: 32px; padding: 4px 8px; font-size: 12.5px; }
+.badges { display: flex; flex-wrap: wrap; gap: 4px; }
+
+@media (max-width: 900px) {
+  .showcase { padding: 20px 18px 18px; border-radius: 16px; }
+  .showcase h1 { font-size: 28px; }
+  .show-stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .show-stat { min-width: 0; padding: 8px 10px; }
+  .show-stat .v { font-size: 17px; }
+  .top-deal { grid-template-columns: minmax(0, 1fr); gap: 14px; padding: 14px; }
+  .top-deal h2 { font-size: 20px; }
+  .top-deal .now { font-size: 32px; }
+  .podium { grid-template-columns: minmax(0, 1fr); }
+  .pod { grid-template-columns: 110px minmax(0, 1fr); }
+  .deal-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .tile { padding: 10px; }
+}
+@media (prefers-reduced-motion: reduce) { .lift, .photo img { transition: none; } .lift:hover { transform: none; } }

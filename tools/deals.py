@@ -41,10 +41,10 @@ TECH_KEEP = 150
 NOT_TECH = re.compile(
     r"cartridge|toner|inkt|hoesje|hoes|sleeve|screenprotector|beschermglas|kabel|adapter|accessoire|tassen|rugzak|"
     r"thermometer|blender|kookpla|oven|magnetron|koelkast|vriezer|wasmachine|droger|vaatwas|airfryer|koffie|"
-    r"waterkoker|stofzuiger|hogedruk|boormachine|gereedschap|grasmaaier|verlichting|lamp|batterij|papier|label|pomp",
+    r"waterkoker|stofzuiger|hogedruk|boormachine|gereedschap|grasmaaier|verlichting|lamp|batterij|papier|label|pomp|beugel|standaard|houder",
     re.I)
-# Business and server gear (label printers, signage, server RAM, workstation CPUs).
-BUSINESS = re.compile(r"\b(?:HPE|Zebra|Threadripper|Xeon|EPYC|RDIMM|LRDIMM|Registered|ThinkSystem|PowerEdge)\b|Brother TD-|\d+BDL\d", re.I)
+# Business and server gear (label printers, signage, server RAM, workstation CPUs/boards). Used for both lists.
+BUSINESS = re.compile(r"\b(?:HPE|Zebra|Threadripper|Xeon|EPYC|RDIMM|LRDIMM|Registered|ThinkSystem|PowerEdge)\b|Brother TD-|\d+BDL\d|\bPro WS\b|\bFW-\d", re.I)
 TECH_MAX_PRICE = 3000  # above this it's mostly business equipment
 
 
@@ -136,7 +136,7 @@ def collect(tw) -> list[dict]:
             html = tw.get(f"https://tweakers.net/{slug}/deals/?page={page}")
             rows = parse_deals(html)
             for d in rows:
-                if d["price"] and d["price"] >= MIN_PRICE and d["before"] and keep(cat, d, min_id):
+                if d["price"] and d["price"] >= MIN_PRICE and d["before"] and keep(cat, d, min_id) and not BUSINESS.search(d["name"]):
                     found.append(d | {"cat": cat, "source": "tweakers"})
                     n += 1
             if f"page={page + 1}" not in html:
@@ -155,6 +155,38 @@ def collect(tw) -> list[dict]:
         if d["id"] not in best or d["price"] < best[d["id"]]["price"]:
             best[d["id"]] = d
     return sorted(best.values(), key=lambda d: -d["score"])[:KEEP]
+
+
+def top10(deals: list[dict], cat_key: str, per_cat: int = 3) -> list[dict]:
+    """The 10 best deals in ranking order, at most `per_cat` from one category so one category can't fill the list."""
+    out, seen = [], {}
+    for d in deals:
+        c = d.get(cat_key) or "?"
+        if seen.get(c, 0) >= per_cat:
+            continue
+        seen[c] = seen.get(c, 0) + 1
+        out.append(d)
+        if len(out) == 10:
+            break
+    return out
+
+
+def large_image(html: str) -> str | None:
+    """The main product photo (374×326) from a Tweakers Pricewatch product page."""
+    for img in BeautifulSoup(html, "html.parser").select("img"):
+        src = img.get("src") or ""
+        if "tweakers.net/i/" in src and "imagemediumplus" in src:
+            return src
+    return None
+
+
+def add_large_images(tw, deals: list[dict]):
+    """Only for the deals that are shown big on the dashboard: one product-page request each."""
+    for d in deals:
+        try:
+            d["image_large"] = large_image(tw.get(f"https://tweakers.net/pricewatch/{d['id']}/"))
+        except Exception as e:
+            print(f"No large image for {d['name']}: {e}", flush=True)
 
 
 def notify(deals: list[dict]):
@@ -203,9 +235,12 @@ def main():
     except Exception as e:  # PC-part deals are still worth publishing
         print(f"Tech deals failed: {e}", flush=True)
         tech = []
+    # Today's two top-10 lists, decided here so the dashboard and the notification agree.
+    top = {"pc": top10(deals, "cat"), "tech": top10(sorted(tech, key=lambda d: (-d["discount_pct"], -d["score"])), "tw_cat")}
+    add_large_images(tw, [d for lst in top.values() for d in lst])
     OUT.parent.mkdir(exist_ok=True)
     OUT.write_text(json.dumps({"generated": datetime.now(timezone.utc).isoformat(timespec="seconds"),
-                               "source": "Tweakers Pricewatch Deals", "deals": deals, "tech": tech},
+                               "source": "Tweakers Pricewatch Deals", "top10": top, "deals": deals, "tech": tech},
                               ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
     print(f"Wrote {OUT} ({len(deals)} PC-part deals, {len(tech)} tech deals)")
     for i, d in enumerate(deals[:10], 1):

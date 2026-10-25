@@ -5,14 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>PC Price Tracker</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💸</text></svg>">
-<link rel="stylesheet" href="assets/app.css">
+<link rel="stylesheet" href="assets/app.css?v=2026-10-25">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script>
   // Apply the saved theme before first paint so there's no light/dark flash.
   try { const t = localStorage.getItem("pct.theme"); if (t === "light" || t === "dark") document.documentElement.dataset.theme = t; } catch {}
 </script>
-<script src="assets/app.js" defer></script>
+<script src="assets/app.js?v=2026-10-25" defer></script>
 </head>
 <body>
 <a class="skip" href="#content">Skip to content</a>
@@ -117,44 +117,39 @@
 
   <!-- DEALS -->
   <section class="view" data-view="deals" aria-labelledby="h-deals">
-    <div class="page-head">
-      <div><h1 tabindex="-1" id="h-deals">Deals of the day</h1><p class="lede" id="dealsSub"></p></div>
-      <nav class="seg tabs" aria-label="Deal lists">
-        <a href="#/deals" data-mode="pc">🖥️ PC parts</a><a href="#/deals/tech" data-mode="tech">🏷️ Tech −30%+</a>
-      </nav>
-    </div>
-    <div class="toolbar">
-      <div class="chips" id="dealChips" role="group" aria-label="Filter deals by category"></div>
-      <div class="seg" id="dealSrc" role="group" aria-label="Source">
-        <button data-src="all">All sources</button><button data-src="tweakers">Tweakers</button><button data-src="pepper">Pepper</button>
+    <header class="showcase">
+      <div class="showcase-top">
+        <div>
+          <div class="eyebrow" id="dealsDate">Deals of the day</div>
+          <h1 tabindex="-1" id="h-deals">Top 10 deals</h1>
+          <p class="lede" id="dealsSub"></p>
+        </div>
+        <nav class="seg tabs" aria-label="Deal lists">
+          <a href="#/deals" data-mode="pc">🖥️ PC parts</a><a href="#/deals/tech" data-mode="tech">🏷️ Tech −30%+</a>
+        </nav>
       </div>
-      <div class="seg hidden" id="techMin" role="group" aria-label="Minimum discount">
-        <button data-min="30">30%+</button><button data-min="40">40%+</button><button data-min="50">50%+</button>
-      </div>
-    </div>
+      <div class="show-stats" id="dealStats"></div>
+    </header>
     <div id="dealsStale"></div>
-    <div class="card" id="dealsCard">
-      <div id="dealHero"></div>
-      <ol class="deal-list" id="dealList" start="2"></ol>
-      <div id="dealMore"></div>
-    </div>
+    <div id="dealTop"></div>
+    <div class="podium" id="dealPodium"></div>
+    <ol class="deal-grid" id="dealGrid" start="4"></ol>
     <details class="explain" data-for="pc">
       <summary>How are deals picked?</summary>
       <ul>
         <li><b>Tweakers</b>: today's price drops across all Dutch shops.</li>
         <li><b>Pepper</b>: deals posted by the community at Dutch retailers, kept only when they're cheaper than every Dutch shop on Tweakers today.</li>
         <li>Only PC parts that match your suggestion rules: RTX 3000+ / RX 5000+, otherwise at most 36 months old, no server parts.</li>
-        <li>Ranked by discount, with a bonus for real lows and a penalty for inflated "before" prices. "All" shows at most 3 per category.</li>
-        <li>Deals are collected every morning by the scheduled task on your PC.</li>
+        <li>Ranked by discount, with a bonus for real lows and a penalty for inflated "before" prices. At most 3 per category.</li>
+        <li>Collected every morning (and when you log in) by the scheduled task on your PC.</li>
       </ul>
     </details>
     <details class="explain" data-for="tech">
       <summary>Which tech deals are shown?</summary>
       <ul>
-        <li>Everything on Tweakers Pricewatch (phones, laptops, TVs, audio, networking, PC parts…) that is <b>at least 30% off</b> today.</li>
-        <li>Only <b>genuine lows</b>: Tweakers' "lowest price in months", or at most 2% above the lowest price of the last 6 months. A "discount" off an inflated price is left out.</li>
-        <li>No consumables, accessories or household appliances (cartridges, phone cases, cables, blenders…), nothing under €40, and no business or server equipment.</li>
-        <li>Collected every morning by the scheduled task on your PC.</li>
+        <li>Everything on Tweakers Pricewatch (phones, laptops, TVs, audio, networking, PC parts…) that is <b>at least 30% off</b> today. The 10 biggest drops, at most 3 per category.</li>
+        <li>Only <b>genuine lows</b>: Tweakers' "lowest price in months", or at most 2% above the lowest price of the last 6 months.</li>
+        <li>No consumables, accessories or household appliances, nothing under €40, and no business or server equipment.</li>
       </ul>
     </details>
   </section>

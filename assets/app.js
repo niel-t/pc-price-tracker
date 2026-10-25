@@ -227,14 +227,14 @@ function renderOverview(parts) {
   const n = parts.length;
   $("overviewLede").textContent = n ? `How your ${n}-part build is doing today.` : "Track the parts of your PC build and get a ping when prices drop.";
 
-  const deals = S.deals?.deals?.length ? topDeals(S.deals.deals, "All", "all").slice(0, 3) : [];
+  const deals = dealLists().pc.slice(0, 3);
   $("overviewDeals").innerHTML = deals.length ? deals.map((d) => `<a class="mini" href="#/deals">
       ${dealThumb(d, true)}
       <div style="min-width:0"><div class="t">${esc(d.name)}</div><div class="small muted">${CATS[d.cat] || ""} ${esc(d.cat)}${d.shop ? ` · ${esc(d.shop)}` : ""}</div></div>
       <div class="p">${eur(d.price)}<small>−${d.discount_pct}%</small></div></a>`).join("")
     : `<div class="quiet small">No deals collected yet. They're added every morning by the task on your PC.</div>`;
   const techN = S.deals?.tech?.length || 0;
-  if (techN) $("overviewDeals").innerHTML += `<a class="more" href="#/deals/tech" style="margin-top:10px">🏷️ ${techN} tech deals at 30%+ off today <svg class="ic sm"><use href="#i-chevron"/></svg></a>`;
+  if (techN) $("overviewDeals").innerHTML += `<a class="more" href="#/deals/tech" style="margin-top:10px">🏷️ Top 10 tech deals, 30%+ off <svg class="ic sm"><use href="#i-chevron"/></svg></a>`;
 
   $("overviewAlerts").innerHTML = S.alerts.length ? S.alerts.slice(0, 3).map((a) => `<a class="mini" href="#/alerts">
       <div class="ai">📉</div>
@@ -309,50 +309,71 @@ function renderKpis(parts) {
   lineChart("totalChart", pts, { compact: true, empty: "The chart fills in as prices are checked over time." });
 }
 
-// Deals of the day: data/deals.json is collected from Tweakers by tools/deals.py on the user's PC.
-// "All" shows the top 10 by score with at most 3 per category, so one category can't fill the list.
-function topDeals(deals, cat, src) {
-  deals = deals.filter((d) => src === "all" || d.source === src);
-  if (cat !== "All") return deals.filter((d) => d.cat === cat).slice(0, 10);
-  const perCat = {}, out = [];
-  for (const d of deals) {
-    if ((perCat[d.cat] = (perCat[d.cat] || 0) + 1) > 3) continue;
+// Deals of the day: data/deals.json is collected by tools/deals.py on the user's PC, which also picks today's two
+// top-10 lists ("top10": PC parts and tech, at most 3 per category). Older files without it use the same rule here.
+function top10(list, catKey) {
+  const seen = {}, out = [];
+  for (const d of list || []) {
+    const c = d[catKey] || "?";
+    if ((seen[c] = (seen[c] || 0) + 1) > 3) continue;
     out.push(d);
     if (out.length === 10) break;
   }
   return out;
 }
+// Tweakers category names (Dutch) → this app's part categories, for "Track" and "In your build" on tech deals.
+const TW_CATS = { "Videokaarten": "GPU", "Processors": "CPU", "Moederborden": "Motherboard", "Geheugen intern": "RAM",
+  "Interne ssd's": "Storage", "Voedingen": "PSU", "Behuizingen": "Case", "Processorkoeling": "Cooler", "Waterkoeling": "Cooler",
+  "Monitors": "Monitor", "Toetsenborden": "Peripherals", "Muizen": "Peripherals", "Gaming headsets": "Peripherals" };
+function dealLists() {
+  const data = S.deals || {};
+  // label: the PC list speaks this app's categories, the tech list Tweakers' own (much finer) categories.
+  const pc = (data.top10?.pc || top10(data.deals, "cat")).map((d) => ({ ...d, label: d.cat }));
+  const tech = (data.top10?.tech || top10([...(data.tech || [])].sort((a, b) => b.discount_pct - a.discount_pct), "tw_cat"))
+    .map((d) => ({ ...d, cat: TW_CATS[d.tw_cat] || "Other", label: d.tw_cat }));
+  return { pc, tech };
+}
+
 // Pepper deals are compared with Tweakers' lowest NL price today, Tweakers deals with their own earlier price.
-const beforeHtml = (d) => d.before_label
-  ? `<span class="small muted" style="display:block">${esc(d.before_label)} ${eur(d.before)}</span>` : `<s>${eur(d.before)}</s>`;
+const wasHtml = (d) => d.before_label
+  ? `<span class="was ref">${esc(d.before_label)} ${eur(d.before)}</span>` : `<span class="was">${eur(d.before)}</span>`;
+const saveText = (d) => d.before_label ? `${eur(d.before - d.price, 0)} below Tweakers` : `Save ${eur(d.before - d.price, 0)}`;
+const catLabel = (d) => `${CATS[d.cat] && d.cat !== "Other" ? `${CATS[d.cat]} ` : ""}${esc(d.label || d.cat)}`;
 function dealSource(d) {
-  if (d.source === "pepper")
-    return `via <b>Pepper</b> · at <b class="ink2">${esc(d.shop)}</b> · posted ${ago(d.posted)}`;
-  return `via <b>Tweakers</b> price drop`;
+  if (d.source === "pepper") return `via <b>Pepper</b> · at <b class="ink2">${esc(d.shop)}</b> · posted ${ago(d.posted)}`;
+  return `via <b>Tweakers</b>`;
 }
 function dealBadges(d) {
   const b = [];
   if (d.suspect) b.push(`<span class="badge warn" title="Far below every Dutch shop — often a pricing error that's already been fixed">⚠ Too good to be true? Check first</span>`);
-  else if (d.source === "pepper") b.push(`<span class="badge good" title="Cheaper than every Dutch shop listed on Tweakers today">★ Beats all NL shops on Tweakers</span>`);
+  else if (d.source === "pepper") b.push(`<span class="badge good" title="Cheaper than every Dutch shop listed on Tweakers today">★ Beats all NL shops</span>`);
   else if (d.badge) b.push(`<span class="badge good">★ ${esc(d.badge.replace(/^Laagste prijs sinds (\d+) maanden?$/, "Lowest in $1 months"))}</span>`);
+  else if (d.low_6m && d.price <= d.low_6m * 1.02) b.push(`<span class="badge good" title="Within 2% of the lowest price of the last 6 months">★ At its 6-month low</span>`);
   else if (d.low_6m && d.price > d.low_6m * 1.02) b.push(`<span class="badge warn" title="Tweakers saw ${eur(d.low_6m)} recently">Was ${eur(d.low_6m, 0)} recently</span>`);
-  if (S.config.products.some((p) => p.category === d.cat)) b.push(`<span class="badge info" title="You track a ${esc(d.cat)} — this could be an alternative">In your build</span>`);
-  return b.join(" ");
+  if (d.cat !== "Other" && S.config.products.some((p) => p.category === d.cat)) b.push(`<span class="badge info" title="You track a ${esc(d.cat)} — this could be an alternative">In your build</span>`);
+  return b.join("");
 }
 const dealThumb = (d, sm) => `<div class="thumb ${sm ? "sm" : ""}">${d.image ? `<img src="${esc(d.image)}" alt="" loading="lazy">` : CATS[d.cat] || "📦"}</div>`;
-// Two lists on the Deals page: #/deals (PC parts, top 10) and #/deals/tech (all tech at 30%+ off).
+const dealPhoto = (d, eager) => `<div class="photo"><span class="ribbon">−${d.discount_pct}%</span>${
+  d.image_large || d.image ? `<img src="${esc(d.image_large || d.image)}" alt="" ${eager ? "" : `loading="lazy"`}>` : `<span class="fallback">${CATS[d.cat] || "📦"}</span>`}</div>`;
+const dealButtons = (d, i, big) => `<a class="btn ${big ? "cta" : ""}" href="${esc(d.url)}" target="_blank" rel="noopener"
+    title="${d.source === "pepper" ? "Open the deal on Pepper" : "Compare shops on Tweakers"}">${big ? "View deal" : "View"} ↗</a>${
+    token() ? `<button data-track="${i}" title="Track this product">＋ Track</button>` : ""}`;
+
+// Two top-10 lists on the Deals page: #/deals (PC parts) and #/deals/tech (all tech at 30%+ off).
 function renderDeals() {
   const data = S.deals, mode = route().arg === "tech" ? "tech" : "pc";
   document.querySelectorAll("[data-mode]").forEach((a) => { if (a.dataset.mode === mode) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current"); });
   document.querySelectorAll(".explain[data-for]").forEach((d) => d.classList.toggle("hidden", d.dataset.for !== mode));
-  $("dealSrc").classList.toggle("hidden", mode !== "pc");
-  $("techMin").classList.toggle("hidden", mode !== "tech");
-  $("dealMore").innerHTML = "";
-  const list = mode === "tech" ? data?.tech : data?.deals;
-  if (!list?.length) {
-    $("dealsSub").textContent = mode === "tech" ? "Tech that's at least 30% off today, genuine lows only." : "Today's biggest genuine price drops on PC parts.";
-    $("dealChips").innerHTML = ""; $("dealSrc").classList.add("hidden"); $("techMin").classList.add("hidden"); $("dealsStale").innerHTML = ""; $("dealList").innerHTML = "";
-    $("dealHero").innerHTML = `<div class="empty"><div style="font-size:36px">🏷️</div><h2>No deals yet</h2>
+  const list = dealLists()[mode];
+  S.dealList = list;
+  $("h-deals").textContent = mode === "tech" ? "Top 10 tech deals" : "Top 10 PC-part deals";
+  $("dealsDate").textContent = data?.generated
+    ? `${new Date(data.generated).toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long" })} · deals of the day` : "Deals of the day";
+  if (!list.length) {
+    $("dealsSub").textContent = mode === "tech" ? "The biggest genuine drops on tech, each at least 30% off." : "The best genuine price drops on PC parts.";
+    $("dealStats").innerHTML = ""; $("dealsStale").innerHTML = ""; $("dealPodium").innerHTML = ""; $("dealGrid").innerHTML = "";
+    $("dealTop").innerHTML = `<div class="card empty"><div style="font-size:36px">🏷️</div><h2>No deals yet</h2>
       <p class="muted">Deals are collected every morning by the scheduled task on your PC. <a href="${GH}#deals-of-the-day" target="_blank" rel="noopener">How it works</a></p></div>`;
     return;
   }
@@ -360,93 +381,52 @@ function renderDeals() {
   const hrs = (Date.now() - new Date(data.generated)) / 36e5;
   $("dealsStale").innerHTML = hrs > 36
     ? `<div class="banner warn small"><span>⏳</span><div class="grow">These deals are ${Math.round(hrs / 24)} day(s) old. They refresh when your PC runs the daily deals task.</div></div>` : "";
-  if (mode === "tech") renderTechDeals(data); else renderPcDeals(data);
-}
+  $("dealsSub").textContent = mode === "tech"
+    ? `The 10 biggest genuine drops on all tech today, each at least 30% off. Updated ${ago(data.generated)}.`
+    : `The 10 best genuine price drops on PC parts today, from Tweakers and Pepper. Updated ${ago(data.generated)}.`;
 
-function renderPcDeals(data) {
-  $("dealList").setAttribute("start", "2");
-  S.dealSrc ??= "all";
-  $("dealSrc").querySelectorAll("button").forEach((b) => b.setAttribute("aria-pressed", b.dataset.src === S.dealSrc));
-  const inSrc = data.deals.filter((d) => S.dealSrc === "all" || d.source === S.dealSrc);
-  const cats = ["All", ...Object.keys(CATS).filter((c) => inSrc.some((d) => d.cat === c))];
-  S.dealCat = cats.includes(S.dealCat) ? S.dealCat : "All";
-  $("dealChips").innerHTML = cats.map((c) => `<button class="chip" aria-pressed="${c === S.dealCat}" data-dcat="${c}">${c === "All" ? "All" : `${CATS[c]} ${c}`}</button>`).join("");
-  const pepperShops = [...new Set(data.deals.filter((d) => d.source === "pepper").map((d) => d.shop))];
-  $("dealsSub").innerHTML = `Today's biggest genuine price drops on PC parts, from Tweakers${pepperShops.length
-    ? ` and Pepper <span title="Retailers in today's Pepper deals">(${esc(pepperShops.slice(0, 4).join(", "))}${pepperShops.length > 4 ? ", …" : ""})</span>` : ""}. Updated ${ago(data.generated)}.`;
+  const savings = list.reduce((s, d) => s + Math.max(0, d.before - d.price), 0);
+  const lows = list.filter((d) => !d.suspect && (d.source === "pepper" || d.badge || (d.low_6m && d.price <= d.low_6m * 1.02))).length;
+  const cats = new Set(list.map((d) => d.label)).size;
+  const stat = (v, l) => `<div class="show-stat"><div class="v">${v}</div><div class="l">${l}</div></div>`;
+  $("dealStats").innerHTML = stat(eur(savings, 0), "saved in this top 10")
+    + stat(`−${Math.max(...list.map((d) => d.discount_pct))}%`, "biggest drop")
+    + stat(`${lows}/${list.length}`, "at a genuine low")
+    + stat(cats, cats === 1 ? "category" : "categories");
 
-  const list = topDeals(data.deals, S.dealCat, S.dealSrc);
-  const maxPct = Math.max(...list.map((d) => d.discount_pct), 1);
-  const thumb = dealThumb;
-  const actions = (d, i) => `<div class="deal-actions">
-      ${token() ? `<button data-track="${i}" title="Track this part">＋ Track</button>` : ""}
-      <a class="btn" href="${esc(d.url)}" target="_blank" rel="noopener" title="${d.source === "pepper" ? "Open the deal on Pepper" : "Compare shops on Tweakers"}">View ↗</a></div>`;
   const [top, ...rest] = list;
-  $("dealHero").innerHTML = top ? `<div class="deal-hero">
-      <div class="rank" aria-label="Number 1">1</div>${thumb(top)}
-      <div style="min-width:0"><div class="small muted">${CATS[top.cat] || ""} ${esc(top.cat)} · deal of the day</div>
-        <div class="deal-name">${esc(top.name)}</div>
-        <div class="small muted" style="margin:2px 0 6px">${esc(top.spec)}<br>${dealSource(top)}</div>
-        <div class="row" style="gap:4px"><span class="badge good">▼ ${top.discount_pct}%</span> ${dealBadges(top)}</div></div>
-      <div class="stack"><div class="deal-price">${beforeHtml(top)}<b>${eur(top.price)}</b>
-        <div class="small" style="color:var(--good-ink); font-weight:600">${top.before_label ? `${eur(top.before - top.price)} below Tweakers` : `save ${eur(top.before - top.price)}`}</div></div>${actions(top, 0)}</div>
-    </div>` : `<p class="quiet small">No deals for this filter today.</p>`;
-  $("dealList").innerHTML = rest.map((d, j) => `<li class="deal-row">
-      <div class="rank">${j + 2}</div>${thumb(d, true)}
-      <div style="min-width:0"><div class="deal-name" title="${esc(d.name)}">${esc(d.name)}</div>
-        <div class="small muted" style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis">${CATS[d.cat] || ""} ${esc(d.cat)} · ${dealSource(d)}</div>
-        <div class="row" style="gap:4px; margin-top:3px">${dealBadges(d)}</div></div>
-      <div class="disc" aria-label="${d.discount_pct}% off"><div class="track"><span style="width:${(d.discount_pct / maxPct) * 100}%"></span></div>−${d.discount_pct}%</div>
-      <div class="deal-price">${beforeHtml(d)}<b>${eur(d.price)}</b></div>
-      ${actions(d, j + 1)}</li>`).join("");
-  S.dealList = list;
-}
-
-// Tweakers category names (Dutch) → this app's part categories, for "Track" on a tech deal.
-const TW_CATS = { "Videokaarten": "GPU", "Processors": "CPU", "Moederborden": "Motherboard", "Geheugen intern": "RAM",
-  "Interne ssd's": "Storage", "Voedingen": "PSU", "Behuizingen": "Case", "Processorkoeling": "Cooler", "Waterkoeling": "Cooler",
-  "Monitors": "Monitor", "Toetsenborden": "Peripherals", "Muizen": "Peripherals", "Gaming headsets": "Peripherals" };
-const TECH_SHOWN = 25;
-function renderTechDeals(data) {
-  S.techMin ??= 30;
-  $("techMin").querySelectorAll("button").forEach((b) => b.setAttribute("aria-pressed", +b.dataset.min === S.techMin));
-  const atMin = data.tech.filter((d) => d.discount_pct >= S.techMin);
-  const counts = {};
-  for (const d of atMin) counts[d.tw_cat] = (counts[d.tw_cat] || 0) + 1;
-  const cats = Object.entries(counts).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
-  if (S.techCat && !counts[S.techCat]) S.techCat = null;
-  // The biggest categories as chips, the long tail in a dropdown, so filters stay on one or two rows.
-  const CHIPS = 8, top = cats.slice(0, CHIPS), tail = cats.slice(CHIPS);
-  const inTail = tail.some(([c]) => c === S.techCat);
-  $("dealChips").innerHTML = `<button class="chip" aria-pressed="${!S.techCat}" data-tcat="">All <span class="n">${atMin.length}</span></button>`
-    + top.map(([c, n]) => `<button class="chip" aria-pressed="${c === S.techCat}" data-tcat="${esc(c)}">${esc(c)} <span class="n">${n}</span></button>`).join("")
-    + (tail.length ? `<select class="chip-more ${inTail ? "on" : ""}" id="techMore" aria-label="More categories">
-        <option value="">${inTail ? "All categories" : `More categories (${tail.length})`}</option>
-        ${tail.map(([c, n]) => `<option value="${esc(c)}" ${c === S.techCat ? "selected" : ""}>${esc(c)} (${n})</option>`).join("")}</select>` : "");
-  $("dealsSub").innerHTML = `${data.tech.length} tech products at least 30% off today on Tweakers, all at a genuine low. Updated ${ago(data.generated)}.`;
-
-  const list = atMin.filter((d) => !S.techCat || d.tw_cat === S.techCat);
-  const shown = S.techAll ? list : list.slice(0, TECH_SHOWN);
-  const maxPct = Math.max(...shown.map((d) => d.discount_pct), 1);
-  const badge = (d) => d.badge
-    ? `<span class="badge good">★ ${esc(d.badge.replace(/^Laagste prijs sinds (\d+) maanden?$/, "Lowest in $1 months"))}</span>`
-    : `<span class="badge good" title="Within 2% of the lowest price of the last 6 months">★ At its 6-month low</span>`;
-  const actions = (d, i) => `<div class="deal-actions">
-      ${token() ? `<button data-track="${i}" title="Track this product">＋ Track</button>` : ""}
-      <a class="btn" href="${esc(d.url)}" target="_blank" rel="noopener" title="Compare shops on Tweakers">View ↗</a></div>`;
-  $("dealHero").innerHTML = list.length ? "" : `<p class="quiet small">No tech deals for this filter today.</p>`;
-  $("dealList").setAttribute("start", "1");
-  $("dealList").innerHTML = shown.map((d, i) => `<li class="deal-row">
-      <div class="rank">${i + 1}</div>${dealThumb(d, true)}
-      <div style="min-width:0"><div class="deal-name" title="${esc(d.name)}">${esc(d.name)}</div>
-        <div class="small muted" style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis">${esc(d.tw_cat || "")}${d.spec ? ` · ${esc(d.spec)}` : ""}</div>
-        <div class="row" style="gap:4px; margin-top:3px">${badge(d)}</div></div>
-      <div class="disc" aria-label="${d.discount_pct}% off"><div class="track"><span style="width:${(d.discount_pct / maxPct) * 100}%"></span></div>−${d.discount_pct}%</div>
-      <div class="deal-price"><s>${eur(d.before)}</s><b>${eur(d.price)}</b></div>
-      ${actions(d, i)}</li>`).join("");
-  $("dealMore").innerHTML = list.length > shown.length
-    ? `<div class="deal-more"><button id="techAll">Show all ${list.length}</button></div>` : "";
-  S.dealList = shown.map((d) => ({ ...d, cat: TW_CATS[d.tw_cat] || "Other" }));
+  $("dealTop").innerHTML = `<article class="top-deal lift">
+      ${dealPhoto(top, true)}
+      <div class="body">
+        <div class="kicker"><span class="medal r1">1</span>Deal of the day</div>
+        <div class="via">${catLabel(top)} · ${dealSource(top)}</div>
+        <h2>${esc(top.name)}</h2>
+        ${top.spec ? `<div class="small muted">${esc(top.spec)}</div>` : ""}
+        <div class="badges">${dealBadges(top)}</div>
+        <div class="price-line"><span class="now">${eur(top.price)}</span>${wasHtml(top)}<span class="save">${saveText(top)}</span></div>
+        <div class="actions">${dealButtons(top, 0, true)}</div>
+      </div>
+    </article>`;
+  $("dealPodium").innerHTML = rest.slice(0, 2).map((d, j) => `<article class="pod lift">
+      <span class="medal r${j + 2}">${j + 2}</span>
+      ${dealPhoto(d, true)}
+      <div class="body">
+        <div class="via">${catLabel(d)} · ${dealSource(d)}</div>
+        <h3 title="${esc(d.name)}">${esc(d.name)}</h3>
+        <div class="badges">${dealBadges(d)}</div>
+        <div><span class="now">${eur(d.price)}</span> ${wasHtml(d)}</div>
+        <div><span class="save">${saveText(d)}</span></div>
+        <div class="tile-actions" style="margin-top:auto">${dealButtons(d, j + 1)}</div>
+      </div>
+    </article>`).join("");
+  $("dealGrid").innerHTML = rest.slice(2).map((d, j) => `<li><article class="tile lift">
+      ${dealPhoto(d)}<span class="rank-n" aria-label="Number ${j + 4}">${j + 4}</span>
+      <div class="via">${catLabel(d)}${d.source === "pepper" ? ` · ${esc(d.shop)}` : ""}</div>
+      <h3 title="${esc(d.name)}">${esc(d.name)}</h3>
+      <div class="badges">${dealBadges(d)}</div>
+      <div class="price-row"><span class="now">${eur(d.price)}</span>${wasHtml(d)}</div>
+      <div class="tile-actions">${dealButtons(d, j + 3)}</div>
+    </article></li>`).join("");
 }
 
 function renderBuild(parts) {
@@ -1015,21 +995,12 @@ $("thSave").onclick = () => saveConfig((cfg) => { cfg.settings = { ...cfg.settin
 $("addBtn").onclick = () => openEditor();
 $("hideSetup").onclick = () => { store.set("hideSetup", "1"); render(); };
 $("sort").onchange = (e) => { S.sort = e.target.value; store.set("sort", S.sort); render(); };
-$("dealChips").addEventListener("click", (e) => {
-  const c = e.target.closest("[data-dcat]"), t = e.target.closest("[data-tcat]");
-  if (c) { S.dealCat = c.dataset.dcat; renderDeals(); }
-  if (t) { S.techCat = t.dataset.tcat || null; S.techAll = false; renderDeals(); }
-});
-$("dealsCard").addEventListener("click", (e) => {
+document.querySelector('[data-view="deals"]').addEventListener("click", (e) => {
   const b = e.target.closest("[data-track]");
   if (!b) return;
   const d = S.dealList[+b.dataset.track];
   openEditor(null, { name: d.name, category: d.cat, target: d.price, picked: { ...d, shops: null } });
 });
-$("dealChips").addEventListener("change", (e) => { if (e.target.id === "techMore") { S.techCat = e.target.value || null; S.techAll = false; renderDeals(); } });
-$("techMin").addEventListener("click", (e) => { const b = e.target.closest("[data-min]"); if (b) { S.techMin = +b.dataset.min; S.techAll = false; renderDeals(); } });
-$("dealMore").addEventListener("click", (e) => { if (e.target.closest("#techAll")) { S.techAll = true; renderDeals(); } });
-$("dealSrc").addEventListener("click", (e) => { const b = e.target.closest("[data-src]"); if (b) { S.dealSrc = b.dataset.src; renderDeals(); } });
 $("alertFilter").onchange = (e) => { S.alertPart = e.target.value; renderAlertsView(); };
 $("chips").addEventListener("click", (e) => { const c = e.target.closest("[data-cat]"); if (c) { S.cat = c.dataset.cat; render(); } });
 document.querySelectorAll("[data-layout]").forEach((b) => b.addEventListener("click", () => { S.layout = b.dataset.layout; store.set("layout", S.layout); render(); }));

@@ -13,7 +13,7 @@ The dashboard has five pages (sidebar on desktop, tab bar at the bottom on phone
 |---|---|
 | **Overview** | Build total and its trend, what needs your attention (targets hit, big drops, shops that can't be read), top 3 deals and latest alerts |
 | **My build** | All your parts as a list with a total row (or as cards), filter by category, sort; click a part for its price history and every shop's price |
-| **Deals** | Deals of the day, filterable by category and source (Tweakers / Pepper) |
+| **Deals** | Top 10 deals of the day, as a showcase with photos: PC parts, or all tech at −30% or more |
 | **Alerts** | Every price alert, grouped by day, filterable per part |
 | **Settings** | GitHub connection, phone alerts, alert sensitivity, light/dark theme, data sources |
 
@@ -29,7 +29,7 @@ Getting started:
    product link per shop. The form has quick search buttons for shops that are known to work, and tags every
    link ✓ works / ✕ blocked / ? untested. Saving starts a check right away.
 
-The dashboard is `index.html` with `assets/app.css` and `assets/app.js`; no build step.
+The dashboard is `index.html` with `assets/app.css` and `assets/app.js`; no build step. After changing the CSS or JS, bump the `?v=` date on both links in `index.html` so browsers don't mix old and new files.
 
 ## Part suggestions
 
