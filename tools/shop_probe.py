@@ -34,6 +34,9 @@ PAGES = {
     "Coolblue (search)": "https://www.coolblue.nl/zoeken?query=7800x3d",
     "bol.com (search)": "https://www.bol.com/nl/nl/s/?searchtext=7800x3d",
     "Amazon.nl (search)": "https://www.amazon.nl/s?k=7800x3d",
+    # Deal sources used by tools/deals.py (can the daily deals job run on GitHub?)
+    "Tweakers deals (feed)": "https://tweakers.net/videokaarten/deals/",
+    "Pepper RSS (feed)": "https://nl.pepper.com/rss/groep/computer-onderdelen",
 }
 
 
@@ -45,7 +48,7 @@ def main():
         try:
             r = client.get(url)
             price, how = extract_price(r.text) if r.status_code == 200 else (None, None)
-            result = f"€{price:.2f} via {how}" if price else ("search page only" if "search" in shop and r.status_code == 200 else "-")
+            result = f"€{price:.2f} via {how}" if price else ("page loads" if ("search" in shop or "feed" in shop) and r.status_code == 200 else "-")
             print(f"{shop:22} {r.status_code:>6} {len(r.content):>8}  {result}", flush=True)
         except Exception as e:
             print(f"{shop:22} {'ERR':>6} {'':>8}  {type(e).__name__}: {e}", flush=True)
