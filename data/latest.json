@@ -1,7 +1,7 @@
 {
  "amd-ryzen-7-7800x3d": {
   "name": "AMD Ryzen 7 7800X3D Boxed",
-  "checked_at": "2026-10-28T15:59:04+00:00",
+  "checked_at": "2026-10-28T16:58:30+00:00",
   "offers": [
    {
     "shop": "Reichelt",
@@ -25,6 +25,13 @@
     "detail": ""
    },
    {
+    "shop": "Yorcom",
+    "url": "https://www.yorcom.nl/artikel/amd-ryzen-7-7800x3d-processor/CPUA5R77800X3/",
+    "price": 379.0,
+    "status": "ok",
+    "detail": ""
+   },
+   {
     "shop": "Megekko",
     "url": "https://www.megekko.nl/product/0/295018/AMD-Ryzen-7-7800X3D",
     "price": 382.9,
@@ -44,13 +51,6 @@
     "price": null,
     "status": "blocked",
     "detail": "HTTP 403"
-   },
-   {
-    "shop": "Yorcom",
-    "url": "https://www.yorcom.nl/artikel/amd-ryzen-7-7800x3d-processor/CPUA5R77800X3/",
-    "price": null,
-    "status": "error",
-    "detail": "ConnectError"
    }
   ]
  }
