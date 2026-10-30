@@ -5,14 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>PC Price Tracker</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💸</text></svg>">
-<link rel="stylesheet" href="assets/app.css?v=2026-10-25">
+<link rel="stylesheet" href="assets/app.css?v=2026-10-30">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script>
   // Apply the saved theme before first paint so there's no light/dark flash.
   try { const t = localStorage.getItem("pct.theme"); if (t === "light" || t === "dark") document.documentElement.dataset.theme = t; } catch {}
 </script>
-<script src="assets/app.js?v=2026-10-25" defer></script>
+<script src="assets/app.js?v=2026-10-30" defer></script>
 </head>
 <body>
 <a class="skip" href="#content">Skip to content</a>
@@ -94,7 +94,8 @@
   <section class="view" data-view="build" aria-labelledby="h-build">
     <div class="page-head">
       <div><h1 tabindex="-1" id="h-build">My build</h1><p class="lede">Every part you track, at its cheapest shop right now. Click a part for its price history.</p></div>
-      <button class="primary" id="addBtn"><svg class="ic"><use href="#i-plus"/></svg>Add part</button>
+      <div class="row"><a class="btn" href="#/browse/GPU" id="browseBtn"><svg class="ic"><use href="#i-search"/></svg>Browse parts</a>
+      <button class="primary" id="addBtn"><svg class="ic"><use href="#i-plus"/></svg>Add part</button></div>
     </div>
     <div id="readonlyNote"></div>
     <div class="toolbar">
@@ -113,6 +114,35 @@
       </div>
     </div>
     <div id="parts"></div>
+  </section>
+
+  <!-- BROWSE PARTS (catalog with filters per category) -->
+  <section class="view" data-view="browse" aria-labelledby="h-browse">
+    <div class="page-head">
+      <div><a class="more back" href="#/build">‹ My build</a><h1 tabindex="-1" id="h-browse">Browse parts</h1>
+        <p class="lede" id="browseSub">Find a part with the filters that matter for its category, then add it to your build.</p></div>
+    </div>
+    <div class="chips cat-chips" id="browseCats" role="group" aria-label="Category"></div>
+    <div class="browse">
+      <details class="filters" id="filtersBox" open>
+        <summary><span>Filters</span><span class="count" id="filterCount"></span></summary>
+        <div id="facets"></div>
+      </details>
+      <div class="results">
+        <div class="results-bar">
+          <input id="browseQ" type="search" placeholder="Search in this category…" aria-label="Search in this category">
+          <select id="browseSort" aria-label="Sort results">
+            <option value="shops">Most offered</option>
+            <option value="price">Price low → high</option>
+            <option value="-price">Price high → low</option>
+            <option value="name">Name</option>
+          </select>
+        </div>
+        <div class="active-filters" id="activeFilters"></div>
+        <div class="small muted" id="resultCount"></div>
+        <div id="results"></div>
+      </div>
+    </div>
   </section>
 
   <!-- DEALS -->
@@ -270,6 +300,7 @@
         <label class="f">Target price (€)<input name="target" type="number" step="0.01" min="0" placeholder="optional"></label>
       </div>
       <div id="ePicked" class="picked hidden"></div>
+      <p class="small" style="margin:10px 0 0"><a href="#/browse/GPU" id="eBrowse">Or browse all parts in this category with filters ›</a></p>
       <div class="sect">
         <h3>1 · Find it at a shop</h3>
         <p class="small muted">These shops are known to work with the tracker. Each opens a search for your part in a new tab; copy the product page's address.</p>
@@ -305,6 +336,7 @@
   <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></symbol>
   <symbol id="i-edit" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></symbol>
   <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
   <symbol id="i-external" viewBox="0 0 24 24"><path d="M15 3h6v6M10 14 21 3M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></symbol>
 </svg>
 </body>

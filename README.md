@@ -12,7 +12,7 @@ The dashboard has five pages (sidebar on desktop, tab bar at the bottom on phone
 | Page | What's there |
 |---|---|
 | **Overview** | Build total and its trend, what needs your attention (targets hit, big drops, shops that can't be read), top 3 deals and latest alerts |
-| **My build** | All your parts as a list with a total row (or as cards), filter by category, sort; click a part for its price history and every shop's price |
+| **My build** | All your parts as a list with a total row (or as cards), filter by category, sort; click a part for its price history and every shop's price. **Browse parts** (`#/browse/<category>`) lets you find new parts with filters per category |
 | **Deals** | Top 10 deals of the day, as a showcase with photos: PC parts, or all tech at −30% or more |
 | **Alerts** | Every price alert, grouped by day, filterable per part |
 | **Settings** | GitHub connection, phone alerts, alert sensitivity, light/dark theme, data sources |
@@ -30,6 +30,26 @@ Getting started:
    link ✓ works / ✕ blocked / ? untested. Saving starts a check right away.
 
 The dashboard is `index.html` with `assets/app.css` and `assets/app.js`; no build step. After changing the CSS or JS, bump the `?v=` date on both links in `index.html` so browsers don't mix old and new files.
+
+## Browse parts (filters per category)
+
+My build → **Browse parts** (or the link in the *Add part* form) shows the whole catalog for one category with
+filters modelled on Tweakers', plus price range, search and sorting:
+
+| Category | Filters |
+|---|---|
+| Monitor | screen size, resolution, refresh rate, panel, brand |
+| RAM | DDR type, total capacity, modules (e.g. 2 × 16 GB), speed, desktop/laptop, brand |
+| GPU | chip maker, GPU (e.g. RTX 5070 Ti), video memory, memory type, brand |
+| CPU | brand, family, socket, cores, boxed/tray |
+| Motherboard | socket, chipset, form factor, Wi-Fi, brand |
+| Storage (SSD) | capacity, interface (PCIe 3/4/5, SATA), form factor, brand |
+| PSU | wattage, efficiency (Bronze…Titanium), modularity, brand |
+| Case / Cooler | type, colour / fan size, brand |
+
+Each option shows how many products match given your other filters, like Tweakers. The values are read from
+Tweakers' spec lines by `tools/facets.py` and stored in `catalog.json`; the catalog builder adds them
+automatically, and `.venv\Scripts\python tools\facets.py` refreshes them without re-scraping.
 
 ## Part suggestions
 

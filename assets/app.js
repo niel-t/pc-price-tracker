@@ -143,6 +143,7 @@ const VIEWS = {
   build: { title: "My build", render: renderBuild },
   deals: { title: "Deals", render: renderDeals },
   alerts: { title: "Alerts", render: renderAlertsView },
+  browse: { title: "Browse parts", render: renderBrowse },
   settings: { title: "Settings", render: renderSettings },
 };
 function route() {
@@ -157,7 +158,8 @@ function onRoute() {
   if (changed && view === "alerts") S.alertsSeenBefore = store.get("alertsSeen") || "";
   currentView = view;
   document.querySelectorAll(".view").forEach((v) => v.classList.toggle("active", v.dataset.view === view));
-  document.querySelectorAll("[data-route]").forEach((a) => { if (a.dataset.route === view) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current"); });
+  const navView = view === "browse" ? "build" : view; // Browse parts is part of My build
+  document.querySelectorAll("[data-route]").forEach((a) => { if (a.dataset.route === navView) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current"); });
   document.title = `${VIEWS[view].title} · PC Price Tracker`;
   if (detail.open && !(view === "build" && arg)) detail.close();
   render();
@@ -432,6 +434,7 @@ function renderDeals() {
 function renderBuild(parts) {
   $("readonlyNote").innerHTML = token() ? "" : `<div class="notice"><span>👀</span><div class="grow">You're viewing read-only. <b>Connect GitHub</b> to add parts, set targets and run checks from here.</div><button class="primary" onclick="openSettings(true)">Connect</button></div>`;
   $("addBtn").classList.toggle("hidden", !token());
+  $("browseBtn").href = `#/browse/${FACETS[S.cat] ? S.cat : "GPU"}`;
   const cats = ["All", ...Object.keys(CATS).filter((c) => parts.some((p) => p.category === c))];
   if (!cats.includes(S.cat)) S.cat = "All";
   $("chips").innerHTML = cats.length > 2 ? cats.map((c) => `<button class="chip" aria-pressed="${c === S.cat}" data-cat="${c}">${c === "All" ? "All parts" : `${CATS[c]} ${c}`}</button>`).join("") : "";
@@ -681,9 +684,9 @@ function loadCatalog() {
     .then((r) => (r.ok ? r.json() : null))
     .then((c) => {
       if (!c) return;
-      catalog = Object.entries(c.categories).flatMap(([cat, rows]) => rows.map(([name, spec, price, shops, id]) => {
+      catalog = Object.entries(c.categories).flatMap(([cat, rows]) => rows.map(([name, spec, price, shops, id, facets]) => {
         const text = norm(`${name} ${spec}`);
-        return { cat, name, spec, price, shops, id, text, compact: text.replace(/ /g, "") };
+        return { cat, name, spec, price, shops, id, facets: facets || {}, text, compact: text.replace(/ /g, "") };
       }));
       catalog.generated = c.generated;
       const n = catalog.length.toLocaleString("nl-NL");
@@ -990,6 +993,155 @@ $("testBtn").onclick = async () => {
 };
 $("thInput").addEventListener("input", () => ($("thVal").textContent = $("thInput").value));
 $("thSave").onclick = () => saveConfig((cfg) => { cfg.settings = { ...cfg.settings, drop_threshold_pct: +$("thInput").value }; }, `Set alert threshold to ${$("thInput").value}%`, false);
+
+// ---------- browse parts: the catalog with Tweakers-style filters per category ----------
+// Filter values come from catalog.json (tools/facets.py reads them from Tweakers' spec lines).
+// Order: "num" = by the number in the value (sizes, speeds), "alpha" = natural A→Z, "count" = most products first.
+const FACETS = {
+  GPU: [["brand", "Chip maker", "count"], ["gpu", "GPU", "alpha"], ["vram", "Video memory", "num"], ["mem", "Memory type", "alpha"], ["maker", "Brand", "count"]],
+  CPU: [["brand", "Brand", "count"], ["family", "Family", "alpha"], ["socket", "Socket", "alpha"], ["cores", "Cores", "num"], ["pack", "Packaging", "count"]],
+  Motherboard: [["socket", "Socket", "alpha"], ["chipset", "Chipset", "alpha"], ["form", "Form factor", "count"], ["wifi", "Wi-Fi", "count"], ["maker", "Brand", "count"]],
+  RAM: [["type", "Type", "alpha"], ["size", "Total capacity", "num"], ["kit", "Modules", "count"], ["speed", "Speed", "num"], ["form", "Desktop / laptop", "count"], ["maker", "Brand", "count"]],
+  Storage: [["size", "Capacity", "num"], ["iface", "Interface", "alpha"], ["form", "Form factor", "count"], ["maker", "Brand", "count"]],
+  PSU: [["watt", "Wattage", "num"], ["eff", "Efficiency", "count"], ["modular", "Modularity", "count"], ["maker", "Brand", "count"]],
+  Case: [["type", "Type", "count"], ["color", "Colour", "count"], ["maker", "Brand", "count"]],
+  Cooler: [["fan", "Fan size", "num"], ["maker", "Brand", "count"]],
+  Monitor: [["size", "Screen size", "num"], ["res", "Resolution", "count"], ["hz", "Refresh rate", "num"], ["panel", "Panel", "count"], ["maker", "Brand", "count"]],
+};
+const BROWSE_CATS = Object.keys(FACETS);
+const NOUNS = { GPU: "graphics cards", CPU: "processors", Motherboard: "motherboards", RAM: "RAM kits", Storage: "SSDs",
+                PSU: "power supplies", Case: "cases", Cooler: "CPU coolers", Monitor: "monitors" };
+const SHOWN_OPTIONS = 6, PAGE = 40;
+S.browse = { cat: null, sel: {}, min: null, max: null, q: "", sort: "shops", limit: PAGE, open: {} };
+
+// "≤ 256 GB" < "500 GB" < "1 TB" < "8 TB+"; "Up to 23\"" < "24–25\""; plain text keeps its count order.
+function numKey(v) {
+  const m = String(v).match(/(\d+(?:[.,]\d+)?)/);
+  if (!m) return Infinity;
+  let n = parseFloat(m[1].replace(",", "."));
+  if (/\bTB\b/.test(v)) n *= 1000;
+  if (/^(≤|Up to)/.test(v)) n -= 0.5;
+  if (/(\+|and up)/.test(v)) n += 0.5;
+  return n;
+}
+
+function matches(it, b, skip = null) {
+  if (b.min != null && (it.price ?? Infinity) < b.min) return false;
+  if (b.max != null && (it.price ?? 0) > b.max) return false;
+  for (const [key, set] of Object.entries(b.sel)) {
+    if (key !== skip && set.size && !set.has(it.facets[key])) return false;
+  }
+  if (b.tokens?.length && !b.tokens.every((t) => it.text.includes(t) || it.compact.includes(t))) return false;
+  return true;
+}
+
+async function renderBrowse() {
+  const cat = BROWSE_CATS.includes(route().arg) ? route().arg : "GPU";
+  const b = S.browse;
+  if (b.cat !== cat) Object.assign(S.browse, { cat, sel: {}, min: null, max: null, q: "", limit: PAGE, open: {} });
+  $("browseCats").innerHTML = BROWSE_CATS.map((c) => `<a class="btn chip" href="#/browse/${c}" aria-pressed="${c === cat}">${CATS[c]} ${c}</a>`).join("");
+  if (document.activeElement !== $("browseQ")) $("browseQ").value = b.q;
+  $("browseSort").value = b.sort;
+  if (!catalog) {
+    $("results").innerHTML = `<div class="quiet">Loading ${esc(cat)} catalog…</div>`;
+    loadCatalog();
+    await catalogPromise;
+    if (!catalog) { $("results").innerHTML = `<div class="quiet">The part catalog couldn't be loaded.</div>`; return; }
+    if (currentView !== "browse") return;
+  }
+  b.tokens = norm(b.q).split(" ").filter(Boolean);
+  const items = catalog.filter((it) => it.cat === cat);
+  const tracked = new Set(S.config.products.map((p) => p.name.toLowerCase()));
+
+  // Facets: each option's count respects every *other* active filter, like Tweakers.
+  const groups = FACETS[cat].map(([key, label, order]) => {
+    const pool = items.filter((it) => matches(it, b, key));
+    const counts = {};
+    for (const it of pool) { const v = it.facets[key]; if (v) counts[v] = (counts[v] || 0) + 1; }
+    for (const v of b.sel[key] || []) counts[v] ??= 0;
+    let opts = Object.entries(counts);
+    if (order === "num") opts.sort((x, y) => numKey(x[0]) - numKey(y[0]));
+    else if (order === "alpha") opts.sort((x, y) => x[0].localeCompare(y[0], "en", { numeric: true }));
+    else opts.sort((x, y) => y[1] - x[1] || x[0].localeCompare(y[0]));
+    return { key, label, opts };
+  }).filter((g) => g.opts.length > 1 || (b.sel[g.key]?.size));
+
+  const prices = items.map((it) => it.price).filter(Boolean);
+  const lo = Math.floor(Math.min(...prices)), hi = Math.ceil(Math.max(...prices));
+  $("facets").innerHTML = `<fieldset class="facet"><legend>Price</legend>
+      <div class="price-range"><label>Min<input type="number" min="0" inputmode="numeric" id="pMin" placeholder="€ ${lo}" value="${b.min ?? ""}"></label>
+      <span class="muted">–</span><label>Max<input type="number" min="0" inputmode="numeric" id="pMax" placeholder="€ ${hi}" value="${b.max ?? ""}"></label></div></fieldset>`
+    + groups.map((g) => {
+      const sel = b.sel[g.key] || new Set();
+      const all = b.open[g.key] || g.opts.length <= SHOWN_OPTIONS + 2;
+      const opts = all ? g.opts : g.opts.filter(([v], i) => i < SHOWN_OPTIONS || sel.has(v));
+      return `<fieldset class="facet"><legend>${esc(g.label)}</legend>
+        ${opts.map(([v, n]) => `<label class="opt ${n === 0 && !sel.has(v) ? "zero" : ""}">
+          <input type="checkbox" data-facet="${g.key}" value="${esc(v)}" ${sel.has(v) ? "checked" : ""}><span>${esc(v)}</span><span class="n">${n}</span></label>`).join("")}
+        ${all ? "" : `<button class="link-btn" data-more="${g.key}">Show all ${g.opts.length}</button>`}</fieldset>`;
+    }).join("");
+
+  // Active filters as removable chips.
+  const active = [];
+  for (const [key, set] of Object.entries(b.sel)) for (const v of set) active.push({ key, v, label: `${FACETS[cat].find((f) => f[0] === key)[1]}: ${v}` });
+  if (b.min != null || b.max != null) active.push({ key: "price", label: `Price: ${b.min != null ? eur(b.min, 0) : "€ 0"} – ${b.max != null ? eur(b.max, 0) : "any"}` });
+  $("activeFilters").innerHTML = active.length
+    ? active.map((a) => `<button class="chip on" data-clear="${a.key}" data-v="${esc(a.v ?? "")}">${esc(a.label)} ✕</button>`).join("") + `<button class="link-btn" data-clear="all">Clear all</button>` : "";
+  $("filterCount").textContent = active.length || "";
+
+  const sorters = { shops: (x, y) => y.shops - x.shops || (x.price ?? 1e9) - (y.price ?? 1e9), price: (x, y) => (x.price ?? 1e9) - (y.price ?? 1e9),
+                    "-price": (x, y) => (y.price ?? 0) - (x.price ?? 0), name: (x, y) => x.name.localeCompare(y.name, "en", { numeric: true }) };
+  const found = items.filter((it) => matches(it, b)).sort(sorters[b.sort]);
+  $("resultCount").textContent = `${found.length.toLocaleString("nl-NL")} of ${items.length.toLocaleString("nl-NL")} ${NOUNS[cat]}`;
+  $("browseSub").textContent = `Filter ${items.length.toLocaleString("nl-NL")} ${NOUNS[cat]} sold in the Netherlands by what matters for this category, then add the one you want.`;
+  S.browseShown = found.slice(0, b.limit);
+  const chips = (it) => FACETS[cat].filter(([k]) => k !== "maker" && it.facets[k]).slice(0, 4).map(([k]) => `<span class="spec-chip">${esc(it.facets[k])}</span>`).join("");
+  $("results").innerHTML = found.length ? `<div class="card result-list">${S.browseShown.map((it, i) => `<div class="res">
+      <div class="res-main"><a class="res-name" href="https://tweakers.net/pricewatch/${it.id}/" target="_blank" rel="noopener">${esc(it.name)}</a>
+        <div class="spec-chips">${chips(it)}</div>
+        <div class="small muted res-spec">${esc(it.spec)}</div></div>
+      <div class="res-price">${it.price ? `<span class="small muted">from</span> <b>${eur(it.price)}</b>` : `<span class="muted">–</span>`}<div class="small muted">${it.shops} shop${it.shops === 1 ? "" : "s"}</div></div>
+      <div class="res-act">${tracked.has(it.name.toLowerCase()) ? `<span class="badge good">✓ In your build</span>`
+        : token() ? `<button class="primary small-btn" data-add="${i}"><svg class="ic sm"><use href="#i-plus"/></svg>Add</button>` : ""}</div>
+    </div>`).join("")}</div>${found.length > b.limit ? `<div class="deal-more"><button data-page>Show ${Math.min(PAGE, found.length - b.limit)} more</button></div>` : ""}`
+    : `<div class="card empty"><div style="font-size:32px">🔎</div><h2>Nothing matches</h2><p class="muted">Try removing a filter.</p><button data-clear="all">Clear all filters</button></div>`;
+}
+
+// Events (one listener each, delegated).
+$("facets").addEventListener("change", (e) => {
+  const b = S.browse, cb = e.target.closest("[data-facet]");
+  if (cb) {
+    const set = (b.sel[cb.dataset.facet] ??= new Set());
+    if (cb.checked) set.add(cb.value); else set.delete(cb.value);
+  } else if (e.target.id === "pMin" || e.target.id === "pMax") {
+    const v = e.target.value === "" ? null : Math.max(0, +e.target.value);
+    if (e.target.id === "pMin") b.min = v; else b.max = v;
+  } else return;
+  b.limit = PAGE;
+  renderBrowse();
+});
+$("facets").addEventListener("click", (e) => { const m = e.target.closest("[data-more]"); if (m) { S.browse.open[m.dataset.more] = true; renderBrowse(); } });
+document.querySelector('[data-view="browse"]').addEventListener("click", (e) => {
+  const b = S.browse;
+  const clear = e.target.closest("[data-clear]");
+  if (clear) {
+    const k = clear.dataset.clear;
+    if (k === "all") Object.assign(b, { sel: {}, min: null, max: null, q: "" });
+    else if (k === "price") Object.assign(b, { min: null, max: null });
+    else b.sel[k]?.delete(clear.dataset.v);
+    b.limit = PAGE; renderBrowse(); return;
+  }
+  if (e.target.closest("[data-page]")) { b.limit += PAGE; renderBrowse(); return; }
+  const add = e.target.closest("[data-add]");
+  if (add) { const it = S.browseShown[+add.dataset.add]; openEditor(null, { name: it.name, category: it.cat, target: null, picked: it }); }
+});
+let browseTimer;
+$("browseQ").addEventListener("input", (e) => { clearTimeout(browseTimer); browseTimer = setTimeout(() => { S.browse.q = e.target.value; S.browse.limit = PAGE; renderBrowse(); }, 150); });
+$("browseSort").onchange = (e) => { S.browse.sort = e.target.value; renderBrowse(); };
+// From the Add part form: browse the category that's selected there.
+$("eBrowse").addEventListener("click", (e) => { e.preventDefault(); const c = $("eCat").value; editor.close(); go("browse", BROWSE_CATS.includes(c) ? c : "GPU"); });
+// On phones the filter panel starts folded so the results are visible.
+if (matchMedia("(max-width: 900px)").matches) $("filtersBox").open = false;
 
 // ---------- wiring ----------
 $("addBtn").onclick = () => openEditor();

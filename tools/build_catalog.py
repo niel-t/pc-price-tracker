@@ -39,8 +39,11 @@ IDS_PER_MONTH = 17_000
 GPU_RE = re.compile(r"\b(?:RTX\s?(?:30|40|50)[5-9]0|RX\s?(?:5|6|7|9)\d{3})\b", re.I)
 GPU_EXCLUDE = re.compile(r"\b(?:Ada|Quadro|Radeon Pro|RTX A\d|Blackwell)\b", re.I)
 CPU_SOCKETS = re.compile(r"\b(?:AM4|AM5|1700|1851) socket", re.I)
+MB_SOCKETS = re.compile(r"Socket (?:AM4|AM5|1700|1851)\b", re.I)
 # Server/OEM parts don't belong in a PC build. (Not applied to monitors: Dell and Lenovo make consumer monitors.)
 SERVER_PARTS = re.compile(r"\b(?:HPE|Dell|Lenovo|Fujitsu|Supermicro|ASRock Rack|ThinkSystem|Enterprise|RDIMM|LRDIMM|Registered|ECC|SAS|U\.[23]|E[13]\.[SL])\b", re.I)
+# Business and server gear (label printers, signage, server RAM, workstation/server CPUs and boards).
+BUSINESS = re.compile(r"\b(?:HPE|Zebra|Threadripper|Xeon|EPYC|Opteron|RDIMM|LRDIMM|Registered|ThinkSystem|PowerEdge)\b|Brother TD-|\d+BDL\d|\bPro WS\b|\bFW-\d", re.I)
 # Consumer SSDs list their interface (M.2 / SATA / PCIe).
 SSD_CONSUMER = re.compile(r"M\.2|SATA|PCI-?e", re.I)
 
@@ -116,18 +119,30 @@ def parse_listing(html: str) -> list[dict]:
     return items
 
 
-def keep(cat: str, item: dict, min_id: int) -> bool:
+def suitable(cat: str, name: str, spec: str) -> bool:
+    """Is this a part for a desktop PC build? (Age aside: see keep().)"""
     if cat == "GPU":
-        return bool(GPU_RE.search(item["name"])) and not GPU_EXCLUDE.search(item["name"])
-    if item["id"] < min_id:
+        return bool(GPU_RE.search(name)) and not GPU_EXCLUDE.search(name)
+    if BUSINESS.search(name):
         return False
     if cat == "CPU":
-        return bool(CPU_SOCKETS.search(item["spec"]))
-    if cat in ("Storage", "RAM", "Motherboard") and SERVER_PARTS.search(f"{item['name']} {item['spec']}"):
+        return bool(CPU_SOCKETS.search(spec))
+    if cat == "Motherboard" and not MB_SOCKETS.search(spec):
+        return False
+    if cat == "Case" and spec.startswith("Rack"):  # server chassis
+        return False
+    if cat in ("Storage", "RAM", "Motherboard") and SERVER_PARTS.search(f"{name} {spec}"):
         return False
     if cat == "Storage":
-        return bool(SSD_CONSUMER.search(item["spec"]))
+        return bool(SSD_CONSUMER.search(spec))
     return True
+
+
+def keep(cat: str, item: dict, min_id: int) -> bool:
+    """GPUs are picked by series (any age); everything else must also be from the last 36 months."""
+    if cat != "GPU" and item["id"] < min_id:
+        return False
+    return suitable(cat, item["name"], item["spec"])
 
 
 def main():
@@ -159,13 +174,14 @@ def main():
         catalog[cat] = [[i["name"], i["spec"], i["price"], i["shops"], i["id"]] for i in kept]
         print(f" {len(kept)} products ({page} pages)", flush=True)
 
-    OUT.write_text(json.dumps({
+    from tools.facets import enrich  # here, not at the top: facets imports this module
+    out = enrich({
         "generated": now.isoformat(timespec="seconds"),
         "source": "Tweakers Pricewatch",
         "rules": {"GPU": "RTX 3000+ / RX 5000+", "other": "released in the last 36 months", "min_tweakers_id": min_id},
-        "fields": ["name", "spec", "price", "shops", "tweakers_id"],
         "categories": catalog,
-    }, ensure_ascii=False, separators=(",", ":")) + "\n", encoding="utf-8")
+    })
+    OUT.write_text(json.dumps(out, ensure_ascii=False, separators=(",", ":")) + "\n", encoding="utf-8")
     print(f"Wrote {OUT} ({OUT.stat().st_size // 1024} KB, {sum(len(v) for v in catalog.values())} products)")
     if "--push" in sys.argv:
         push("catalog.json", f"Refresh part suggestions catalog {now:%Y-%m-%d}")

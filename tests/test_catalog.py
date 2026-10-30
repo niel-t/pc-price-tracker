@@ -65,3 +65,11 @@ def test_parse_listing():
       <div class="item-price"><p><a><span class="text">vanaf</span><span class="amount"> € 889,- </span><span class="text">bij 12 winkels</span></a></p></div></li></ul>'''
     [item] = parse_listing(html)
     assert item == {"id": 2179976, "name": "Sapphire Pulse Radeon RX 9070 XT", "spec": "16GB GDDR6", "price": 889.0, "shops": 12}
+
+
+def test_desktop_motherboards_only():
+    board = lambda spec: keep("Motherboard", {"name": "Some board", "spec": spec, "id": 2_300_000}, 1_990_000)
+    assert board("Socket AM5 • ATX • AMD B850 chipset")
+    assert board("Socket 1851 • Micro-ATX • Intel B860 chipset")
+    assert not board("Socket sTR5 • E-ATX • AMD TRX50 chipset")
+    assert not board("Socket 4677 • E-ATX • Intel W790 chipset")

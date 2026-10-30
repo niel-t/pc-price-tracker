@@ -18,7 +18,7 @@ from pathlib import Path
 from bs4 import BeautifulSoup
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from tools.build_catalog import CATEGORIES, Tweakers, cutoff_id, keep, tweakers_price  # noqa: E402
+from tools.build_catalog import BUSINESS, CATEGORIES, Tweakers, cutoff_id, keep, tweakers_price  # noqa: E402
 from tools import pepper  # noqa: E402
 from tools.gitpush import local_config, push, setup_log  # noqa: E402
 from tracker.alerts import send_ntfy  # noqa: E402
@@ -43,8 +43,6 @@ NOT_TECH = re.compile(
     r"thermometer|blender|kookpla|oven|magnetron|koelkast|vriezer|wasmachine|droger|vaatwas|airfryer|koffie|"
     r"waterkoker|stofzuiger|hogedruk|boormachine|gereedschap|grasmaaier|verlichting|lamp|batterij|papier|label|pomp|beugel|standaard|houder",
     re.I)
-# Business and server gear (label printers, signage, server RAM, workstation CPUs/boards). Used for both lists.
-BUSINESS = re.compile(r"\b(?:HPE|Zebra|Threadripper|Xeon|EPYC|RDIMM|LRDIMM|Registered|ThinkSystem|PowerEdge)\b|Brother TD-|\d+BDL\d|\bPro WS\b|\bFW-\d", re.I)
 TECH_MAX_PRICE = 3000  # above this it's mostly business equipment
 
 
