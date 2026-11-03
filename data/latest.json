@@ -1,12 +1,12 @@
 {
  "amd-ryzen-7-7800x3d": {
   "name": "AMD Ryzen 7 7800X3D Boxed",
-  "checked_at": "2026-11-03T11:00:29+00:00",
+  "checked_at": "2026-11-03T11:55:27+00:00",
   "offers": [
    {
     "shop": "Orion Computerworld",
     "url": "https://www.orioncomputerworld.nl/detail.php?artikelid=133603",
-    "price": 350.3,
+    "price": 338.8,
     "status": "ok",
     "detail": ""
    },
